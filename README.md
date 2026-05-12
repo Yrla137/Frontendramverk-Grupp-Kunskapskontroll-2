@@ -1,16 +1,49 @@
-# React + Vite
+# Vite + React Router DOM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **DEPENDENCIES SKA VARA HELT FÄRDIGINSTALLERADE!**
 
-Currently, two official plugins are available:
+## För att slippa merge conflicts
+För att slippa merge conflicts så kan vi bestämma oss om regler i hur vi indenterar. `.prettierrc` kan användas för att sätta gemensamma regler för projektet. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Till exempel: "ska vi bara köra med dubbelcitat" (`"`) så kan vi sätta såna regler för hela projektet så kommer vi få error (eller auto-formatering) om vi gör något annat.
 
-## React Compiler
+**Detta kan spara oss från massa merge conflicts.**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Mina förslag är detta:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* **`"singleQuote": false`**
+  Prettier kommer konsekvent att byta ut alla enkla citattecken mot dubbla (`"`) i vår vanliga JavaScript-kod.
+
+* **`"jsxSingleQuote": false`**
+  Gör samma sak fast inne i våra React-komponenter (HTML/JSX-delen), t.ex. `<div className="container">`. (Dubbla citattecken är ju ändå standard i React-komponenter).
+
+* **`"semi": true`**
+  Tvingar fram ett semikolon (`;`) i slutet av varje rad.
+
+* **`"tabWidth": 2`**
+  Sätter indraget (indenteringen) till exakt 2 mellanslag för varje "nivå".
+
+* **`"trailingComma": "es5"`**
+  Lägger till ett sista kommatecken i listor och objekt. Det gör att Git-historiken blir mycket snyggare när vi lägger till nya rader i ett objekt.
+
+* **`"printWidth": 100`**
+  100 tecken innan prettier tvingar fram radbrytning.
+
+* **`"bracketSpacing": true`**
+  Luft (mellanslag) inuti måsvingar, så det blir `import { useState } from "react"` istället för den ihoptryckta fula `import {useState} from "react"`.
+
+---
+
+### Så här ser själva filen ut ifall vi vill köra på detta:
+```json
+{
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "semi": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "bracketSpacing": true
+}

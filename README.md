@@ -1,3 +1,13 @@
+GRUPP 6
+
+Joel
+Danne
+Shakur
+Julia
+
+
+
+
 # Vite + React Router DOM
 
 > **DEPENDENCIES SKA VARA HELT FÄRDIGINSTALLERADE!**

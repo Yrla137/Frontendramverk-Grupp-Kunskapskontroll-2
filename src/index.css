@@ -1,1 +1,91 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
 
+:root {
+  /* Färgpalett */
+  --bg-void-black: #0B0D17;
+  --surface-dark-matter: #1A1D29;
+  --primary-cosmic-cyan: #00D2FF;
+  --secondary-mars-rust: #E55934;
+  --success-stardust-gold: #FFD700;
+  --text-starlight: #F8F9FA;
+  --text-nebula-gray: #A0AEC0;
+
+  /* Typografi */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* UI-Design */
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.1);
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --glow-cyan: 0 0 10px rgba(0, 210, 255, 0.5);
+}
+
+/* --- Globala Resets och Grundstilar --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-void-black);
+  color: var(--text-starlight);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-starlight);
+  margin-bottom: 1rem;
+}
+
+p {
+  color: var(--text-nebula-gray);
+  line-height: 1.6;
+}
+
+/* --- Globala Komponentklasser baserade på profilen --- */
+
+/* Cards/Ytor */
+.card {
+  background-color: var(--surface-dark-matter);
+  border: var(--border-subtle);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+}
+
+/* Knappar */
+button {
+  font-family: var(--font-body);
+  border-radius: var(--border-radius-sm);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Primär knapp */
+.btn-primary {
+  background-color: var(--primary-cosmic-cyan);
+  color: var(--bg-void-black);
+  border: none;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--glow-cyan);
+}
+
+/* Sekundär knapp */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-cosmic-cyan);
+  border: 1px solid var(--primary-cosmic-cyan);
+}
+
+.btn-secondary:hover {
+  box-shadow: var(--glow-cyan);
+}

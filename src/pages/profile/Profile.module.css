@@ -1,0 +1,108 @@
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Header med Avatar och Namn */
+  .headerCard {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-cosmic-cyan);
+    box-shadow: var(--glow-cyan);
+    background-color: var(--bg-void-black);
+    object-fit: cover;
+  }
+  
+  .userInfo h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-cosmic-cyan);
+  }
+  
+  .userTitle {
+    color: var(--text-nebula-gray);
+    font-size: 1.1rem;
+  }
+  
+  /* Stats (Points & Streak) */
+  .statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .statBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .statValue {
+    font-size: 3rem;
+    font-family: var(--font-heading);
+    color: var(--success-stardust-gold);
+    margin-bottom: 0.5rem;
+  }
+  
+  .statLabel {
+    color: var(--text-nebula-gray);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+  }
+  
+  /* Badges / Achievements */
+  .badgesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    background-color: rgba(255, 255, 255, 0.03);
+    transition: all 0.3s ease;
+    opacity: 0.4;
+    filter: grayscale(100%);
+  }
+  
+  .badge.earned {
+    opacity: 1;
+    filter: grayscale(0%);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    background-color: rgba(255, 215, 0, 0.05);
+  }
+  
+  .badgeIcon {
+    font-size: 3rem;
+  }
+  
+  .badgeName {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-starlight);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }

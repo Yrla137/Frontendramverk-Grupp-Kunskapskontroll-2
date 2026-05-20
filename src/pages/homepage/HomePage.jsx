@@ -1,8 +1,8 @@
 
-import Searchbar from "../../components/Searchbar";
-import SearchResults from "../../components/SearchResults";
-import NavBar from "../../components/Navbar";
-import HeroSection from "../../components/HeroSection";
+import Searchbar from "../src/components/search/Searchbar";
+import SearchResults from "../src/components/search/SearchResults";
+import NavBar from "../src/components/homepage/NavBar";
+import HeroSection from "../src/components/homepage/HeroSection";
 
 import "./HomePage.css";
 
@@ -42,13 +42,7 @@ const HomePage = () => {
 
 
       <div>
-
-        <div>
-        </div>
-
-        <div>
-        </div>
-
+        <h2>Extra section</h2>
       </div>
 
     </div>

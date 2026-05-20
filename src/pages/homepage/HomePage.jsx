@@ -1,8 +1,8 @@
 
-import Searchbar from "../../components/Searchbar/Searchbar";
-import SearchResults from "../../components/SearchResults/SearchResults";
-import NavBar from "../../components/Navbar/Navbar";
-import HeroSection from "../../components/HeroSection/HeroSection";
+import Searchbar from "../../components/Searchbar";
+import SearchResults from "../../components/SearchResults";
+import NavBar from "../../components/Navbar";
+import HeroSection from "../../components/HeroSection";
 
 import "./HomePage.css";
 

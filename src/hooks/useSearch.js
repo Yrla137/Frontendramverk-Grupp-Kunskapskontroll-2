@@ -15,6 +15,13 @@ const useSearch = () => {
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [errorSearch, setErrorSearch] = useState(null);
 
+    
+  // Retry search //
+  const onRetry = () => {
+    onSearch(submittedSearchTerm);
+  };
+
+
   // Search function //
   const onSearch = async (term) => {
 
@@ -75,6 +82,55 @@ const useSearch = () => {
 
     }
   };
+
+
+  // For search history, when user clicks on a history item, it fills the search bar with that term and performs the search again //
+  const fillSearchBarInput = (historyItem) => {
+    onSearch(historyItem);
+    setSearchTerm("");
+
+  };
+
+// Delete a single search history item / Delete all search history items //
+  const deleteSearchHistoryItem = async (historyItem) => {
+
+    try {
+
+      // Backend/API here later
+      // await api.deleteSearch(historyItem)
+
+      setSearchHistory((prevHistory) =>
+        prevHistory.filter(
+          (item) => item.historyItem !== historyItem
+        )
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Error deleting search history item:",
+        error
+      );
+
+    }
+  };
+
+  const deleteAllSearchHistory = async () => {
+
+    try {
+      // Backend/API here later
+      // await api.deleteAllSearchHistory()
+
+      setSearchHistory([]);
+    } catch (error) {
+      console.error(
+        "Error deleting all search history:",
+        error
+      );
+    }
+  };
+
+
 
 
   // All states and functions to be used in the component //

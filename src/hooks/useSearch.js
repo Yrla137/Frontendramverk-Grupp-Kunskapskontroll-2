@@ -54,7 +54,7 @@ const useSearch = () => {
 
       setSearchHistory((prevHistory) => {
 
-        // Check for duplicate search term in history (case-insensitive and trimmed)
+        // Checks for duplicate search term in history (case-insensitive and trimmed)
         const duplicateTerm = prevHistory.some(
           (historyItem) =>
             historyItem.historyItem.toLowerCase().trim() === term.toLowerCase().trim()

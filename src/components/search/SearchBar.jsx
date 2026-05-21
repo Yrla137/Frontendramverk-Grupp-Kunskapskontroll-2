@@ -15,7 +15,7 @@ const SearchBar = ({
   loadingHistory
 }) => {
 
-
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const inputRef = useRef(null);
   // Detta skapar en referens till input-fältet i sökfältet.
@@ -52,8 +52,37 @@ const SearchBar = ({
   return (
     <div>
 
-      <div>
-        
+      <div className="searchbar-dropdown-container" ref={outsideClickRef}>
+
+        <form>
+          <input
+            ref={inputRef}
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={() => setDropdownOpen(true)}
+            placeholder="Type your search here..."
+              />
+        </form>
+
+        {isLoggedIn && dropdownOpen && (
+          <div>
+            <SearchHistory
+            onRetry={onRetry}
+            searchHistory={searchHistory}
+            deleteSearchHistoryItem={deleteSearchHistoryItem}
+            deleteAllSearchHistory={deleteAllSearchHistory}
+            fillSearchBarInput={fillSearchBarInput}
+            errorHistory={errorHistory}
+            loadingHistory={loadingHistory}
+            />
+            <button
+             onClick={() => setDropdownOpen(false)}>
+              Close search history
+            </button>
+          </div>
+        )}
+
       </div>
 
     </div>

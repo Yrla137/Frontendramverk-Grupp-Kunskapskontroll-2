@@ -1,11 +1,12 @@
-
 import Searchbar from "../src/components/search/Searchbar";
 import SearchResults from "../src/components/search/SearchResults";
 import NavBar from "../src/components/homepage/NavBar";
 import HeroSection from "../src/components/homepage/HeroSection";
 
 import "./HomePage.css";
+import "../../index.css";
 
+import { useState } from "react";
 import useSearch from "../useSearch";
 
 

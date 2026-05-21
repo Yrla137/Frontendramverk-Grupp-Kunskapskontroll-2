@@ -39,6 +39,11 @@ const HomePage = () => {
     deleteAllSearchHistory
   } = useSearch();
 
+  
+// useEffect(() => {
+// check token / user for auth
+// }, []);
+
 
   return (
 

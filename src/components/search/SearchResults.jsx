@@ -48,8 +48,22 @@ const SearchResults = ({
       // Save intended route so user can return here after login/signup.
     };
 
+    const getSafeValue = (value) => {
+      return value ?? "N/A";
+    };
+
   return (
     <section>
+        {filteredData.map(result =>
+        <div  key={result.id}
+        onClick={() => {
+          handleResultClick(result);
+        }}>
+          <h2>{getSafeValue(result.name)}</h2>
+          <p>{getSafeValue(result.type)}</p>
+          <p>{getSafeValue(result.description)}</p>
+        </div>
+        )}
     </section>
   )
 }

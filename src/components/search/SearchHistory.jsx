@@ -11,6 +11,18 @@ const SearchHistory = ({
   loadingHistory
 }) => {
 
+if (loadingHistory) {
+  return <LoadingSpinner message="Loading search history..." />;
+}
+
+if (errorHistory) {
+  return (
+    <ErrorMessage
+      error={errorHistory}
+      onRetry={onRetry}
+    />
+  );
+}
 
   return (
     <div>

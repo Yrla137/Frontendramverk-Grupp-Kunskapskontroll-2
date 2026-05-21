@@ -84,6 +84,16 @@ const useSearch = () => {
   };
 
 
+  // Debounce search input //
+  useEffect(() => {
+  const timeout = setTimeout(() => {
+    onSearch(searchTerm);
+  }, 400);
+
+    return () => clearTimeout(timeout);
+    }, [searchTerm]);
+
+
   // For search history, when user clicks on a history item, it fills the search bar with that term and performs the search again //
   const fillSearchBarInput = (historyItem) => {
     onSearch(historyItem);
@@ -135,6 +145,25 @@ const useSearch = () => {
 
   // All states and functions to be used in the component //
   return {
+    
+    // States //
+    searchTerm,
+    setSearchTerm,
+    submittedSearchTerm,
+    filteredData,
+    hasSearched,
+    searchHistory,
+
+    // Loading & error //
+    loadingSearch,
+    errorSearch,
+
+    // Functions //
+    onSearch,
+    onRetry,
+    fillSearchBarInput,
+    deleteSearchHistoryItem,
+    deleteAllSearchHistory
 
   };
 };

@@ -44,3 +44,7 @@ if (errorHistory) {
 }
 
 export default SearchHistory
+
+// Onretry will likely trigger refetching of history from backend (e.g. GET /search-history for currentUser).
+// deleteSearchHistoryItem will likely send a DELETE-request to API based on item.id instead of whole item-object or text string.
+// fillSearchBarInput may later need to use item.query instead of whole item.

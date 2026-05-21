@@ -6,11 +6,38 @@ import HeroSection from "../src/components/homepage/HeroSection";
 
 import "./HomePage.css";
 
+import useSearch from "../useSearch";
+
 
 // import WhyJoinUs from "/"
 // import PopularTopics from "/"
 
 const HomePage = () => {
+
+  // Auth state //
+  // Tillfällig lokal auth.
+  // Flyttas troligen senare till App.jsx, Context eller backend-auth.
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // const [currentUser, setCurrentUser] = useState(null);
+  // const isLoggedIn = !!currentUser;
+
+
+  // Search system //
+  const {
+    searchTerm,
+    setSearchTerm,
+    filteredData,
+    hasSearched,
+    searchHistory,
+    loadingSearch,
+    errorSearch,
+    onSearch,
+    onRetry,
+    fillSearchBarInput,
+    deleteSearchHistoryItem,
+    deleteAllSearchHistory
+  } = useSearch();
 
 
   return (
@@ -18,25 +45,59 @@ const HomePage = () => {
     <div>
 
       <div className="navbar-container">
-        <NavBar/>
+        <NavBar
+        isLoggedIn={isLoggedIn}/>
       </div>
 
 
 
       <div className="searchbar-container">
-        <Searchbar/>
+        <Searchbar
+          // Search state //
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+
+          // Search functions //
+          onSearch={onSearch}
+
+          // Auth state //
+          isLoggedIn={isLoggedIn}
+
+          // Search loading & error state //
+          loadingSearch={loadingSearch}
+          errorSearch={errorSearch}
+
+          // Search history state & functions //
+          searchHistory={searchHistory}
+          fillSearchBarInput={fillSearchBarInput}
+          deleteSearchHistoryItem={deleteSearchHistoryItem}
+          deleteAllSearchHistory={deleteAllSearchHistory}
+          // Retry function for search history items //
+          onRetry={onRetry}
+        />
       </div>
 
 
 
       <div className="hero-section-container">
-        <HeroSection/>
+        <HeroSection
+        isLoggedIn={isLoggedIn}/>
       </div>
 
 
 
       <div className="search-results-container">
-        <SearchResults/>
+        <SearchResults
+          filteredData={filteredData}
+          hasSearched={hasSearched}
+
+          loadingSearch={loadingSearch}
+          errorSearch={errorSearch}
+
+          onRetry={onRetry}
+
+          isLoggedIn={isLoggedIn}
+        />
       </div>
 
 

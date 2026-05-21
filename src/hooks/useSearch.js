@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+// import for backend/API calls later //
 
 const useSearch = () => {
 
@@ -37,7 +38,6 @@ const useSearch = () => {
     setErrorSearch(null);
 
     try {
-    
     // Here we later call the backend/API with the search term, but for now I use mock data and filter it based on the search term.
       const filteredResults = mockSpaceData.filter((item) => {
 
@@ -83,7 +83,6 @@ const useSearch = () => {
     }
   };
 
-
   // Debounce search input //
   useEffect(() => {
   const timeout = setTimeout(() => {
@@ -100,6 +99,7 @@ const useSearch = () => {
     setSearchTerm("");
 
   };
+
 
 // Delete a single search history item / Delete all search history items //
   const deleteSearchHistoryItem = async (historyItem) => {
@@ -139,8 +139,6 @@ const useSearch = () => {
       );
     }
   };
-
-
 
 
   // All states and functions to be used in the component //

@@ -23,7 +23,31 @@ const SearchResults = ({
         error={errorSearch}
         onRetry={onRetry} />
     );
-  }
+  };
+
+  if (!hasSearched) {
+    return null;
+  };
+
+  if(!filteredData || filteredData.length === 0){
+    return (<div>No results found</div>);
+  };
+
+    const handleResultClick = (result) => {
+      const resultRoute = `/${result.id}`;
+
+      isLoggedIn
+      ? navigate(resultRoute)
+      : navigate("/login", {
+        state: {
+          message: "Please log in to view this content.",
+          intendedRoute: resultRoute
+        }
+      });
+      // Future auth flow:
+      // Save intended route so user can return here after login/signup.
+    };
+
   return (
     <section>
     </section>

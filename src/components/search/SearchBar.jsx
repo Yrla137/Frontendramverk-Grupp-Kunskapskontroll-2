@@ -1,15 +1,83 @@
 import SearchHistory from "./SearchHistory";
+import { useState, useEffect, useRef } from "react";
 
-const SearchBar = () => {
+const SearchBar = ({
+  searchTerm,
+  setSearchTerm,
+  isLoggedIn,
+
+  onRetry,
+  searchHistory,
+  deleteSearchHistoryItem,
+  deleteAllSearchHistory,
+  fillSearchBarInput,
+  errorHistory,
+  loadingHistory
+}) => {
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const inputRef = useRef(null);
+
+  const outsideClickRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  useEffect (() => {
+    const handleClick = (e) => {
+      if(outsideClickRef.current && !outsideClickRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    return () => {
+    document.removeEventListener('click', handleClick);
+    };
+  }, []);
+
  
 
 
   return (
     <div>
 
-        <div className="search-history-container">
-            <SearchHistory/>
-        </div>
+      <div className="searchbar-dropdown-container" ref={outsideClickRef}>
+
+        <form>
+          <input
+            ref={inputRef}
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={() => setDropdownOpen(true)}
+            placeholder="Type your search here..."
+              />
+        </form>
+
+        {isLoggedIn && dropdownOpen && (
+          <div>
+            <SearchHistory
+            onRetry={onRetry}
+            searchHistory={searchHistory}
+            deleteSearchHistoryItem={deleteSearchHistoryItem}
+            deleteAllSearchHistory={deleteAllSearchHistory}
+            fillSearchBarInput={fillSearchBarInput}
+            errorHistory={errorHistory}
+            loadingHistory={loadingHistory}
+            />
+            <button
+             onClick={() => setDropdownOpen(false)}>
+              Close search history
+            </button>
+          </div>
+        )}
+
+      </div>
+
     </div>
   )
 }

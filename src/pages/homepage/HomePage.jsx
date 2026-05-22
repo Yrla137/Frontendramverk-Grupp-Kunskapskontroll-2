@@ -18,7 +18,7 @@ const HomePage = () => {
   // Auth state //
   // Tillfällig lokal auth.
   // Flyttas troligen senare till App.jsx, Context eller backend-auth.
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn] = useState(false);
 
   // const [currentUser, setCurrentUser] = useState(null);
   // const isLoggedIn = !!currentUser;

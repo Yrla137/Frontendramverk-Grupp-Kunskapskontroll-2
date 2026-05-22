@@ -47,7 +47,8 @@ const SearchBar = ({
 
       <div className="searchbar-dropdown-container" ref={outsideClickRef}>
 
-        <form>
+        <form
+        onSubmit={(e) => e.preventDefault()}>
           <input
             ref={inputRef}
             type="text"

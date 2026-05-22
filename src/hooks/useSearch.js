@@ -24,15 +24,23 @@ const useSearch = () => {
 
 
   // Search function //
+  // useCallback?
   const onSearch = async (term) => {
+    
+    const cleanedTerm = term.trim();
 
-    term = term.trim();
-
-    if (term.length < 3) {
-      return setFilteredData([]);
+    if(!cleanedTerm) {
+      setFilteredData([]);
+      setHasSearched(false);
+      return;
     }
 
-    if (!term.trim()) return;
+    if (cleanedTerm.length < 3) {
+      setFilteredData([])
+      setHasSearched(false)
+      setErrorSearch(null);
+      return;
+    }
 
     setLoadingSearch(true);
     setErrorSearch(null);
@@ -42,13 +50,13 @@ const useSearch = () => {
       const filteredResults = mockSpaceData.filter((item) => {
 
         return Object.values(item).some((value) =>
-          String(value).toLowerCase().includes(term.toLowerCase())
+          String(value).toLowerCase().includes(cleanedTerm.toLowerCase())
         );
       });
 
       setFilteredData(filteredResults);
 
-      setSubmittedSearchTerm(term);
+      setSubmittedSearchTerm(cleanedTerm);
 
       setHasSearched(true);
 
@@ -57,7 +65,7 @@ const useSearch = () => {
         // Checks for duplicate search term in history (case-insensitive and trimmed)
         const duplicateTerm = prevHistory.some(
           (historyItem) =>
-            historyItem.historyItem.toLowerCase().trim() === term.toLowerCase().trim()
+            historyItem.historyItem.toLowerCase().trim() === cleanedTerm.toLowerCase().trim()
         );
 
         if (duplicateTerm)
@@ -67,7 +75,7 @@ const useSearch = () => {
           ...prevHistory,
           {
             id: crypto.randomUUID(),
-            historyItem: term
+            historyItem: cleanedTerm
           }
         ];
       });

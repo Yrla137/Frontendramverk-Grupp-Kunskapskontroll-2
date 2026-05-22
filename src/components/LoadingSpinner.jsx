@@ -2,7 +2,9 @@ import "./LoadingSpinner.css";
 
 const LoadingSpinner = ({ message = "Loading...", size = "full" }) => {
   return (
-    <div className={`solar-loader ${size}`}>
+    <div role="status"
+    aria-live="polite"
+    className={`solar-loader ${size}`}>
       <div className="sun"></div>
       <div className="orbit orbit1">
         <div className="planet planet1"></div>
@@ -10,7 +12,10 @@ const LoadingSpinner = ({ message = "Loading...", size = "full" }) => {
       <div className="orbit orbit2">
         <div className="planet planet2"></div>
       </div>
-      <p>{message}</p>
+      <p
+      aria-label={message}>
+        {message}
+      </p>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import ErrorMessage from "./ErrorMessage";
-import LoadingSpinner from "./LoadingSpinner";
+import ErrorMessage from "../ErrorMessage";
+import LoadingSpinner from "../LoadingSpinner";
 
 const SearchResults = ({
   filteredData,
@@ -14,7 +14,7 @@ const SearchResults = ({
   const navigate = useNavigate();
 
   if (loadingSearch) {
-  return <LoadingSpinner message="Searching though space..." />;
+  return <LoadingSpinner message="Searching through space..." />;
   }
 
   if (errorSearch) {
@@ -56,6 +56,8 @@ const SearchResults = ({
     <section>
         {filteredData.map(result =>
         <div  key={result.id}
+        role="button"
+        tabIndex={0}
         onClick={() => {
           handleResultClick(result);
         }}>

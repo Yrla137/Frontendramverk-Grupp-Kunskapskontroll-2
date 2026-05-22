@@ -1,5 +1,5 @@
-import ErrorMessage from "./ErrorMessage";
-import LoadingSpinner from "./LoadingSpinner";
+import ErrorMessage from "../ErrorMessage";
+import LoadingSpinner from "../LoadingSpinner";
 
 const SearchHistory = ({
   onRetry,
@@ -28,11 +28,14 @@ if (errorHistory) {
     <div>
       <h3>Search History</h3>
       <ul>
-        {searchHistory.map((item, id) => (
-          <li key={id}
-          onClick= {() => fillSearchBarInput(item)}>
-            {item}
-            <button onClick={() => deleteSearchHistoryItem(item)}>Delete</button>
+        {searchHistory.map((item) => (
+          <li key={item.id}
+          onClick={() => fillSearchBarInput(item.historyItem)}>
+          {item.historyItem}
+          <button onClick={(event) => {
+          event.stopPropagation();
+          deleteSearchHistoryItem(item);
+          }}>Delete</button>
           </li>
         ))}
       </ul>

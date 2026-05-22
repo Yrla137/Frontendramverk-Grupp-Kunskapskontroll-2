@@ -5,6 +5,7 @@ const SearchBar = ({
   searchTerm,
   setSearchTerm,
   isLoggedIn,
+  onSearch,
 
   onRetry,
   searchHistory,
@@ -48,7 +49,11 @@ const SearchBar = ({
       <div className="searchbar-dropdown-container" ref={outsideClickRef}>
 
         <form
-        onSubmit={(e) => e.preventDefault()}>
+        onSubmit={(e) =>{
+        e.preventDefault();
+        onSearch(searchTerm);
+        setDropdownOpen(false);
+        }}>
           <input
             ref={inputRef}
             type="text"

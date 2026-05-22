@@ -7,7 +7,7 @@ import "./HomePage.css";
 import "../../index.css";
 
 import { useState } from "react";
-import useSearch from "../useSearch";
+import useSearch from "../../hooks/useSearch";
 
 
 // import WhyJoinUs from "/"

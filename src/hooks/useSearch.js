@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-// import for backend/API calls later //
+import { getData, deleteSearchHistoryItemApi, deleteAllSearchHistoryApi } from "../api";
+// Dubblecheck the correct names for the api functions when they are created, and update the imports here accordingly.
 
 const useSearch = () => {
 
@@ -47,14 +48,10 @@ const useSearch = () => {
 
     try {
     // Here we later call the backend/API with the search term, but for now I use mock data and filter it based on the search term.
-      const filteredResults = mockSpaceData.filter((item) => {
+    const fetchSearchData = await getData(cleanedTerm);
 
-        return Object.values(item).some((value) =>
-          String(value).toLowerCase().includes(cleanedTerm.toLowerCase())
-        );
-      });
-
-      setFilteredData(filteredResults);
+      setFilteredData(fetchSearchData);
+      // Can be removed when we have real backend/API integration, but for now it prevents the "No results found" message from flashing before the mock data is set.
 
       setSubmittedSearchTerm(cleanedTerm);
 
@@ -81,11 +78,9 @@ const useSearch = () => {
       });
 
     } catch (error) {
-
       setErrorSearch(error.message);
 
     } finally {
-
       setLoadingSearch(false);
 
     }
@@ -114,8 +109,7 @@ const useSearch = () => {
 
     try {
 
-      // Backend/API here later
-      // await api.deleteSearch(historyItem)
+      await deleteSearchHistoryItemApi(historyItem.id);
 
       setSearchHistory((prevHistory) =>
         prevHistory.filter(
@@ -136,8 +130,7 @@ const useSearch = () => {
   const deleteAllSearchHistory = async () => {
 
     try {
-      // Backend/API here later
-      // await api.deleteAllSearchHistory()
+      await deleteAllSearchHistoryApi();
 
       setSearchHistory([]);
     } catch (error) {
@@ -175,3 +168,12 @@ const useSearch = () => {
 };
 
 export default useSearch;
+
+
+
+      // const filteredResults = fetchSearchData.filter((item) => {
+
+      //   return Object.values(item).some((value) =>
+      //     String(value).toLowerCase().includes(cleanedTerm.toLowerCase())
+      //   );
+      // });

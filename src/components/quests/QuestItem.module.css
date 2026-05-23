@@ -1,0 +1,52 @@
+.questItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--surface-dark-matter);
+  border: var(--border-subtle);
+  transition: all 0.3s ease;
+}
+
+.questItem:hover {
+  border-color: var(--primary-cosmic-cyan);
+}
+
+.questItemCompleted {
+  opacity: 0.6;
+}
+
+.questTitle {
+  flex: 1;
+  color: var(--text-starlight);
+}
+
+.questTitleCompleted {
+  text-decoration: line-through;
+  color: var(--text-nebula-gray);
+}
+
+.questPoints {
+  color: var(--success-stardust-gold);
+  font-weight: 600;
+}
+
+.completeButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  background-color: var(--primary-cosmic-cyan);
+  color: var(--bg-void-black);
+  transition: all 0.3s ease;
+}
+
+.completeButton:hover {
+  box-shadow: var(--glow-cyan);
+}
+
+.undoButton {
+  background-color: var(--secondary-mars-rust);
+}

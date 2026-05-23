@@ -1,8 +1,16 @@
 import {NavLink} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+const NavBar = ({ isLoggedIn, currentUser }) => {
+  // Only temporarly using isLoggedIn and currentUser as props for example purposes, will likely be moved to Context or backend-auth later on.
 
-const NavBar = () => {
+  const navigate = useNavigate();
 
+  const handleProfileClick = (profile) => {
+    isLoggedIn
+    ? navigate(`/profile/${profile.id}`)
+    : navigate("/login");
+  };
 
   return (
     <nav className="main-nav">
@@ -11,6 +19,10 @@ const NavBar = () => {
           <li className="nav-item"><NavLink to="/explore" className="nav-link">Explore</NavLink></li>
           <li className="nav-item"><NavLink to="/quests" className="nav-link">Quests</NavLink></li>
         </ul>
+
+      <div onClick = {() => handleProfileClick(currentUser)}>
+        Icon Image here
+      </div>
     </nav>
   )
 }

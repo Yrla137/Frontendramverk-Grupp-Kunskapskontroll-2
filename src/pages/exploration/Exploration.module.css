@@ -1,0 +1,73 @@
+.explorationContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h2 {
+  font-size: 2.2rem;
+  color: var(--primary-cosmic-cyan);
+}
+
+.progressBar {
+  max-width: 500px;
+  margin: 1.5rem auto 0;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-nebula-gray);
+}
+
+.progressTrack {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-cosmic-cyan), var(--success-stardust-gold));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.planetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.leaderboardLink {
+  color: var(--primary-cosmic-cyan);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--primary-cosmic-cyan);
+  border-radius: var(--border-radius-sm);
+  transition: all 0.3s ease;
+}
+
+.leaderboardLink:hover {
+  box-shadow: var(--glow-cyan);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

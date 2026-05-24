@@ -1,0 +1,30 @@
+.progressContainer {
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--surface-dark-matter);
+  border: var(--border-subtle);
+}
+
+.progressText {
+  color: var(--text-starlight);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  appearance: none;
+}
+
+.progressBar::-webkit-progress-bar {
+  background-color: var(--bg-void-black);
+  border-radius: 6px;
+}
+
+.progressBar::-webkit-progress-value {
+  background-color: var(--primary-cosmic-cyan);
+  border-radius: 6px;
+  box-shadow: var(--glow-cyan);
+}

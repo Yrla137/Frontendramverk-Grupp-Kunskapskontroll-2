@@ -113,4 +113,4 @@ const spaceData = [
 
 ];
 
-module.exports = spaceData;
+export default spaceData;

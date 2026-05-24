@@ -19,7 +19,13 @@ app.use(express.json()); // Gör att vi kan ta emot JSON-data (t.ex. vid login)
 const {
   getAllSpaceData,
   getPopularTopics
-} = require("./MOCKDATA(Julia)/spaceApi");
+} = require("../src/MOCKDATA(Julia)/spaceApi");
+
+
+// Temporary mockdata routes.
+// These endpoints are structured like real backend routes
+// so frontend components/hooks will not need major changes
+// when connected to the final database/API solution.
 
 // Get all searchable data
 app.get("/api/search", (req, res) => {
@@ -29,7 +35,6 @@ app.get("/api/search", (req, res) => {
   res.json(data);
 
 });
-
 
 // Get homepage popular topics
 app.get("/api/popular-topics", (req, res) => {

@@ -83,8 +83,8 @@ const SearchResults = ({
           tabIndex={0}
           onClick={() => handleResultClick(result)}
         >
-          <h2>{getSafeValue(result.name)}</h2>
-          <p>{getSafeValue(result.type)}</p>
+          <h2>{getSafeValue(result.title)}</h2>
+          <p>{getSafeValue(result.category)}</p>
           <p>{getSafeValue(result.description)}</p>
         </div>
       ))}

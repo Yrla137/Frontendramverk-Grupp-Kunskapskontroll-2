@@ -12,7 +12,7 @@ export const getData = async (query) => {
     return searchSpaceMock(query);
   }
 
-  const res = await fetch(`${BASE_URL}/search?query=${query}`);
+  const res = await fetch(`${BASE_URL}/search?query=${encodeURIComponent(query)}`);
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
 };

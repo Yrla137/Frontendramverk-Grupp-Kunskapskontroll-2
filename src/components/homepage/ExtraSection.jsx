@@ -25,17 +25,17 @@ const ExtraSection = ({ isLoggedIn }) => {
         : <div>
             <h2>Popular topics</h2>
             <article onClick={() => handleTopicClick("")}>
-                <img src="" alt="" />
+                <img src="N/A" alt="N/A" />
                 <h3>Mars</h3>
                 <p>Explore the red planet and its potential for hosting life.</p>
             </article>
             <article onClick={() => handleTopicClick("")}>
-                <img src="" alt="" />
+                <img src="N/A" alt="N/A" />
                 <h3>Astroids</h3>
                 <p>Learn about the fascinating world of space rocks and their impact on Earth.</p>
             </article>
             <article onClick={() => handleTopicClick("")}>
-                <img src="" alt="" />
+                <img src="N/A" alt="N/A" />
                 <h3>Black holes</h3>
                 <p>Dive into the mysteries of these cosmic phenomena and their effects on space and time.</p>
             </article>

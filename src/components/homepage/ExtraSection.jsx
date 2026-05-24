@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-//import icons here
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLaptop, faRocket, faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 
 const ExtraSection = ({ isLoggedIn }) => {
 
@@ -45,24 +46,3 @@ const ExtraSection = ({ isLoggedIn }) => {
 }
 
 export default ExtraSection
-
-
-
-
-// 1. Installera Font Awesome
-
-// Kör detta i terminalen i ditt React-projekt:
-
-// npm install @fortawesome/fontawesome-svg-core
-// npm install @fortawesome/free-solid-svg-icons
-// npm install @fortawesome/react-fontawesome
-
-// Om du också vill ha brands/sociala medier-ikoner:
-
-// npm install @fortawesome/free-brands-svg-icons
-// 2. Importera ikoner
-
-// Exempel med en vanlig ikon:
-
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faHeart } from "@fortawesome/free-solid-svg-icons";

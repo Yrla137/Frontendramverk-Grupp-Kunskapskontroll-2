@@ -1,34 +1,29 @@
 import styles from "./App.module.css";
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/homepage/HomePage";
 import Profile from "./pages/profile/Profile";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className={styles.appContainer}>
+    <div className={styles.appContainer}>
 
-        <header className={styles.navbar}>
-          <h1>Space-Quiz</h1>
-        </header>
+      <header className={styles.navbar}>
+        <h1>Space-Quiz</h1>
+      </header>
 
-        <main className={styles.mainContent}>
+      <main className={styles.mainContent}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/profile/:id" element={<Profile />} />
+        </Routes>
+      </main>
 
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/profile/:id" element={<Profile />} />
-          </Routes>
+      <footer className={styles.footer}>
+        <p>Byggd med React och NASA API</p>
+      </footer>
 
-        </main>
-
-        <footer className={styles.footer}>
-          <p>Byggd med React och NASA API</p>
-        </footer>
-
-      </div>
-    </BrowserRouter>
+    </div>
   );
 }
 

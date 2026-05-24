@@ -1,5 +1,5 @@
-import SearchHistory from "./SearchHistory";
 import { useState, useEffect, useRef } from "react";
+import SearchHistory from "./SearchHistory";
 
 const SearchBar = ({
   searchTerm,

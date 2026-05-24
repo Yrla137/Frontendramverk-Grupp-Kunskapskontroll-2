@@ -1,5 +1,5 @@
-import ErrorMessage from "../ErrorMessage";
-import LoadingSpinner from "../LoadingSpinner";
+import ErrorMessage from "../LoadingSpinner";
+import LoadingSpinner from "../ErrorMessage";
 
 const SearchHistory = ({
   onRetry,

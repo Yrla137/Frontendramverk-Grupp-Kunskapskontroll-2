@@ -1,14 +1,15 @@
-import SearchBar from "../../components/search/SearchBar";
-import SearchResults from "../../components/search/SearchResults";
+import { useState } from "react";
 
+import SearchBar from "../../components/search/SearchBar.jsx";
+import SearchResults from "../../components/search/SearchResults.jsx";
 import NavBar from "../../components/homepage/NavBar";
 import HeroSection from "../../components/homepage/HeroSection";
+// import ExtraSection from "../../components/homepage/ExtraSection";
+
+import useSearch from "../../hooks/useSearch";
 
 import "./HomePage.css";
 import "../../index.css";
-
-import { useState } from "react";
-import useSearch from "../../hooks/useSearch";
 
 
 // import WhyJoinUs from "/"

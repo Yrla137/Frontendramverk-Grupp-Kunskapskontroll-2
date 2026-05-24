@@ -36,6 +36,18 @@ const DailyQuests = ({ isLoggedIn }) => {
       <QuestProgress quests={quests} />
       <QuestList quests={quests} onComplete={handleComplete} />
 
+      {loading && (
+        <div className={styles.loadingContainer}>
+          <p>Loading today&apos;s space content...</p>
+        </div>
+      )}
+
+      {error && (
+        <div className={styles.errorContainer}>
+          <p>Something went wrong: {error}</p>
+        </div>
+      )}
+
       {apod && (
         <div className={styles.apodSection}>
           <h2>Today&apos;s Astronomy Picture</h2>

@@ -61,3 +61,17 @@
   font-size: 0.9rem;
   opacity: 0.7;
 }
+
+.loadingContainer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--primary-cosmic-cyan);
+  font-size: 1.1rem;
+}
+
+.errorContainer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--secondary-mars-rust);
+  font-size: 1.1rem;
+}

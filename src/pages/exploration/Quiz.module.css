@@ -50,6 +50,7 @@
   padding: 1rem;
   text-align: left;
   font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .optionButton:hover {
@@ -63,9 +64,93 @@
   box-shadow: var(--glow-cyan);
 }
 
+.optionButton.correct {
+  border-color: var(--success-stardust-gold);
+  background-color: rgba(255, 215, 0, 0.15);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  pointer-events: none;
+}
+
+.optionButton.incorrect {
+  border-color: var(--secondary-mars-rust);
+  background-color: rgba(229, 89, 52, 0.15);
+  box-shadow: 0 0 10px rgba(229, 89, 52, 0.3);
+  pointer-events: none;
+}
+
+.optionButton.dimmed {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.feedback {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: var(--border-subtle);
+}
+
+.feedbackCorrect {
+  color: var(--success-stardust-gold);
+  font-weight: 600;
+}
+
+.feedbackIncorrect {
+  color: var(--secondary-mars-rust);
+  font-weight: 600;
+}
+
 .quizActions {
   display: flex;
   justify-content: center;
+}
+
+.resultsCard {
+  text-align: center;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.scoreOrb {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreText {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-starlight);
+}
+
+.scoreMessage {
+  font-size: 1.2rem;
+}
+
+.resultsActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.resultsBackLink {
+  color: var(--primary-cosmic-cyan);
+  border: 1px solid var(--primary-cosmic-cyan);
+  border-radius: var(--border-radius-sm);
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.resultsBackLink:hover {
+  box-shadow: var(--glow-cyan);
 }
 
 @keyframes fadeIn {

@@ -1,4 +1,4 @@
-import { searchSpaceMock } from "../spaceAPI";
+import { searchSpaceMock } from "../spaceApi";
 
 // Temporary mockdata switch.
 // Change to false when real backend/API search is connected.

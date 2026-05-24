@@ -55,6 +55,12 @@ const SearchResults = ({
           role="button"
           tabIndex={0}
           onClick={() => handleResultClick(result)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              handleResultClick(result);
+            }
+          }}
         >
           <h2>{getSafeValue(result.title)}</h2>
           <p>{getSafeValue(result.category)}</p>

@@ -25,3 +25,39 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.apodSection {
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--surface-dark-matter);
+  border: var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.apodSection h2 {
+  color: var(--primary-cosmic-cyan);
+}
+
+.apodSection h3 {
+  color: var(--text-starlight);
+}
+
+.apodImage {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+}
+
+.apodDescription {
+  color: var(--text-nebula-gray);
+  line-height: 1.6;
+}
+
+.apodDate {
+  color: var(--text-nebula-gray);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}

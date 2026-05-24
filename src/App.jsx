@@ -15,7 +15,7 @@ import SearchResults from "./components/search/SearchResults";
 const App = () => {
 
   // Auth state //
-  // Temporarily lokal auth.
+  // Temporary local auth.
   const [isLoggedIn] = useState(false);
 
 

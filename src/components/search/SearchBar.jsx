@@ -1,10 +1,11 @@
-import SearchHistory from "./SearchHistory";
 import { useState, useEffect, useRef } from "react";
+import SearchHistory from "./SearchHistory";
 
 const SearchBar = ({
   searchTerm,
   setSearchTerm,
   isLoggedIn,
+  onSearch,
 
   onRetry,
   searchHistory,
@@ -22,7 +23,7 @@ const SearchBar = ({
   const outsideClickRef = useRef(null);
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus()
   }, []);
 
   useEffect (() => {
@@ -47,7 +48,12 @@ const SearchBar = ({
 
       <div className="searchbar-dropdown-container" ref={outsideClickRef}>
 
-        <form>
+        <form
+        onSubmit={(e) =>{
+        e.preventDefault();
+        onSearch(searchTerm);
+        setDropdownOpen(false);
+        }}>
           <input
             ref={inputRef}
             type="text"
@@ -70,7 +76,8 @@ const SearchBar = ({
             loadingHistory={loadingHistory}
             />
             <button
-             onClick={() => setDropdownOpen(false)}>
+            type="button"
+            onClick={() => setDropdownOpen(false)}>
               Close search history
             </button>
           </div>
@@ -83,3 +90,6 @@ const SearchBar = ({
 }
 
 export default SearchBar
+
+
+

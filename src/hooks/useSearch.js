@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-// import for backend/API calls later //
+import {
+  getData,
+  deleteSearchHistoryItemApi,
+  deleteAllSearchHistoryApi
+} from "../MOCKDATA(Julia)/api";
+// These API function names may need to be updated later depending on
+// how the final backend/API structure is organized by the group.
+
 
 const useSearch = () => {
 
@@ -16,7 +23,6 @@ const useSearch = () => {
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [errorSearch, setErrorSearch] = useState(null);
 
-    
   // Retry search //
   const onRetry = () => {
     onSearch(submittedSearchTerm);
@@ -26,54 +32,70 @@ const useSearch = () => {
   // Search function //
   const onSearch = async (term) => {
 
-    term = term.trim();
+    const cleanedTerm = term.trim();
 
-    if (term.length < 3) {
-      return setFilteredData([]);
+    if (!cleanedTerm) {
+      setFilteredData([]);
+      setHasSearched(false);
+      return;
     }
 
-    if (!term.trim()) return;
+    if (cleanedTerm.length < 3) {
+      setFilteredData([]);
+      setHasSearched(false);
+      setErrorSearch(null);
+      return;
+    }
 
     setLoadingSearch(true);
     setErrorSearch(null);
 
     try {
-    // Here we later call the backend/API with the search term, but for now I use mock data and filter it based on the search term.
-      const filteredResults = mockSpaceData.filter((item) => {
 
-        return Object.values(item).some((value) =>
-          String(value).toLowerCase().includes(term.toLowerCase())
-        );
-      });
+      // Temporary API call.
+      // May later become something like:
+      // searchSpaceData(cleanedTerm)
+      // getSearchResults(cleanedTerm)
+      // api.search(cleanedTerm)
+      const fetchSearchData = await getData(cleanedTerm);
 
-      setFilteredData(filteredResults);
+      // Assumes backend/API returns already filtered search results.
+      // If the final backend instead returns all data,
+      // filtering may need to happen here again.
+      setFilteredData(fetchSearchData);
 
-      setSubmittedSearchTerm(term);
+      setSubmittedSearchTerm(cleanedTerm);
 
       setHasSearched(true);
 
       setSearchHistory((prevHistory) => {
 
-        // Checks for duplicate search term in history (case-insensitive and trimmed)
         const duplicateTerm = prevHistory.some(
           (historyItem) =>
-            historyItem.historyItem.toLowerCase().trim() === term.toLowerCase().trim()
+            historyItem.historyItem.toLowerCase().trim() ===
+            cleanedTerm.toLowerCase().trim()
         );
 
-        if (duplicateTerm)
-        return prevHistory;
+        if (duplicateTerm) {
+          return prevHistory;
+        }
 
         return [
           ...prevHistory,
           {
             id: crypto.randomUUID(),
-            historyItem: term
+            historyItem: cleanedTerm
           }
         ];
       });
 
     } catch (error) {
 
+      // Depending on backend structure,
+      // error handling may later use:
+      // error.response.data.message
+      // custom backend messages
+      // auth/token validation errors
       setErrorSearch(error.message);
 
     } finally {
@@ -83,31 +105,43 @@ const useSearch = () => {
     }
   };
 
+
   // Debounce search input //
   useEffect(() => {
-  const timeout = setTimeout(() => {
-    onSearch(searchTerm);
-  }, 400);
+
+    const timeout = setTimeout(() => {
+      onSearch(searchTerm);
+    }, 400);
 
     return () => clearTimeout(timeout);
-    }, [searchTerm]);
+
+  }, [searchTerm]);
+  // If the final backend becomes sensitive to many requests,
+  // debounce timing may need adjustment.
 
 
-  // For search history, when user clicks on a history item, it fills the search bar with that term and performs the search again //
+
+  // Fill searchbar input from search history //
   const fillSearchBarInput = (historyItem) => {
+
     onSearch(historyItem);
+
     setSearchTerm("");
 
   };
 
 
-// Delete a single search history item / Delete all search history items //
+  // Delete a single search history item //
   const deleteSearchHistoryItem = async (historyItem) => {
 
     try {
 
-      // Backend/API here later
-      // await api.deleteSearch(historyItem)
+      // Temporary delete API function.
+      // Final backend may instead require:
+      // deleteSearchHistory(id)
+      // deleteHistoryItem(userId, itemId)
+      // api.history.delete(id)
+      await deleteSearchHistoryItemApi(historyItem);
 
       setSearchHistory((prevHistory) =>
         prevHistory.filter(
@@ -125,25 +159,34 @@ const useSearch = () => {
     }
   };
 
+
+  // Delete all search history items //
   const deleteAllSearchHistory = async () => {
 
     try {
-      // Backend/API here later
-      // await api.deleteAllSearchHistory()
+
+      // Temporary delete-all API function.
+      // Final backend may later require user authentication,
+      // user id, token validation or a different endpoint.
+      await deleteAllSearchHistoryApi();
 
       setSearchHistory([]);
+
     } catch (error) {
+
       console.error(
         "Error deleting all search history:",
         error
       );
+
     }
   };
 
 
+
   // All states and functions to be used in the component //
   return {
-    
+
     // States //
     searchTerm,
     setSearchTerm,

@@ -11,8 +11,56 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); // Tillåter React (ofta localhost:5173 eller 3000) att anropa oss
 app.use(express.json()); // Gör att vi kan ta emot JSON-data (t.ex. vid login)
 
-// --- ROUTES ---
 
+// Julias MOCKDATA //
+//---------------------------------------------------------------------//
+
+// Temporary mock API imports
+let spaceApiModulePromise;
+
+function loadSpaceApi() {
+  if (!spaceApiModulePromise) {
+    spaceApiModulePromise = import("../src/MOCKDATA(Julia)/spaceApi.js");
+  }
+
+  return spaceApiModulePromise;
+}
+
+
+// Temporary mockdata routes.
+// These endpoints are structured like real backend routes
+// so frontend components/hooks will not need major changes
+// when connected to the final database/API solution.
+
+// Get all searchable data
+app.get("/api/search", async (req, res) => {
+  try {
+    const { getAllSpaceData } = await loadSpaceApi();
+    const data = getAllSpaceData();
+
+    res.json(data);
+  } catch (error) {
+    console.error("Kunde inte ladda mockdata för /api/search:", error.message);
+    res.status(500).json({ error: "Kunde inte hämta sökdata" });
+  }
+});
+
+// Get homepage popular topics
+app.get("/api/popular-topics", async (req, res) => {
+  try {
+    const { getPopularTopics } = await loadSpaceApi();
+    const topics = getPopularTopics();
+
+    res.json(topics);
+  } catch (error) {
+    console.error("Kunde inte ladda mockdata för /api/popular-topics:", error.message);
+    res.status(500).json({ error: "Kunde inte hämta populära ämnen" });
+  }
+});
+//---------------------------------------------------------------------//
+
+
+// --- ROUTES ---
 // Test-route för att se att servern lever
 app.get('/api/status', (req, res) => {
   res.json({ message: 'Rymd-servern är online! 🚀' });

@@ -1,115 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getPlanetById } from "../../services/planetData";
+import { getQuizQuestions } from "../../services/quizData";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import styles from "./Quiz.module.css";
-
-const mockQuestions = {
-  mercury: [
-    {
-      id: 1,
-      question: "How long does one day on Mercury last?",
-      options: ["24 hours", "59 Earth days", "88 Earth days", "12 hours"],
-      correct: 1,
-    },
-    {
-      id: 2,
-      question: "How many moons does Mercury have?",
-      options: ["1", "2", "0", "3"],
-      correct: 2,
-    },
-  ],
-  venus: [
-    {
-      id: 1,
-      question: "What is the surface temperature of Venus?",
-      options: ["250°C", "465°C", "180°C", "320°C"],
-      correct: 1,
-    },
-    {
-      id: 2,
-      question: "How long is a day on Venus compared to its year?",
-      options: [
-        "Shorter than its year",
-        "The same length",
-        "Longer than its year",
-        "Exactly half its year",
-      ],
-      correct: 2,
-    },
-  ],
-  earth: [
-    {
-      id: 1,
-      question: "What percentage of Earth's surface is covered in water?",
-      options: ["50%", "65%", "71%", "80%"],
-      correct: 2,
-    },
-    {
-      id: 2,
-      question: "How old is Earth?",
-      options: [
-        "3.2 billion years",
-        "4.54 billion years",
-        "5.1 billion years",
-        "2.8 billion years",
-      ],
-      correct: 1,
-    },
-  ],
-  mars: [
-    {
-      id: 1,
-      question: "What is the tallest mountain on Mars called?",
-      options: ["Mount Everest", "Olympus Mons", "Valles Marineris", "Elysium Mons"],
-      correct: 1,
-    },
-    {
-      id: 2,
-      question: "How many moons does Mars have?",
-      options: ["0", "1", "2", "4"],
-      correct: 2,
-    },
-  ],
-  jupiter: [
-    {
-      id: 1,
-      question: "How many known moons does Jupiter have?",
-      options: ["63", "79", "95", "112"],
-      correct: 2,
-    },
-    {
-      id: 2,
-      question: "What is Jupiter's Great Red Spot?",
-      options: [
-        "A volcanic crater",
-        "A storm larger than Earth",
-        "An ocean of liquid hydrogen",
-        "A mountain range",
-      ],
-      correct: 1,
-    },
-  ],
-  saturn: [
-    {
-      id: 1,
-      question: "How many main rings does Saturn have?",
-      options: ["3", "5", "7", "9"],
-      correct: 2,
-    },
-    {
-      id: 2,
-      question: "What is unique about Saturn's density?",
-      options: [
-        "It is the densest planet",
-        "It is less dense than water",
-        "It has the same density as Earth",
-        "Its density changes with seasons",
-      ],
-      correct: 1,
-    },
-  ],
-};
 
 const Quiz = () => {
   const { planetId } = useParams();
@@ -124,7 +18,7 @@ const Quiz = () => {
     getPlanetById(planetId).then(setPlanet);
   }, [planetId]);
 
-  const questions = mockQuestions[planetId];
+  const questions = getQuizQuestions(planetId);
 
   if (!planet) {
     return (

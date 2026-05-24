@@ -16,10 +16,15 @@ app.use(express.json()); // Gör att vi kan ta emot JSON-data (t.ex. vid login)
 //---------------------------------------------------------------------//
 
 // Temporary mock API imports
-const {
-  getAllSpaceData,
-  getPopularTopics
-} = require("../src/MOCKDATA(Julia)/spaceApi");
+let spaceApiModulePromise;
+
+function loadSpaceApi() {
+  if (!spaceApiModulePromise) {
+    spaceApiModulePromise = import("../src/MOCKDATA(Julia)/spaceApi.js");
+  }
+
+  return spaceApiModulePromise;
+}
 
 
 // Temporary mockdata routes.
@@ -28,21 +33,29 @@ const {
 // when connected to the final database/API solution.
 
 // Get all searchable data
-app.get("/api/search", (req, res) => {
+app.get("/api/search", async (req, res) => {
+  try {
+    const { getAllSpaceData } = await loadSpaceApi();
+    const data = getAllSpaceData();
 
-  const data = getAllSpaceData();
-
-  res.json(data);
-
+    res.json(data);
+  } catch (error) {
+    console.error("Kunde inte ladda mockdata för /api/search:", error.message);
+    res.status(500).json({ error: "Kunde inte hämta sökdata" });
+  }
 });
 
 // Get homepage popular topics
-app.get("/api/popular-topics", (req, res) => {
+app.get("/api/popular-topics", async (req, res) => {
+  try {
+    const { getPopularTopics } = await loadSpaceApi();
+    const topics = getPopularTopics();
 
-  const topics = getPopularTopics();
-
-  res.json(topics);
-
+    res.json(topics);
+  } catch (error) {
+    console.error("Kunde inte ladda mockdata för /api/popular-topics:", error.message);
+    res.status(500).json({ error: "Kunde inte hämta populära ämnen" });
+  }
 });
 //---------------------------------------------------------------------//
 

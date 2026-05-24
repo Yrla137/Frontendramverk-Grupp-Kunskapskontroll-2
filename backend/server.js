@@ -11,8 +11,38 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); // Tillåter React (ofta localhost:5173 eller 3000) att anropa oss
 app.use(express.json()); // Gör att vi kan ta emot JSON-data (t.ex. vid login)
 
-// --- ROUTES ---
 
+// Julias MOCKDATA //
+//---------------------------------------------------------------------//
+
+// Temporary mock API imports
+const {
+  getAllSpaceData,
+  getPopularTopics
+} = require("./MOCKDATA(Julia)/spaceApi");
+
+// Get all searchable data
+app.get("/api/search", (req, res) => {
+
+  const data = getAllSpaceData();
+
+  res.json(data);
+
+});
+
+
+// Get homepage popular topics
+app.get("/api/popular-topics", (req, res) => {
+
+  const topics = getPopularTopics();
+
+  res.json(topics);
+
+});
+//---------------------------------------------------------------------//
+
+
+// --- ROUTES ---
 // Test-route för att se att servern lever
 app.get('/api/status', (req, res) => {
   res.json({ message: 'Rymd-servern är online! 🚀' });

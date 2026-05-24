@@ -32,15 +32,25 @@ if (errorHistory) {
           <li key={item.id}
           onClick={() => fillSearchBarInput(item.historyItem)}>
           {item.historyItem}
-          <button onClick={(event) => {
-          event.stopPropagation();
-          deleteSearchHistoryItem(item);
-          }}>Delete</button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              deleteSearchHistoryItem(item.historyItem);
+            }}
+          >
+            Delete
+          </button>
           </li>
         ))}
       </ul>
       {searchHistory.length > 0 && (
-        <button onClick={deleteAllSearchHistory}>Delete search history</button>
+        <button
+        type="button"
+          onClick={deleteAllSearchHistory}
+        >
+          Delete search history
+        </button>
       )}
     </div>
   )

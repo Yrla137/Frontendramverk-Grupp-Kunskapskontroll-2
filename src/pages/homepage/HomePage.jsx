@@ -1,7 +1,8 @@
-import Searchbar from "../src/components/search/Searchbar";
-import SearchResults from "../src/components/search/SearchResults";
-import NavBar from "../src/components/homepage/NavBar";
-import HeroSection from "../src/components/homepage/HeroSection";
+import SearchBar from "../../components/search/SearchBar";
+import SearchResults from "../../components/search/SearchResults";
+
+import NavBar from "../../components/homepage/NavBar";
+import HeroSection from "../../components/homepage/HeroSection";
 
 import "./HomePage.css";
 import "../../index.css";
@@ -58,7 +59,7 @@ const HomePage = () => {
 
 
       <div className="searchbar-container">
-        <Searchbar
+        <SearchBar
           // Search state //
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

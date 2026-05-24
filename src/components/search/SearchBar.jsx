@@ -23,7 +23,7 @@ const SearchBar = ({
   const outsideClickRef = useRef(null);
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus()
   }, []);
 
   useEffect (() => {
@@ -76,7 +76,8 @@ const SearchBar = ({
             loadingHistory={loadingHistory}
             />
             <button
-             onClick={() => setDropdownOpen(false)}>
+            type="button"
+            onClick={() => setDropdownOpen(false)}>
               Close search history
             </button>
           </div>
@@ -89,3 +90,6 @@ const SearchBar = ({
 }
 
 export default SearchBar
+
+
+

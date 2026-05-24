@@ -5,10 +5,10 @@ import useSearch from "./hooks/useSearch";
 
 import HomePage from "./pages/homepage/HomePage";
 import Profile from "./pages/profile/Profile";
-// import Explore from "./pages/explore/Explore";
-// import Quests from "./pages/quests/Quests";
+import Exploration from "./pages/exploration/Exploration";
+import DailyQuests from "./pages/quests/DailyQuests";
 
-import NavBar from "./components/homepage/NavBar";
+import NavBar from "./components/NavBar";
 import SearchBar from "./components/search/SearchBar";
 import SearchResults from "./components/search/SearchResults";
 
@@ -90,8 +90,8 @@ const App = () => {
       <main className={styles.mainContent}>
         <Routes>
           <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
-          {/* <Route path="/explore" element={<Explore />} />
-          <Route path="/quests" element={<Quests />} /> */}
+          <Route path="/explore" element={<Exploration />} />
+          <Route path="/quests" element={<DailyQuests />} />
           <Route path="/profile/:id" element={<Profile />} />
         </Routes>
       </main>
@@ -101,37 +101,3 @@ const App = () => {
 }
 
 export default App;
-
-
-// import styles from './App.module.css';
-// import Profile from './pages/profile/Profile';
-
-
-// function App() {
-//   return (
-//     <div className={styles.appContainer}>
-      
-//       <header className={styles.navbar}>
-//         <h1>Space-Quiz</h1>
-//         {}
-//       </header>
-
-//       <main className={styles.mainContent}>
-        
-//         {/* React Router */}
-//         <div className="card">
-//         <Profile />
-//           <h2>Välkommen till rymden</h2>
-//           <p>Här kan du utforska NASA:s data och samla badges.</p>
-//         </div>
-//       </main>
-
-//       <footer className={styles.footer}>
-//         <p>Byggd med React och NASA API</p>
-//       </footer>
-
-//     </div>
-//   );
-// }
-
-// export default App;

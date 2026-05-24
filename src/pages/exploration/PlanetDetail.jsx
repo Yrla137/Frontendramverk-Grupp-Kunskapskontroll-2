@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getPlanetById } from "../../services/planetData";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import styles from "./PlanetDetail.module.css";
 
 const PlanetDetail = () => {
@@ -14,7 +15,7 @@ const PlanetDetail = () => {
   if (!planet) {
     return (
       <div className={styles.detailContainer}>
-        <p>Loading...</p>
+        <LoadingSpinner message="Loading planet..." />
       </div>
     );
   }

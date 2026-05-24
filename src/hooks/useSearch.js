@@ -3,9 +3,10 @@ import {
   getData,
   deleteSearchHistoryItemApi,
   deleteAllSearchHistoryApi
-} from "../api";
+} from "../MOCKDATA(Julia)/api";
 // These API function names may need to be updated later depending on
 // how the final backend/API structure is organized by the group.
+
 
 const useSearch = () => {
 
@@ -22,13 +23,10 @@ const useSearch = () => {
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [errorSearch, setErrorSearch] = useState(null);
 
-
-
   // Retry search //
   const onRetry = () => {
     onSearch(submittedSearchTerm);
   };
-
 
 
   // Search function //
@@ -108,7 +106,6 @@ const useSearch = () => {
   };
 
 
-
   // Debounce search input //
   useEffect(() => {
 
@@ -132,7 +129,6 @@ const useSearch = () => {
     setSearchTerm("");
 
   };
-
 
 
   // Delete a single search history item //
@@ -162,7 +158,6 @@ const useSearch = () => {
 
     }
   };
-
 
 
   // Delete all search history items //

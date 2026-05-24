@@ -5,11 +5,9 @@ import spaceData from "./spaceData.js";
 
 // Temporary frontend mock search
 export const searchSpaceMock = (query) => {
-
   return spaceData.filter((item) =>
     item.title.toLowerCase().includes(query.toLowerCase())
   );
-
 };
 
 

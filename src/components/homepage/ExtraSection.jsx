@@ -6,8 +6,8 @@ const ExtraSection = ({ isLoggedIn, popularTopics }) => {
 
     const navigate = useNavigate();
     
-    const handleTopicClick = (topic) => {
-        navigate(`/explore/${topic.id}`)
+    const handleTopicClick = (topicSlug) => {
+        navigate(`/explore/${topicSlug}`);
     };
 
   return (

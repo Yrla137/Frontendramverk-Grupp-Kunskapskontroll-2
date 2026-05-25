@@ -4,7 +4,7 @@ import ExtraSection from "../../components/homepage/ExtraSection";
 import { useEffect, useState } from "react";
 import { getPopularTopics } from "../../MOCKDATA(Julia)/spaceAPI";
 
-import "./HomePage.css";
+
 import "../../index.css";
 
 const HomePage = ({ isLoggedIn }) => {
@@ -17,6 +17,8 @@ const HomePage = ({ isLoggedIn }) => {
 // Temporary mock popular topics fetch for homepage section.
   useEffect(() => {
   const fetchTopics = async () => {
+// Temporary mockdata fetch.
+// Will later be replaced by real backend/API endpoint.
     try {
       setLoadingTopics(true);
       const data = await getPopularTopics();

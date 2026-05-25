@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
+import HeroVideo from "./HeroVideo";
+import "./HeroSection.css";
+
 const HeroSection = ({ isLoggedIn, currentUser }) => {
 // Auth/user data will likely later come from Context,
 // global auth state or backend authentication instead of props.
 
   const [randomText, setRandomText] = useState("");
+
   const navigate = useNavigate();
 
   const textLoggedIn = () => {
@@ -49,20 +53,28 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
 
 
   return (
-    <div>
-      <h2>Hero Section</h2>
+    <section className="hero-section">
+
+      <div className="hero-video-wrapper">
+        <HeroVideo />
+      </div>
+
       {isLoggedIn ? (
-        <div>
-          <button onClick={() => navigate('/exploration')}>Browse our space</button>
+        <div className="hero-member-content">
+          <button
+          className="browse-button"
+          onClick={() => navigate('/exploration')}>Browse our space</button>
           <p>{randomText}</p>
         </div>
       ) : (
-        <div>
-          <button onClick={() => navigate('/login')}>Join us in outer space</button>
+        <div className="hero-guest-content">
+          <button
+          className="join-button"
+          onClick={() => navigate('/login')}>Join us in outer space</button>
           <p>{randomText}</p>
         </div>
       )}
-    </div>
+    </section>
   )
 }
 

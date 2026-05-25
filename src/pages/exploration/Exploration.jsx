@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getAllPlanets, getExplorationProgress } from "../../services/planetData";
+import { getAllPlanets } from "../../services/planetData";
+import { useExploration } from "../../context/ExplorationContext";
 import PlanetCard from "../../components/exploration/PlanetCard";
 import styles from "./Exploration.module.css";
 
 const Exploration = () => {
   const [planets, setPlanets] = useState([]);
-  const [progress, setProgress] = useState(null);
+  const { exploredPercentage, quizPercentage } = useExploration();
 
   useEffect(() => {
     getAllPlanets().then(setPlanets);
-    getExplorationProgress().then(setProgress);
   }, []);
 
   return (
@@ -18,20 +18,18 @@ const Exploration = () => {
       <section className={styles.header}>
         <h2>Explore the Solar System</h2>
         <p>Select a celestial body to learn more about it and test your knowledge.</p>
-        {progress && (
-          <div className={styles.progressBar}>
-            <div className={styles.progressInfo}>
-              <span>{progress.exploredPercentage}% Explored</span>
-              <span>{progress.quizPercentage}% Quizzes Completed</span>
-            </div>
-            <div className={styles.progressTrack}>
-              <div
-                className={styles.progressFill}
-                style={{ width: `${progress.exploredPercentage}%` }}
-              />
-            </div>
+        <div className={styles.progressBar}>
+          <div className={styles.progressInfo}>
+            <span>{exploredPercentage}% Explored</span>
+            <span>{quizPercentage}% Quizzes Completed</span>
           </div>
-        )}
+          <div className={styles.progressTrack}>
+            <div
+              className={styles.progressFill}
+              style={{ width: `${exploredPercentage}%` }}
+            />
+          </div>
+        </div>
       </section>
 
       <section className={styles.planetGrid}>

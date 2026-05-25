@@ -75,3 +75,14 @@
   color: var(--secondary-mars-rust);
   font-size: 1.1rem;
 }
+
+.pointsDisplay {
+  text-align: center;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--surface-dark-matter);
+  border: var(--border-subtle);
+  color: var(--success-stardust-gold);
+  font-size: 1.3rem;
+  font-weight: 600;
+}

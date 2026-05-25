@@ -9,7 +9,7 @@ const ExtraSection = ({ isLoggedIn, popularTopics }) => {
     const navigate = useNavigate();
     
     const handleTopicClick = (topicSlug) => {
-        navigate(`/explore/${topicSlug}`);
+        navigate(`/explore?topic=${encodeURIComponent(topicSlug)}`);
     };
 
   return (

@@ -2,7 +2,7 @@ import HeroSection from "../../components/homepage/HeroSection";
 import ExtraSection from "../../components/homepage/ExtraSection";
 
 import { useEffect, useState } from "react";
-import { getPopularTopics } from "../../MOCKDATA(Julia)/spaceAPI";
+import { getPopularTopics } from "../../MOCKDATA(Julia)/spaceApi";
 
 
 import "../../index.css";

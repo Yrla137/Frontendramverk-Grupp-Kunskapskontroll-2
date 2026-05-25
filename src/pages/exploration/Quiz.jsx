@@ -1,24 +1,26 @@
-import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getPlanetById } from "../../services/planetData";
-import { getQuizQuestions } from "../../services/quizData";
+import useQuiz from "../../hooks/useQuiz";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import styles from "./Quiz.module.css";
 
 const Quiz = () => {
   const { planetId } = useParams();
-  const [planet, setPlanet] = useState(null);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [answered, setAnswered] = useState(false);
-  const [score, setScore] = useState(0);
-  const [showResults, setShowResults] = useState(false);
-
-  useEffect(() => {
-    getPlanetById(planetId).then(setPlanet);
-  }, [planetId]);
-
-  const questions = getQuizQuestions(planetId);
+  const {
+    planet,
+    currentQuestion,
+    selectedAnswer,
+    answered,
+    score,
+    showResults,
+    questions,
+    question,
+    isLastQuestion,
+    isCorrect,
+    selectAnswer,
+    checkAnswer,
+    nextQuestion,
+    resetQuiz,
+  } = useQuiz(planetId);
 
   if (!planet) {
     return (
@@ -65,16 +67,7 @@ const Quiz = () => {
           </div>
           <p className={styles.scoreMessage}>{message}</p>
           <div className={styles.resultsActions}>
-            <button
-              className="btn-primary"
-              onClick={() => {
-                setCurrentQuestion(0);
-                setSelectedAnswer(null);
-                setAnswered(false);
-                setScore(0);
-                setShowResults(false);
-              }}
-            >
+            <button className="btn-primary" onClick={resetQuiz}>
               Retake Quiz
             </button>
             <Link to={`/explore/${planetId}`} className={styles.resultsBackLink}>
@@ -85,27 +78,6 @@ const Quiz = () => {
       </div>
     );
   }
-
-  const question = questions[currentQuestion];
-  const isCorrect = selectedAnswer === question.correct;
-  const isLastQuestion = currentQuestion === questions.length - 1;
-
-  const handleCheckAnswer = () => {
-    setAnswered(true);
-    if (isCorrect) {
-      setScore((prev) => prev + 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (isLastQuestion) {
-      setShowResults(true);
-    } else {
-      setCurrentQuestion((prev) => prev + 1);
-      setSelectedAnswer(null);
-      setAnswered(false);
-    }
-  };
 
   const getOptionClass = (index) => {
     if (!answered) {
@@ -140,7 +112,7 @@ const Quiz = () => {
             <button
               key={index}
               className={getOptionClass(index)}
-              onClick={() => !answered && setSelectedAnswer(index)}
+              onClick={() => selectAnswer(index)}
             >
               {option}
             </button>
@@ -162,12 +134,12 @@ const Quiz = () => {
           <button
             className="btn-primary"
             disabled={selectedAnswer === null}
-            onClick={handleCheckAnswer}
+            onClick={checkAnswer}
           >
             Check Answer
           </button>
         ) : (
-          <button className="btn-primary" onClick={handleNext}>
+          <button className="btn-primary" onClick={nextQuestion}>
             {isLastQuestion ? "See Results" : "Next Question"}
           </button>
         )}

@@ -5,7 +5,10 @@ import useSearch from "./hooks/useSearch";
 
 import HomePage from "./pages/homepage/HomePage";
 import Profile from "./pages/profile/Profile";
-// import Explore from "./pages/explore/Explore";
+import Exploration from "./pages/exploration/Exploration";
+import PlanetDetail from "./pages/exploration/PlanetDetail";
+import Quiz from "./pages/exploration/Quiz";
+import Leaderboard from "./pages/exploration/Leaderboard";
 // import Quests from "./pages/quests/Quests";
 
 import NavBar from "./components/homepage/NavBar";
@@ -90,8 +93,11 @@ const App = () => {
       <main className={styles.mainContent}>
         <Routes>
           <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
-          {/* <Route path="/explore" element={<Explore />} />
-          <Route path="/quests" element={<Quests />} /> */}
+          <Route path="/explore" element={<Exploration />} />
+          <Route path="/explore/leaderboard" element={<Leaderboard />} />
+          <Route path="/explore/:planetId" element={<PlanetDetail />} />
+          <Route path="/explore/:planetId/quiz" element={<Quiz />} />
+          {/* <Route path="/quests" element={<Quests />} /> */}
           <Route path="/profile/:id" element={<Profile />} />
         </Routes>
       </main>

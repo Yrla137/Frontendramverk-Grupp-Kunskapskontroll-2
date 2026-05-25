@@ -64,7 +64,7 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
         <div className="hero-member-content">
           <button
           className="browse-button"
-          onClick={() => navigate('/exploration')}>Browse our space</button>
+          onClick={() => navigate('/explore')}>Browse our space</button>
         <p className="hero-text">{randomText}</p>
         </div>
       ) : (

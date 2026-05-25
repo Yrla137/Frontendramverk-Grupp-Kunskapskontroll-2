@@ -71,7 +71,7 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
         <div className="hero-guest-content">
           <button
           className="join-button"
-          onClick={() => navigate('/login')}>Join us in outer space</button>
+          onClick={() => navigate('/exploration')}>Explore outer space</button>
         <p className="hero-text">{randomText}</p>
         </div>
       )}

@@ -3,9 +3,11 @@ import styles from "./DailyQuests.module.css";
 import QuestList from "../../components/quests/QuestList";
 import QuestProgress from "../../components/quests/QuestProgress";
 import useNasaApod from "../../hooks/useNasaApod";
+import { usePoints } from "../../context/PointsContext";
 
 const DailyQuests = ({ isLoggedIn }) => {
   const { apod, loading, error } = useNasaApod();
+  const { points, addPoints, removePoints } = usePoints();
 
   const [quests, setQuests] = useState([
     { id: 1, title: "Check today's Astronomy Picture of the Day", points: 10, completed: false },
@@ -16,9 +18,17 @@ const DailyQuests = ({ isLoggedIn }) => {
   ]);
 
   const handleComplete = (id) => {
-    setQuests(quests.map((quest) =>
-      quest.id === id ? { ...quest, completed: !quest.completed } : quest
-    ));
+    setQuests(quests.map((quest) => {
+      if (quest.id === id) {
+        if (!quest.completed) {
+          addPoints(quest.points);
+        } else {
+          removePoints(quest.points);
+        }
+        return { ...quest, completed: !quest.completed };
+      }
+      return quest;
+    }));
   };
 
   if (!isLoggedIn) {
@@ -33,6 +43,9 @@ const DailyQuests = ({ isLoggedIn }) => {
   return (
     <div className={styles.questsContainer}>
       <h1>Daily Quests 🚀</h1>
+      <div className={styles.pointsDisplay}>
+        <p>Total Points: {points}</p>
+      </div>
       <QuestProgress quests={quests} />
       <QuestList quests={quests} onComplete={handleComplete} />
 

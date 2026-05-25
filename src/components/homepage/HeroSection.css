@@ -16,13 +16,6 @@
   z-index: 0;
 }
 
-.hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.92) contrast(1.05);
-}
-
 /* FADE */
 .hero-section::after {
   content: "";

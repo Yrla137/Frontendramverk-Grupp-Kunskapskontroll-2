@@ -7,6 +7,8 @@ const Quiz = () => {
   const { planetId } = useParams();
   const {
     planet,
+    loading,
+    error,
     currentQuestion,
     selectedAnswer,
     answered,
@@ -22,10 +24,24 @@ const Quiz = () => {
     resetQuiz,
   } = useQuiz(planetId);
 
-  if (!planet) {
+  if (loading) {
     return (
       <div className={styles.quizContainer}>
         <LoadingSpinner message="Loading quiz..." />
+      </div>
+    );
+  }
+
+  if (error || !planet) {
+    return (
+      <div className={styles.quizContainer}>
+        <Link to="/explore" className={styles.backLink}>
+          Back to Solar System
+        </Link>
+        <div className="card" style={{ textAlign: "center", padding: "3rem" }}>
+          <h2>Could not load quiz</h2>
+          <p>{error || "Planet not found."}</p>
+        </div>
       </div>
     );
   }

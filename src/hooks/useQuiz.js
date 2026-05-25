@@ -1,9 +1,9 @@
-import { useReducer, useEffect } from "react";
-import { getPlanetById } from "../services/planetData";
+import { useReducer } from "react";
 import { getQuizQuestions } from "../services/quizData";
+import usePlanet from "./usePlanet";
+import { useExploration } from "../context/ExplorationContext";
 
 const initialState = {
-  planet: null,
   currentQuestion: 0,
   selectedAnswer: null,
   answered: false,
@@ -13,9 +13,6 @@ const initialState = {
 
 const quizReducer = (state, action) => {
   switch (action.type) {
-    case "SET_PLANET":
-      return { ...state, planet: action.payload };
-
     case "SELECT_ANSWER":
       if (state.answered) return state;
       return { ...state, selectedAnswer: action.payload };
@@ -39,7 +36,7 @@ const quizReducer = (state, action) => {
       return { ...state, showResults: true };
 
     case "RESET_QUIZ":
-      return { ...initialState, planet: state.planet };
+      return { ...initialState };
 
     default:
       return state;
@@ -47,6 +44,8 @@ const quizReducer = (state, action) => {
 };
 
 const useQuiz = (planetId) => {
+  const { planet, loading, error } = usePlanet(planetId);
+  const { saveQuizScore } = useExploration();
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const questions = getQuizQuestions(planetId);
   const question = questions ? questions[state.currentQuestion] : null;
@@ -56,12 +55,6 @@ const useQuiz = (planetId) => {
   const isCorrect = question
     ? state.selectedAnswer === question.correct
     : false;
-
-  useEffect(() => {
-    getPlanetById(planetId).then((p) =>
-      dispatch({ type: "SET_PLANET", payload: p })
-    );
-  }, [planetId]);
 
   const selectAnswer = (index) => {
     dispatch({ type: "SELECT_ANSWER", payload: index });
@@ -73,6 +66,7 @@ const useQuiz = (planetId) => {
 
   const nextQuestion = () => {
     if (isLastQuestion) {
+      saveQuizScore(planetId, state.score, questions.length);
       dispatch({ type: "SHOW_RESULTS" });
     } else {
       dispatch({ type: "NEXT_QUESTION" });
@@ -85,6 +79,9 @@ const useQuiz = (planetId) => {
 
   return {
     ...state,
+    planet,
+    loading,
+    error,
     questions,
     question,
     isLastQuestion,

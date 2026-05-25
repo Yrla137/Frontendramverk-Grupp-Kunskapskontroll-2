@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import useSearch from "./hooks/useSearch";
 import { PointsProvider } from "./context/PointsContext";
+import { ExplorationProvider } from "./context/ExplorationContext";
 
 import HomePage from "./pages/homepage/HomePage";
 import Profile from "./pages/profile/Profile";
@@ -93,15 +94,17 @@ const App = () => {
 
 
         <main className={styles.mainContent}>
-          <Routes>
-            <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
-            <Route path="/explore" element={<Exploration />} />
-            <Route path="/explore/leaderboard" element={<Leaderboard />} />
-            <Route path="/explore/:planetId" element={<PlanetDetail />} />
-            <Route path="/explore/:planetId/quiz" element={<Quiz />} />
-            <Route path="/quests" element={<DailyQuests isLoggedIn={isLoggedIn} />} />
-            <Route path="/profile/:id" element={<Profile />} />
-          </Routes>
+          <ExplorationProvider>
+            <Routes>
+              <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
+              <Route path="/explore" element={<Exploration />} />
+              <Route path="/explore/leaderboard" element={<Leaderboard />} />
+              <Route path="/explore/:planetId" element={<PlanetDetail />} />
+              <Route path="/explore/:planetId/quiz" element={<Quiz />} />
+              <Route path="/quests" element={<DailyQuests isLoggedIn={isLoggedIn} />} />
+              <Route path="/profile/:id" element={<Profile />} />
+            </Routes>
+          </ExplorationProvider>
         </main>
 
       </div>

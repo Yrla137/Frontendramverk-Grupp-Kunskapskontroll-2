@@ -1,37 +1,46 @@
-/* App.module.css */
-
 .appContainer {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  /* navbar (topp) */
-  .navbar {
-    background-color: var(--surface-dark-matter);
-    border-bottom: var(--border-subtle);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  
-  .mainContent {
-    flex: 1;
-    padding: 2rem;
-    width: 100%;
-    max-width: 1200px; /* centrera content på TV-skärmar */
-    margin: 0 auto;
-  }
-  
-  /* enkel footer */
-  .footer {
-    text-align: center;
-    padding: 1.5rem;
-    color: var(--text-nebula-gray);
-    border-top: var(--border-subtle);
-    font-size: 0.9rem;
-  }
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* navbar (topp) */
+.navbar {
+  background-color: var(--surface-dark-matter);
+  border-bottom: var(--border-subtle);
+
+  padding: 1rem 2rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* MAIN CONTENT - FIX: ta bort layout-begränsning */
+.mainContent {
+  flex: 1;
+
+  width: 100%;
+
+  /* Viktigt: ingen max-width här längre */
+  max-width: none;
+
+  /* Viktigt: ingen centrering som bryter hero */
+  margin: 0;
+
+  /* ingen global padding som förstör fullscreen sections */
+  padding: 0;
+}
+
+/* footer kan vara kvar */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-nebula-gray);
+  border-top: var(--border-subtle);
+  font-size: 0.9rem;
+}

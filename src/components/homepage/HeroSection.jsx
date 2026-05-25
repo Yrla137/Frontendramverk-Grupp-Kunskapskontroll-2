@@ -59,21 +59,24 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
         <HeroVideo />
       </div>
 
+    <div className="hero-content">
       {isLoggedIn ? (
         <div className="hero-member-content">
           <button
           className="browse-button"
           onClick={() => navigate('/exploration')}>Browse our space</button>
-          <p>{randomText}</p>
+        <p className="hero-text">{randomText}</p>
         </div>
       ) : (
         <div className="hero-guest-content">
           <button
           className="join-button"
           onClick={() => navigate('/login')}>Join us in outer space</button>
-          <p>{randomText}</p>
+        <p className="hero-text">{randomText}</p>
         </div>
       )}
+    </div>
+
     </section>
   )
 }

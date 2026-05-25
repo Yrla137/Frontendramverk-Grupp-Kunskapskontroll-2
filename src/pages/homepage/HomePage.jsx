@@ -34,24 +34,22 @@ const HomePage = ({ isLoggedIn }) => {
 }, []);
 
 
-  return (
+return (
+  <div className="homepage">
 
-    <div>
+    <section className="hero-section-container">
+      <HeroSection isLoggedIn={isLoggedIn} />
+    </section>
 
-      <div className="hero-section-container">
-        <HeroSection
-        isLoggedIn={isLoggedIn}/>
-      </div>
+    <section className="extra-section-wrapper">
+      <ExtraSection
+        isLoggedIn={isLoggedIn}
+        popularTopics={popularTopics}
+      />
+    </section>
 
-      <div>
-        <ExtraSection
-          isLoggedIn={isLoggedIn}
-          popularTopics={popularTopics}
-        />
-      </div>
-
-    </div>
-  );
+  </div>
+);
 };
 
 export default HomePage;

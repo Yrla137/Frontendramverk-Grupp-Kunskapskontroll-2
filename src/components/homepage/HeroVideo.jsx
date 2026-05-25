@@ -12,7 +12,7 @@ const HeroVideo = () => {
         playsInline
         preload="auto"
       >
-        <source src={heroVideo} type="video/webm" />
+        <source src={heroVideo} type="video/mp4" />
       </video>
     </div>
   );

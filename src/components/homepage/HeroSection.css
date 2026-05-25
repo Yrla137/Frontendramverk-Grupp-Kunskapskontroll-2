@@ -90,8 +90,6 @@
   background: rgba(36, 19, 63, 0.75);
   transition: background 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
 
-  opacity: 0.9;
-
   opacity: 1;
 
   box-shadow:

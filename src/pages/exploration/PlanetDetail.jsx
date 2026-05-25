@@ -1,21 +1,37 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getPlanetById } from "../../services/planetData";
+import usePlanet from "../../hooks/usePlanet";
+import { useExploration } from "../../context/ExplorationContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import styles from "./PlanetDetail.module.css";
 
 const PlanetDetail = () => {
   const { planetId } = useParams();
-  const [planet, setPlanet] = useState(null);
+  const { planet, loading, error } = usePlanet(planetId);
+  const { markVisited, quizScores } = useExploration();
 
   useEffect(() => {
-    getPlanetById(planetId).then(setPlanet);
-  }, [planetId]);
+    if (planet) markVisited(planetId);
+  }, [planet, planetId, markVisited]);
 
-  if (!planet) {
+  if (loading) {
     return (
       <div className={styles.detailContainer}>
         <LoadingSpinner message="Loading planet..." />
+      </div>
+    );
+  }
+
+  if (error || !planet) {
+    return (
+      <div className={styles.detailContainer}>
+        <Link to="/explore" className={styles.backLink}>
+          Back to Solar System
+        </Link>
+        <div className="card" style={{ textAlign: "center", padding: "3rem" }}>
+          <h2>Planet not found</h2>
+          <p>{error || "Could not find the requested planet."}</p>
+        </div>
       </div>
     );
   }
@@ -72,7 +88,7 @@ const PlanetDetail = () => {
 
       <section className={styles.quizSection}>
         <Link to={`/explore/${planet.id}/quiz`} className={styles.quizLink}>
-          {planet.quizCompleted ? "Retake Quiz" : "Start Quiz"}
+          {quizScores[planetId] ? "Retake Quiz" : "Start Quiz"}
         </Link>
       </section>
     </div>

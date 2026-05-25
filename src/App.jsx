@@ -11,6 +11,7 @@ import Quiz from "./pages/exploration/Quiz";
 import Leaderboard from "./pages/exploration/Leaderboard";
 // import Quests from "./pages/quests/Quests";
 
+import { ExplorationProvider } from "./context/ExplorationContext";
 import NavBar from "./components/homepage/NavBar";
 import SearchBar from "./components/search/SearchBar";
 import SearchResults from "./components/search/SearchResults";
@@ -91,15 +92,17 @@ const App = () => {
 
 
       <main className={styles.mainContent}>
-        <Routes>
-          <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
-          <Route path="/explore" element={<Exploration />} />
-          <Route path="/explore/leaderboard" element={<Leaderboard />} />
-          <Route path="/explore/:planetId" element={<PlanetDetail />} />
-          <Route path="/explore/:planetId/quiz" element={<Quiz />} />
-          {/* <Route path="/quests" element={<Quests />} /> */}
-          <Route path="/profile/:id" element={<Profile />} />
-        </Routes>
+        <ExplorationProvider>
+          <Routes>
+            <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
+            <Route path="/explore" element={<Exploration />} />
+            <Route path="/explore/leaderboard" element={<Leaderboard />} />
+            <Route path="/explore/:planetId" element={<PlanetDetail />} />
+            <Route path="/explore/:planetId/quiz" element={<Quiz />} />
+            {/* <Route path="/quests" element={<Quests />} /> */}
+            <Route path="/profile/:id" element={<Profile />} />
+          </Routes>
+        </ExplorationProvider>
       </main>
 
     </div>

@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
+import { useExploration } from "../../context/ExplorationContext";
 import styles from "./PlanetCard.module.css";
 
 const PlanetCard = ({ planet }) => {
+  const { visitedPlanets } = useExploration();
+  const isExplored = visitedPlanets.includes(planet.id);
+
   return (
     <Link
       to={`/explore/${planet.id}`}
-      className={`${styles.planetCard} ${planet.explored ? styles.explored : ""} card`}
+      className={`${styles.planetCard} ${isExplored ? styles.explored : ""} card`}
     >
       <div
         className={styles.planetOrb}
@@ -17,7 +21,7 @@ const PlanetCard = ({ planet }) => {
       <h3 className={styles.planetName}>{planet.name}</h3>
       <span className={styles.planetType}>{planet.type}</span>
       <p className={styles.planetTagline}>{planet.tagline}</p>
-      {planet.explored && (
+      {isExplored && (
         <span className={styles.exploredBadge}>Explored</span>
       )}
     </Link>

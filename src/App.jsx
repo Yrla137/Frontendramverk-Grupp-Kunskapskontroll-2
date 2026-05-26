@@ -1,5 +1,6 @@
 import styles from "./App.module.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation} from "react-router-dom";
+import { useEffect } from "react";
 
 import { PointsProvider } from "./context/PointsContext";
 import { ExplorationProvider } from "./context/ExplorationContext";
@@ -19,6 +20,7 @@ import SearchResults from "./components/search/SearchResults";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+
 // SEARCH HOOKS
 import { useSearchResults } from "./hooks/search/useSearchResults";
 import { useSearchHistory } from "./hooks/search/useSearchHistory";
@@ -30,12 +32,20 @@ const AppContent = () => {
   // HISTORY (backend)
   const history = useSearchHistory(isLoggedIn, currentUser);
 
+  // Clear search on route change
+  const location = useLocation();
+
   // SEARCH (backend + history integration)
   const search = useSearchResults(
     history.addSearchToHistory,
     isLoggedIn,
     currentUser
   );
+
+  // Clear search results when navigating to a new page
+    useEffect(() => {
+    search.clearSearch();
+  }, [location.pathname]);
 
   return (
     <PointsProvider>
@@ -55,7 +65,6 @@ const AppContent = () => {
             searchTerm={search.searchTerm}
             setSearchTerm={search.setSearchTerm}
             isLoggedIn={isLoggedIn}
-            onSearch={search.onSearch}
             onRetry={search.onRetry}
             searchHistory={history.searchHistory}
             deleteSearchHistoryItem={history.deleteSearchHistoryItem}
@@ -75,6 +84,7 @@ const AppContent = () => {
             errorSearch={search.errorSearch}
             onRetry={search.onRetry}
             isLoggedIn={isLoggedIn}
+            clearSearch={search.clearSearch}
           />
         </div>
 

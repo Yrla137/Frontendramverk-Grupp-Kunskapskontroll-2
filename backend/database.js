@@ -56,14 +56,16 @@ db.serialize(() => {
 
   // 6. Search_History
   db.run(`CREATE TABLE IF NOT EXISTS search_history (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id INTEGER NOT NULL,
-  search_term TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    search_term TEXT NOT NULL COLLATE NOCASE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-  FOREIGN KEY (user_id)
-  REFERENCES users(id)
-)`);
+    UNIQUE(user_id, search_term),
+
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+  )`);
   
   console.log('✅ Tables created or already exist.');
 });

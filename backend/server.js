@@ -77,7 +77,6 @@ app.get('/api/popular-topics', (req, res) => {
 
 
 // SEARCH HISTORY ROUTES //
-
 // Get search history for a user
 app.get('/api/search-history/:userId', (req, res) => {
 
@@ -114,7 +113,7 @@ app.post('/api/search-history', (req, res) => {
 
   db.run(
     `
-    INSERT INTO search_history
+    INSERT OR IGNORE INTO search_history
     (
       user_id,
       search_term
@@ -132,7 +131,8 @@ app.post('/api/search-history', (req, res) => {
       }
 
       res.json({
-        id: this.lastID
+        id: this.lastID,
+        success: true
       });
     }
   );

@@ -57,6 +57,14 @@ export const useSearchResults = (addSearchToHistory, isLoggedIn, currentUser) =>
     if (submittedSearchTerm) onSearch(submittedSearchTerm);
   };
 
+  const clearSearch = () => {
+  setSearchTerm("");
+  setSubmittedSearchTerm("");
+  setFilteredData([]);
+  setHasSearched(false);
+  setErrorSearch(null);
+  };
+
   return {
     searchTerm,
     setSearchTerm,
@@ -66,5 +74,6 @@ export const useSearchResults = (addSearchToHistory, isLoggedIn, currentUser) =>
     errorSearch,
     onSearch,
     onRetry,
+    clearSearch
   };
 };

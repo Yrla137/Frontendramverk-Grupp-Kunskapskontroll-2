@@ -6,7 +6,6 @@ const SearchBar = ({
   searchTerm,
   setSearchTerm,
   isLoggedIn,
-  onSearch,
   onRetry,
   searchHistory,
   deleteSearchHistoryItem,
@@ -20,12 +19,12 @@ const SearchBar = ({
   const inputRef = useRef(null);
   const containerRef = useRef(null);
 
-  // focus input on mount
+  // Focus input on mount
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  // close dropdown when clicking outside
+  // Closes dropdown when clicking outside
   useEffect(() => {
     const handleClick = (e) => {
       if (
@@ -45,14 +44,13 @@ const SearchBar = ({
   return (
     <div ref={containerRef} className="searchbar-dropdown-container">
 
-      <form
-        className="searchbar-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSearch(searchTerm);
-          setDropdownOpen(false);
-        }}
-      >
+        <form
+          className="searchbar-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setDropdownOpen(false);
+          }}
+        >
         <input
           className="searchbar-input"
           ref={inputRef}

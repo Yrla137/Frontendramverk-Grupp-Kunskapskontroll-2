@@ -9,6 +9,7 @@ const SearchResults = ({
   loadingSearch,
   onRetry,
   isLoggedIn,
+  clearSearch
 }) => {
   const navigate = useNavigate();
 
@@ -17,6 +18,7 @@ const SearchResults = ({
 
   if (isLoggedIn) {
     navigate(resultRoute);
+    clearSearch?.(); // Clears search results when navigating to a result
   } else {
     navigate("/profile", {
       state: {

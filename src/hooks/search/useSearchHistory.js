@@ -38,33 +38,33 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
     loadHistory();
   }, [isLoggedIn, currentUser?.id]);
 
-  // SAVE NEW SEARCH
+  // ADD TO HISTORY
   const addSearchToHistory = async (userId, searchTerm) => {
   try {
-    const normalized = searchTerm.trim().toLowerCase();
-
-    // CHECK DUPLICATE (case-insensitive)
-    const exists = searchHistory.some(
-      (item) =>
-        item.historyItem.toLowerCase() === normalized
+    const saved = await saveSearchHistoryApi(
+      userId,
+      searchTerm
     );
 
-    if (exists) return;
-
-    // SAVE TO BACKEND
-    const saved = await saveSearchHistoryApi(userId, searchTerm);
-
-   // UPDATE LOCAL STATE (prepend, max 10 items)
     setSearchHistory((prev) => {
-  const updated = [
-    {
-      id: saved?.id || crypto.randomUUID(),
-      historyItem: searchTerm,
-    },
-    ...prev,
-  ];
-  return updated.slice(0, 10);
-});
+      const filtered = prev.filter(
+        (item) =>
+          item.historyItem.toLowerCase() !==
+          searchTerm.toLowerCase()
+      );
+
+    // UPDATE HISTORY WITH NEWEST SEARCH FIRST, KEEPING MAX 10 ITEMS
+      const updated = [
+        {
+          id: saved?.id || crypto.randomUUID(),
+          historyItem: searchTerm,
+        },
+        ...filtered,
+      ];
+
+      return updated.slice(0, 10);
+    });
+
   } catch (err) {
     console.error("Failed to save history:", err);
   }

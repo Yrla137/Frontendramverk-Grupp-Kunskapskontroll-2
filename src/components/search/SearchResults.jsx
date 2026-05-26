@@ -48,10 +48,11 @@ const SearchResults = ({
   }
 
   return (
-    <section>
+    <section className="search-results-container">
       {filteredData.map((result) => (
         <div
           key={result.id}
+          className="search-result-item"
           role="button"
           tabIndex={0}
           onClick={() => handleResultClick(result)}

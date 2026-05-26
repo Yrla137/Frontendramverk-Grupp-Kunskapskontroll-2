@@ -6,6 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import "./ExtraSection.css";
+
 const ExtraSection = ({
   isLoggedIn,
   popularTopics,
@@ -18,16 +20,32 @@ const ExtraSection = ({
     navigate(`/explore/${slug}`);
   };
 
-  if (loadingTopics) return <p>Loading topics...</p>;
-  if (errorTopics) return <p>Error: {errorTopics}</p>;
+  if (loadingTopics) {
+    return (
+      <div className="extra-section">
+        <p>Loading topics...</p>
+      </div>
+    );
+  }
+
+  if (errorTopics) {
+    return (
+      <div className="extra-section">
+        <p>Error: {errorTopics}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="extra-section">
-      {isLoggedIn ? (
+    <section className="extra-section">
+
+      {isLoggedIn && (
         <div className="extra-logged-in">
-          <h2>Why join us?</h2>
+
+          <h2 className="extra-title">Why join us?</h2>
 
           <div className="features-grid">
+
             <article className="feature-card">
               <FontAwesomeIcon className="extra-icon laptop-icon" icon={faLaptop} />
               <p>Access exclusive space content.</p>
@@ -42,28 +60,39 @@ const ExtraSection = ({
               <FontAwesomeIcon className="extra-icon astronaut-icon" icon={faUserAstronaut} />
               <p>Be part of space exploration learning.</p>
             </article>
+
           </div>
         </div>
-      ) : (
+      )}
+
+      {!isLoggedIn && (
         <div className="extra-guest">
-          <h2>Popular topics</h2>
+
+          <h2 className="extra-title">Popular topics</h2>
 
           <div className="topics-grid">
+
             {popularTopics.map((topic) => (
               <article
                 key={topic.id}
                 className="topic-card"
                 onClick={() => handleTopicClick(topic.slug)}
               >
-                <img className="topic-image" src="N/A" alt={topic.title} />
+                <img
+                  className="topic-image"
+                  src="N/A"
+                  alt={topic.title}
+                />
                 <h3>{topic.title}</h3>
                 <p>{topic.description}</p>
               </article>
             ))}
+
           </div>
         </div>
       )}
-    </div>
+
+    </section>
   );
 };
 

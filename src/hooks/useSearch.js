@@ -14,13 +14,13 @@ const useSearch = () => {
   // AUTH
   const { currentUser, isLoggedIn } = useAuth();
 
-  // SEARCH STATES
+  // SEARCH STATE
   const [searchTerm, setSearchTerm] = useState("");
   const [submittedSearchTerm, setSubmittedSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
 
-  // SEARCH HISTORY
+  // HISTORY STATE
   const [searchHistory, setSearchHistory] = useState([]);
 
   // LOADING / ERROR
@@ -28,7 +28,8 @@ const useSearch = () => {
   const [errorSearch, setErrorSearch] = useState(null);
 
 
-  // LOAD SEARCH HISTORY
+
+  // LOAD HISTORY (BACKEND)
   useEffect(() => {
     const loadHistory = async () => {
       if (!isLoggedIn || !currentUser?.id) return;
@@ -38,19 +39,20 @@ const useSearch = () => {
         setSearchHistory(
           data.map((item) => ({
             id: item.id,
-            historyItem: item.searchTerm,
+            historyItem: item.search_term,
           }))
         );
+
       } catch (err) {
         console.error("Failed to load history:", err);
       }
     };
 
     loadHistory();
-  }, [isLoggedIn, currentUser]);
+  }, [isLoggedIn, currentUser?.id]);
 
 
-  // SEARCH FUNCTION
+  // SEARCH (BACKEND CONTROLLED)
   const onSearch = async (term) => {
     const cleanedTerm = term.trim();
 
@@ -64,29 +66,31 @@ const useSearch = () => {
     setErrorSearch(null);
 
     try {
-      // SEARCH RESULTS
-      const fetchSearchData = await getData(cleanedTerm);
-      setFilteredData(fetchSearchData);
+      // backend: /api/search?query=
+      const data = await getData(cleanedTerm);
 
+      setFilteredData(data);
       setSubmittedSearchTerm(cleanedTerm);
       setHasSearched(true);
 
-      // SAVE SEARCH HISTORY
+  
+      // SAVE HISTORY (BACKEND)
       if (isLoggedIn && currentUser?.id) {
         const saved = await saveSearchHistoryApi(
           currentUser.id,
           cleanedTerm
         );
 
-        // ADDS NEW SEARCH TO TOP OF HISTORY IN FRONTEND (OPTIMISTIC UPDATE)
+        // backend return: { id: this.lastID }
         setSearchHistory((prev) => [
           {
-            id: saved.id || crypto.randomUUID(),
+            id: saved.id,
             historyItem: cleanedTerm,
           },
           ...prev,
         ]);
       }
+
     } catch (error) {
       setErrorSearch(error.message);
     } finally {
@@ -94,24 +98,28 @@ const useSearch = () => {
     }
   };
 
-  // DEBOUNCE SEARCH
+
+  // DEBOUNCE INPUT
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (searchTerm) onSearch(searchTerm);
+      if (searchTerm.trim().length >= 3) {
+        onSearch(searchTerm);
+      }
     }, 400);
 
     return () => clearTimeout(timeout);
   }, [searchTerm]);
 
 
-  // FILL INPUT FROM HISTORY
+
+  // FILL FROM HISTORY
   const fillSearchBarInput = (historyItem) => {
     setSearchTerm(historyItem);
     onSearch(historyItem);
   };
 
 
-  // DELETE SINGLE HISTORY ITEM (FIX: ID BASED, NOT TERM BASED)
+  // DELETE ONE ITEM (ID BASED)
   const deleteSearchHistoryItem = async (id) => {
     try {
       await deleteSearchHistoryItemApi(id);
@@ -119,12 +127,14 @@ const useSearch = () => {
       setSearchHistory((prev) =>
         prev.filter((item) => item.id !== id)
       );
+
     } catch (error) {
       console.error("Error deleting item:", error);
     }
   };
 
-  // DELETE ALL HISTORY FOR USER
+
+  // DELETE ALL USER HISTORY
   const deleteAllSearchHistory = async () => {
     try {
       await deleteAllSearchHistoryApi(currentUser.id);
@@ -135,10 +145,14 @@ const useSearch = () => {
   };
 
 
-  // RETRY
+
+  // RETRY LAST SEARCH
   const onRetry = () => {
-    onSearch(submittedSearchTerm);
+    if (submittedSearchTerm) {
+      onSearch(submittedSearchTerm);
+    }
   };
+
 
   return {
     searchTerm,

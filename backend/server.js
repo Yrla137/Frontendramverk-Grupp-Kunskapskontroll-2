@@ -21,53 +21,6 @@ app.use(cors()); // let localhost find us
 app.use(express.json()); // give us the JSON data
 
 
-// Julias MOCKDATA //
-//---------------------------------------------------------------------//
-
-// Temporary mock API imports
-let spaceApiModulePromise;
-
-function loadSpaceApi() {
-  if (!spaceApiModulePromise) {
-    spaceApiModulePromise = import("../src/MOCKDATA(Julia)/spaceApi.js");
-  }
-
-  return spaceApiModulePromise;
-}
-
-
-// Temporary mockdata routes.
-// These endpoints are structured like real backend routes
-// so frontend components/hooks will not need major changes
-// when connected to the final database/API solution.
-
-// Get all searchable data
-app.get("/api/search", async (req, res) => {
-  try {
-    const { getAllSpaceData } = await loadSpaceApi();
-    const data = getAllSpaceData();
-
-    res.json(data);
-  } catch (error) {
-    console.error("could not load mockdata for /api/search:", error.message);
-    res.status(500).json({ error: "failed to fetch data" });
-  }
-});
-
-// Get homepage popular topics
-app.get("/api/popular-topics", async (req, res) => {
-  try {
-    const { getPopularTopics } = await loadSpaceApi();
-    const topics = getPopularTopics();
-
-    res.json(topics);
-  } catch (error) {
-    console.error("Kunde inte ladda mockdata för /api/popular-topics:", error.message);
-    res.status(500).json({ error: "Kunde inte hämta populära ämnen" });
-  }
-});
-
-
 // --- ROUTES ---
 app.get('/api/status', (req, res) => {
   res.json({ message: 'Rymd-servern är online! 🚀' });
@@ -103,10 +56,10 @@ app.get('/api/users', (req, res) => {
 
 // SEARCH ROUTE - This is a simple example and can be expanded with more complex search logic and database queries.
 app.get('/api/search', (req, res) => {
-  const query = req.query.q?.toLowerCase() || '';
-
+  const query = req.query.query?.toLowerCase() || '';
   const results = planets.filter((planet) =>
-    planet.name.toLowerCase().includes(query)
+  planet.name.toLowerCase().includes(query) ||
+  planet.description.toLowerCase().includes(query)
   );
 
   res.json(results);

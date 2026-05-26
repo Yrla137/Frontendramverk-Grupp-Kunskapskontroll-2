@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-// Skapar en databasfil i projektet (eller öppnar den om den finns)
+// Creates a database file in the project (or opens it if it exists)
 const db = new sqlite3.Database('./database.sqlite', (err) => {
   if (err) {
     console.error('Kunde inte ansluta till databasen:', err.message);
@@ -9,7 +9,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
   }
 });
 
-// Skapa våra 3NF-tabeller
+// Creats our 3NF tables
 db.serialize(() => {
   // 1. Users
   db.run(`CREATE TABLE IF NOT EXISTS users (
@@ -65,7 +65,7 @@ db.serialize(() => {
   REFERENCES users(id)
 )`);
   
-  console.log('✅ Tabeller skapade (eller fanns redan).');
+  console.log('✅ Tables created or already exist.');
 });
 
 module.exports = db;

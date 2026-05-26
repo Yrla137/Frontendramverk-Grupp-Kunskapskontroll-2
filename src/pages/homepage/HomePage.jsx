@@ -2,7 +2,7 @@ import HeroSection from "../../components/homepage/HeroSection";
 import ExtraSection from "../../components/homepage/ExtraSection";
 
 import { useEffect, useState } from "react";
-import { getPopularTopics } from "../../api/index";
+import { getPopularTopics } from "../../api/index.js";
 
 import "../../index.css";
 

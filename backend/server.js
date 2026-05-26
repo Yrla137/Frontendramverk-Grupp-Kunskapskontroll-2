@@ -57,10 +57,14 @@ app.get('/api/users', (req, res) => {
 // SEARCH ROUTE - This is a simple example and can be expanded with more complex search logic and database queries.
 app.get('/api/search', (req, res) => {
   const query = req.query.query?.toLowerCase() || '';
-  const results = planets.filter((planet) =>
-  planet.name.toLowerCase().includes(query) ||
-  planet.description.toLowerCase().includes(query)
-  );
+
+  const results = planets.filter((planet) => {
+    return (
+      planet.name?.toLowerCase().includes(query) ||
+      planet.title?.toLowerCase().includes(query) ||
+      planet.description?.toLowerCase().includes(query)
+    );
+  });
 
   res.json(results);
 });

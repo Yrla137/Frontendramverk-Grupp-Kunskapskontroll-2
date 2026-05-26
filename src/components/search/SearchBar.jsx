@@ -38,6 +38,8 @@ const SearchBar = ({
     return () => document.removeEventListener("click", handleClick);
   }, []);
 
+  const canOpenDropdown = isLoggedIn && searchHistory.length > 0;
+
   return (
     <div ref={outsideClickRef} className="searchbar-dropdown-container">
 
@@ -54,7 +56,11 @@ const SearchBar = ({
           ref={inputRef}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onFocus={() => setDropdownOpen(true)}
+          onFocus={() => {
+            if (canOpenDropdown) {
+              setDropdownOpen(true);
+            }
+          }}
           placeholder="Type your search here..."
         />
       </form>

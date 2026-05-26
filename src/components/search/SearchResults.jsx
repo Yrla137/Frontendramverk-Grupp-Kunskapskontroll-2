@@ -61,8 +61,8 @@ const SearchResults = ({
             }
           }}
         >
-          <h2>{getSafeValue(result.title)}</h2>
-          <p>{getSafeValue(result.category)}</p>
+          <h2>{getSafeValue(result.name)}</h2>
+          <p>{getSafeValue(result.type)}</p>
           <p>{getSafeValue(result.description)}</p>
         </div>
       ))}

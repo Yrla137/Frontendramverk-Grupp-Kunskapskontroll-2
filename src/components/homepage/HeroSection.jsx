@@ -10,11 +10,11 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
 
   const textLoggedIn = () => {
     const userText = [
-      `Welcome back, ${currentUser?.name || "space explorer"}!`,
-      `We missed you ${currentUser?.name || "space explorer"}... Ready to continue?`,
+      `Welcome back, ${currentUser?.username || "space explorer"}!`,
+      `We missed you ${currentUser?.username || "space explorer"}... Ready to continue?`,
       `Continue your journey through the cosmos.`,
       `The universe is waiting for you.`,
-      `Keep reaching for the stars ${currentUser?.name || "space explorer"}!`
+      `Keep reaching for the stars ${currentUser?.username || "space explorer"}!`
     ];
     return userText[Math.floor(Math.random() * userText.length)];
   };

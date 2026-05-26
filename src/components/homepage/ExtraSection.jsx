@@ -51,7 +51,6 @@ const ExtraSection = ({
                 tabIndex={0}
                 key={topic.id}
                 className="topic-card"
-                    // onClick={() => handleTopicClick(topic.slug)}
                 >
                 <img
                   className="topic-image"

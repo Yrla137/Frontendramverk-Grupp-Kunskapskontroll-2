@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import SearchHistory from "./SearchHistory";
-
 import "./Search.css";
 
 const SearchBar = ({
@@ -8,95 +7,93 @@ const SearchBar = ({
   setSearchTerm,
   isLoggedIn,
   onSearch,
-
   onRetry,
   searchHistory,
   deleteSearchHistoryItem,
   deleteAllSearchHistory,
   fillSearchBarInput,
-  errorHistory,
-  loadingHistory
+  errorSearch,
+  loadingSearch
 }) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const inputRef = useRef(null);
+  const containerRef = useRef(null);
 
-  const outsideClickRef = useRef(null);
-
+  // focus input on mount
   useEffect(() => {
-    inputRef.current?.focus()
+    inputRef.current?.focus();
   }, []);
 
-  useEffect (() => {
+  // close dropdown when clicking outside
+  useEffect(() => {
     const handleClick = (e) => {
-      if(outsideClickRef.current && !outsideClickRef.current.contains(e.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target)
+      ) {
         setDropdownOpen(false);
       }
     };
 
-    document.addEventListener('click', handleClick);
-
-    return () => {
-    document.removeEventListener('click', handleClick);
-    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
- 
-
+  const canShowDropdown = isLoggedIn && searchHistory.length > 0;
 
   return (
-    <div>
+    <div ref={containerRef} className="searchbar-dropdown-container">
 
-      <div
-      className="searchbar-dropdown-container"
-      ref={outsideClickRef}>
-
-        <form
+      <form
         className="searchbar-form"
-        onSubmit={(e) =>{
-        e.preventDefault();
-        onSearch(searchTerm);
-        setDropdownOpen(false);
-        }}>
-          <input
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSearch(searchTerm);
+          setDropdownOpen(false);
+        }}
+      >
+        <input
           className="searchbar-input"
-            ref={inputRef}
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => setDropdownOpen(true)}
-            placeholder="Type your search here..."
-              />
-        </form>
+          ref={inputRef}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onFocus={() => {
+            if (canShowDropdown) {
+              setDropdownOpen(true);
+            }
+          }}
+          placeholder="Type your search here..."
+        />
+      </form>
 
-        {isLoggedIn && dropdownOpen && (
-          <div className="searchbar-dropdown">
-            <SearchHistory
+      {dropdownOpen && canShowDropdown && (
+        <div className="searchbar-dropdown">
+
+          <SearchHistory
             onRetry={onRetry}
             searchHistory={searchHistory}
             deleteSearchHistoryItem={deleteSearchHistoryItem}
             deleteAllSearchHistory={deleteAllSearchHistory}
             fillSearchBarInput={fillSearchBarInput}
-            errorHistory={errorHistory}
-            loadingHistory={loadingHistory}
-            />
-            <button
-            className="searchbar-dropdown-close-btn"
-            type="button"
-            onClick={() => setDropdownOpen(false)}>
-              Close search history
-            </button>
-          </div>
-        )}
+            errorSearch={errorSearch}
+            loadingSearch={loadingSearch}
+          />
 
-      </div>
+          <button
+            className="searchbar-dropdown-close-btn"
+            onClick={() => setDropdownOpen(false)}
+          >
+            Close search history
+          </button>
+
+        </div>
+      )}
 
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
-
+export default SearchBar;
 
 

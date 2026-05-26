@@ -1,3 +1,5 @@
+import "./ErrorMessage.css";
+
 const ErrorMessage = ({
   error,
   onRetry

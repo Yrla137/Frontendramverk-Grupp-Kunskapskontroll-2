@@ -10,59 +10,15 @@ const PORT = process.env.PORT || 5000;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Imports data from planets.json to populate our planets table on server start if it's empty
+const planets = require('./data/planets.json');
+
 // secret key
 const JWT_SECRET = process.env.JWT_SECRET || 'super_hemlig_rymd_nyckel';
 
 // Middleware
 app.use(cors()); // let localhost find us
 app.use(express.json()); // give us the JSON data
-
-
-// Julias MOCKDATA //
-//---------------------------------------------------------------------//
-
-// Temporary mock API imports
-let spaceApiModulePromise;
-
-function loadSpaceApi() {
-  if (!spaceApiModulePromise) {
-    spaceApiModulePromise = import("../src/MOCKDATA(Julia)/spaceApi.js");
-  }
-
-  return spaceApiModulePromise;
-}
-
-
-// Temporary mockdata routes.
-// These endpoints are structured like real backend routes
-// so frontend components/hooks will not need major changes
-// when connected to the final database/API solution.
-
-// Get all searchable data
-app.get("/api/search", async (req, res) => {
-  try {
-    const { getAllSpaceData } = await loadSpaceApi();
-    const data = getAllSpaceData();
-
-    res.json(data);
-  } catch (error) {
-    console.error("could not load mockdata for /api/search:", error.message);
-    res.status(500).json({ error: "failed to fetch data" });
-  }
-});
-
-// Get homepage popular topics
-app.get("/api/popular-topics", async (req, res) => {
-  try {
-    const { getPopularTopics } = await loadSpaceApi();
-    const topics = getPopularTopics();
-
-    res.json(topics);
-  } catch (error) {
-    console.error("Kunde inte ladda mockdata för /api/popular-topics:", error.message);
-    res.status(500).json({ error: "Kunde inte hämta populära ämnen" });
-  }
-});
 
 
 // --- ROUTES ---
@@ -97,6 +53,143 @@ app.get('/api/users', (req, res) => {
     res.json(rows);
   });
 });
+
+// SEARCH ROUTE - This is a simple example and can be expanded with more complex search logic and database queries.
+app.get('/api/search', (req, res) => {
+  const query = req.query.query?.toLowerCase() || '';
+
+  const results = planets.filter((planet) => {
+    return (
+      planet.name?.toLowerCase().includes(query) ||
+      planet.title?.toLowerCase().includes(query) ||
+      planet.description?.toLowerCase().includes(query)
+    );
+  });
+
+  res.json(results);
+});
+
+// Get homepage popular topics -
+// This is currently returning the first 3 planets from our mockdata, but can be expanded to use real popularity metrics and database queries.
+app.get('/api/popular-topics', (req, res) => {
+  res.json(planets.slice(0, 3));
+});
+
+
+// SEARCH HISTORY ROUTES //
+
+// Get search history for a user
+app.get('/api/search-history/:userId', (req, res) => {
+
+  const userId = req.params.userId;
+
+  db.all(
+    `
+    SELECT *
+    FROM search_history
+    WHERE user_id = ?
+    ORDER BY created_at DESC
+    `,
+    [userId],
+    (err, rows) => {
+
+      if (err) {
+        return res.status(500).json({
+          error: err.message
+        });
+      }
+
+      res.json(rows);
+    }
+  );
+});
+
+// Save a new search term to history
+app.post('/api/search-history', (req, res) => {
+
+  const {
+    userId,
+    searchTerm
+  } = req.body;
+
+  db.run(
+    `
+    INSERT INTO search_history
+    (
+      user_id,
+      search_term
+    )
+    VALUES (?, ?)
+    `,
+    [userId, searchTerm],
+
+    function(err) {
+
+      if (err) {
+        return res.status(500).json({
+          error: err.message
+        });
+      }
+
+      res.json({
+        id: this.lastID
+      });
+    }
+  );
+});
+
+// Delete a specific search history item (based on item id)
+app.delete('/api/search-history/:id', (req, res) => {
+
+  db.run(
+    `
+    DELETE FROM search_history
+    WHERE id = ?
+    `,
+    [req.params.id],
+
+    function(err) {
+
+      if (err) {
+        return res.status(500).json({
+          error: err.message
+        });
+      }
+
+      res.json({
+        success: true
+      });
+    }
+  );
+});
+
+// Delete all search history for a user
+app.delete(
+  '/api/search-history/user/:userId',
+  (req, res) => {
+
+    db.run(
+      `
+      DELETE FROM search_history
+      WHERE user_id = ?
+      `,
+      [req.params.userId],
+
+      function(err) {
+
+        if (err) {
+          return res.status(500).json({
+            error: err.message
+          });
+        }
+
+        res.json({
+          success: true
+        });
+      }
+    );
+  }
+);
 
 // --- PROGRESS & GAMIFICATION ROUTES ---
 

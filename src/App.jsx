@@ -1,6 +1,6 @@
 import styles from "./App.module.css";
 import { Routes, Route } from "react-router-dom";
-import useSearch from "./hooks/useSearch";
+
 import { PointsProvider } from "./context/PointsContext";
 import { ExplorationProvider } from "./context/ExplorationContext";
 
@@ -19,61 +19,61 @@ import SearchResults from "./components/search/SearchResults";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+// SEARCH HOOKS
+import { useSearchResults } from "./hooks/search/useSearchResults";
+import { useSearchHistory } from "./hooks/search/useSearchHistory";
+
 // Inner component to safely consume AuthContext
 const AppContent = () => {
-  const { isLoggedIn } = useAuth();
-  
-  // Search system //
-  const {
-    searchTerm,
-    setSearchTerm,
-    filteredData,
-    hasSearched,
-    searchHistory,
-    loadingSearch,
-    errorSearch,
-    onSearch,
-    onRetry,
-    fillSearchBarInput,
-    deleteSearchHistoryItem,
-    deleteAllSearchHistory
-  } = useSearch();
+  const { isLoggedIn, currentUser } = useAuth();
+
+  // HISTORY (backend)
+  const history = useSearchHistory(isLoggedIn, currentUser);
+
+  // SEARCH (backend + history integration)
+  const search = useSearchResults(
+    history.addSearchToHistory,
+    isLoggedIn,
+    currentUser
+  );
 
   return (
     <PointsProvider>
       <div className={styles.appContainer}>
 
         <header className={styles.header}>
-          <h1>Space-Quiz</h1>
+          <h1>Astro Wave</h1>
         </header>
 
         <div className={styles.navbar}>
           <NavBar isLoggedIn={isLoggedIn} />
         </div>
 
+        {/* SEARCH BAR (GLOBAL) */}
         <div className={styles.searchbar}>
           <SearchBar
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            onSearch={onSearch}
+            searchTerm={search.searchTerm}
+            setSearchTerm={search.setSearchTerm}
             isLoggedIn={isLoggedIn}
-            loadingSearch={loadingSearch}
-            errorSearch={errorSearch}
-            searchHistory={searchHistory}
-            fillSearchBarInput={fillSearchBarInput}
-            deleteSearchHistoryItem={deleteSearchHistoryItem}
-            deleteAllSearchHistory={deleteAllSearchHistory}
-            onRetry={onRetry}
+            onSearch={search.onSearch}
+            onRetry={search.onRetry}
+            searchHistory={history.searchHistory}
+            deleteSearchHistoryItem={history.deleteSearchHistoryItem}
+            deleteAllSearchHistory={history.deleteAllSearchHistory}
+            fillSearchBarInput={history.fillSearchBarInput}
+            errorSearch={search.errorSearch || history.errorHistory}
+            loadingSearch={search.loadingSearch || history.loadingHistory}
           />
         </div>
 
+        {/* SEARCH RESULTS (GLOBAL) */}
         <div className={styles.searchResultsContainer}>
           <SearchResults
-            filteredData={filteredData}
-            hasSearched={hasSearched}
-            loadingSearch={loadingSearch}
-            errorSearch={errorSearch}
-            onRetry={onRetry}
+            filteredData={search.filteredData}
+            hasSearched={search.hasSearched}
+            loadingSearch={search.loadingSearch}
+            errorSearch={search.errorSearch}
+            onRetry={search.onRetry}
             isLoggedIn={isLoggedIn}
           />
         </div>
@@ -81,40 +81,63 @@ const AppContent = () => {
         <main className={styles.mainContent}>
           <ExplorationProvider>
             <Routes>
+
               {/* Public Route */}
-              <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
-              
+              <Route
+                path="/"
+                element={<HomePage isLoggedIn={isLoggedIn} />}
+              />
+
               {/* Protected Exploration Routes */}
-              <Route path="/explore" element={
-                <ProtectedRoute>
-                  <Exploration />
-                </ProtectedRoute>
-              } />
-              <Route path="/explore/leaderboard" element={
-                <ProtectedRoute>
-                  <Leaderboard />
-                </ProtectedRoute>
-              } />
-              <Route path="/explore/:planetId" element={
-                <ProtectedRoute>
-                  <PlanetDetail />
-                </ProtectedRoute>
-              } />
-              <Route path="/explore/:planetId/quiz" element={
-                <ProtectedRoute>
-                  <Quiz />
-                </ProtectedRoute>
-              } />
-              
+              <Route
+                path="/explore"
+                element={
+                  <ProtectedRoute>
+                    <Exploration />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/explore/leaderboard"
+                element={
+                  <ProtectedRoute>
+                    <Leaderboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/explore/:planetId"
+                element={
+                  <ProtectedRoute>
+                    <PlanetDetail />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/explore/:planetId/quiz"
+                element={
+                  <ProtectedRoute>
+                    <Quiz />
+                  </ProtectedRoute>
+                }
+              />
+
               {/* Protected Route for Quests */}
-              <Route path="/quests" element={
-                <ProtectedRoute>
-                  <DailyQuests isLoggedIn={isLoggedIn} />
-                </ProtectedRoute>
-              } />
-              
-              {/* Shows Login if not logged in */}
+              <Route
+                path="/quests"
+                element={
+                  <ProtectedRoute>
+                    <DailyQuests isLoggedIn={isLoggedIn} />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Profile */}
               <Route path="/profile" element={<Profile />} />
+
             </Routes>
           </ExplorationProvider>
         </main>

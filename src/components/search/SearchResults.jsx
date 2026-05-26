@@ -13,21 +13,19 @@ const SearchResults = ({
   const navigate = useNavigate();
 
   const handleResultClick = (result) => {
-    const resultRoute = `/${result.id}`;
-    // Dubblecheck the correct route structure for result details when we have real backend/API integration, and update the route here accordingly.
-    // It may need to be based on result.type or other properties instead of just result.id.
+  const resultRoute = `/explore/${result.id}`;
 
-    if (isLoggedIn) {
-      navigate(resultRoute);
-    } else {
-      navigate("/login", {
-        state: {
-          message: "Please log in to view this content.",
-          intendedRoute: resultRoute,
-        },
-      });
-    }
-  };
+  if (isLoggedIn) {
+    navigate(resultRoute);
+  } else {
+    navigate("/profile", {
+      state: {
+        message: "Please log in to view this content.",
+        intendedRoute: resultRoute,
+      },
+    });
+  }
+};
 
   const getSafeValue = (value) => value ?? "N/A";
 
@@ -63,8 +61,8 @@ const SearchResults = ({
             }
           }}
         >
-          <h2>{getSafeValue(result.title)}</h2>
-          <p>{getSafeValue(result.category)}</p>
+          <h2>{getSafeValue(result.name)}</h2>
+          <p>{getSafeValue(result.type)}</p>
           <p>{getSafeValue(result.description)}</p>
         </div>
       ))}

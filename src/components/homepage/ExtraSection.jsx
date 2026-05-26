@@ -54,9 +54,12 @@ const ExtraSection = ({
                 >
                 <img
                   className="topic-image"
-                  src="N/A"
-                  placeholder="https://via.placeholder.com/300x200?text=No+Image"
+                  src="https://via.placeholder.com/300x200?text=No+Image"
                   alt={topic.title}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "https://via.placeholder.com/300x200?text=No+Image";
+                  }}
                 />
                 <h3>{topic.title}</h3>
                 <p>{topic.description}</p>

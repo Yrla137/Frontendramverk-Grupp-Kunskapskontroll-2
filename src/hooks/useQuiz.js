@@ -2,6 +2,7 @@ import { useReducer, useState, useEffect } from "react";
 import { getQuizQuestions } from "../services/quizData";
 import usePlanet from "./usePlanet";
 import { useExploration } from "../context/ExplorationContext";
+import { useAuth } from "../context/AuthContext";
 
 const initialState = {
   currentQuestion: 0,
@@ -45,7 +46,8 @@ const quizReducer = (state, action) => {
 
 const useQuiz = (planetId) => {
   const { planet, loading: planetLoading, error: planetError } = usePlanet(planetId);
-  const { saveQuizScore } = useExploration();
+  const { saveQuizScore, quizScores } = useExploration();
+  const { currentUser } = useAuth();
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const [questions, setQuestions] = useState(null);
   const [quizLoading, setQuizLoading] = useState(true);
@@ -86,7 +88,23 @@ const useQuiz = (planetId) => {
 
   const nextQuestion = () => {
     if (isLastQuestion) {
+      const previousBest = quizScores[planetId]?.score || 0;
+      const improvement = Math.max(0, state.score - previousBest);
+
       saveQuizScore(planetId, state.score, questions.length);
+
+      if (currentUser && improvement > 0) {
+        fetch("http://localhost:5000/api/progress/quiz", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: currentUser.id,
+            planetId,
+            pointsToAward: improvement * 10,
+          }),
+        }).catch(() => {});
+      }
+
       dispatch({ type: "SHOW_RESULTS" });
     } else {
       dispatch({ type: "NEXT_QUESTION" });

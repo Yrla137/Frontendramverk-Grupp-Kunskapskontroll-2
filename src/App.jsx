@@ -44,7 +44,7 @@ const AppContent = () => {
       <div className={styles.appContainer}>
 
         <header className={styles.header}>
-          <h1>Space-Quiz</h1>
+          <h1>Astro Wave</h1>
         </header>
 
         <div className={styles.navbar}>

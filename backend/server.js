@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 5000;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Imports data from planets.json to populate our planets table on server start if it's empty
+const planets = require('./data/planets.json');
+
 // secret key
 const JWT_SECRET = process.env.JWT_SECRET || 'super_hemlig_rymd_nyckel';
 
@@ -96,6 +99,103 @@ app.get('/api/users', (req, res) => {
     }
     res.json(rows);
   });
+});
+
+// SEARCH ROUTE - This is a simple example and can be expanded with more complex search logic and database queries.
+app.get('/api/search', (req, res) => {
+  const query = req.query.q?.toLowerCase() || '';
+
+  const results = planets.filter((planet) =>
+    planet.name.toLowerCase().includes(query)
+  );
+
+  res.json(results);
+});
+
+// Get homepage popular topics - This is currently returning the first 3 planets from our mockdata, but can be expanded to use real popularity metrics and database queries.
+app.get('/api/popular-topics', (req, res) => {
+  res.json(planets.slice(0, 3));
+});
+
+// SEARCH HISTORY ROUTES //
+// Get search history for a user
+app.get('/api/search-history/:userId', (req, res) => {
+  const { userId } = req.params;
+
+  db.all(
+    `SELECT * FROM search_history
+     WHERE user_id = ?
+     ORDER BY created_at DESC`,
+    [userId],
+    (err, rows) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      res.json(rows);
+    }
+  );
+});
+
+// Save a new search term to history
+app.post('/api/search-history', (req, res) => {
+  const { userId, searchTerm } = req.body;
+
+  db.run(
+    `INSERT INTO search_history
+     (user_id, search_term)
+     VALUES (?, ?)`,
+    [userId, searchTerm],
+    function (err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      res.status(201).json({
+        id: this.lastID
+      });
+    }
+  );
+});
+
+// Delete a specific search history item (based on item id)
+app.delete('/api/search-history/:id', (req, res) => {
+  const { id } = req.params;
+
+  db.run(
+    `DELETE FROM search_history
+     WHERE id = ?`,
+    [id],
+    function (err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      res.json({
+        deleted: this.changes
+      });
+    }
+  );
+});
+
+// Delete all search history for a user
+app.delete('/api/search-history/user/:userId', (req, res) => {
+  const { userId } = req.params;
+
+  db.run(
+    `DELETE FROM search_history
+     WHERE user_id = ?`,
+    [userId],
+    function (err) {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      res.json({
+        deleted: this.changes
+      });
+    }
+  );
 });
 
 // --- PROGRESS & GAMIFICATION ROUTES ---

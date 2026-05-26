@@ -53,6 +53,16 @@ db.serialize(() => {
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quest_id) REFERENCES quests(id)
   )`);
+
+  // 6. Search_History
+  db.run(`CREATE TABLE IF NOT EXISTS search_history (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  search_term TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)`);
   
   console.log('✅ Tabeller skapade (eller fanns redan).');
 });

@@ -13,7 +13,7 @@ const SearchResults = ({
   const navigate = useNavigate();
 
   const handleResultClick = (result) => {
-  const resultRoute = `/${result.id}`;
+  const resultRoute = `/explore/${result.id}`;
 
   if (isLoggedIn) {
     navigate(resultRoute);

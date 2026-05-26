@@ -1,7 +1,6 @@
 const BASE_URL = "http://localhost:5000/api";
 
 // SEARCH
-
 export const getData = async (query) => {
   const res = await fetch(
     `${BASE_URL}/search?query=${encodeURIComponent(query)}`
@@ -16,7 +15,6 @@ export const getData = async (query) => {
 };
 
 // POPULAR TOPICS
-
 export const getPopularTopics = async () => {
   const res = await fetch(`${BASE_URL}/popular-topics`);
 

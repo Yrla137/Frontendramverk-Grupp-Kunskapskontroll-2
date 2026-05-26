@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState, useEffect } from "react";
 import { getQuizQuestions } from "../services/quizData";
 import usePlanet from "./usePlanet";
 import { useExploration } from "../context/ExplorationContext";
@@ -44,10 +44,30 @@ const quizReducer = (state, action) => {
 };
 
 const useQuiz = (planetId) => {
-  const { planet, loading, error } = usePlanet(planetId);
+  const { planet, loading: planetLoading, error: planetError } = usePlanet(planetId);
   const { saveQuizScore } = useExploration();
   const [state, dispatch] = useReducer(quizReducer, initialState);
-  const questions = getQuizQuestions(planetId);
+  const [questions, setQuestions] = useState(null);
+  const [quizLoading, setQuizLoading] = useState(true);
+  const [quizError, setQuizError] = useState(null);
+
+  useEffect(() => {
+    setQuizLoading(true);
+    setQuizError(null);
+
+    getQuizQuestions(planetId)
+      .then((data) => {
+        setQuestions(data);
+        setQuizLoading(false);
+      })
+      .catch((err) => {
+        setQuizError(err.message || "Failed to load quiz questions");
+        setQuizLoading(false);
+      });
+  }, [planetId]);
+
+  const loading = planetLoading || quizLoading;
+  const error = planetError || quizError;
   const question = questions ? questions[state.currentQuestion] : null;
   const isLastQuestion = questions
     ? state.currentQuestion === questions.length - 1

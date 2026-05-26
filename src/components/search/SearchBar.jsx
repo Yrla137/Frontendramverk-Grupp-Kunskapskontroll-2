@@ -18,30 +18,32 @@ const SearchBar = ({
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const inputRef = useRef(null);
-  const outsideClickRef = useRef(null);
+  const containerRef = useRef(null);
 
+  // focus input on mount
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
+  // close dropdown when clicking outside
   useEffect(() => {
     const handleClick = (e) => {
       if (
-        outsideClickRef.current &&
-        !outsideClickRef.current.contains(e.target)
+        containerRef.current &&
+        !containerRef.current.contains(e.target)
       ) {
         setDropdownOpen(false);
       }
     };
 
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const canOpenDropdown = isLoggedIn && searchHistory.length > 0;
+  const canShowDropdown = isLoggedIn && searchHistory.length > 0;
 
   return (
-    <div ref={outsideClickRef} className="searchbar-dropdown-container">
+    <div ref={containerRef} className="searchbar-dropdown-container">
 
       <form
         className="searchbar-form"
@@ -57,7 +59,7 @@ const SearchBar = ({
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => {
-            if (canOpenDropdown) {
+            if (canShowDropdown) {
               setDropdownOpen(true);
             }
           }}
@@ -65,7 +67,7 @@ const SearchBar = ({
         />
       </form>
 
-      {isLoggedIn && dropdownOpen && (
+      {dropdownOpen && canShowDropdown && (
         <div className="searchbar-dropdown">
 
           <SearchHistory
@@ -87,6 +89,7 @@ const SearchBar = ({
 
         </div>
       )}
+
     </div>
   );
 };

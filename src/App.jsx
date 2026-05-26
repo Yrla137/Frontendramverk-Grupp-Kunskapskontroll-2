@@ -45,7 +45,7 @@ const App = () => {
     <PointsProvider>
       <div className={styles.appContainer}>
 
-        <header className={styles.navbar}>
+        <header className={styles.header}>
           <h1>Space-Quiz</h1>
         </header>
 

@@ -14,38 +14,44 @@ const NavBar = () => {
   // May be replaced by if (!currentUser) return; inside the function later on when we have real user data,
   // but for now it serves the purpose of showing the profile icon for both logged in and logged out users, and navigating to either the profile page or login page when clicked.
 
+  const getNavLinkClass = ({ isActive }) =>
+  isActive ? "nav-link active" : "nav-link";
+
   return (
     <nav className="main-nav">
       <ul className="nav-list">
         <li className="nav-item">
-          <NavLink to="/" className="nav-link">
+          <NavLink to="/" className={getNavLinkClass}>
             Home
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/explore" className="nav-link">
+          <NavLink to="/explore" className={getNavLinkClass}>
             Explore
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/quests" className="nav-link">
+          <NavLink to="/quests" className={getNavLinkClass}>
             Quests
           </NavLink>
         </li>
       </ul>
-{/* 
       <NavLink
-        // to={
-        // isLoggedIn && currentUser?.id
-        //   ? `/profile/${currentUser.id}`
-        //   : "/profile"
-        // }
-        // aria-label={isLoggedIn ? "Open profile" : "Go to login"}
+        to="/profile"
+        className="profile-link"
+        aria-label="Go to profile or login"
       >
         <FontAwesomeIcon icon={faUser} />
-      </NavLink> */}
+      </NavLink>
     </nav>
   );
 };
 
 export default NavBar;
+
+      // to={
+        // isLoggedIn && currentUser?.id
+        //   ? `/profile/${currentUser.id}`
+        //   : "/profile"
+        // }
+        // aria-label={isLoggedIn ? "Open profile" : "Go to login"}

@@ -11,21 +11,25 @@ const HomePage = ({ isLoggedIn }) => {
   const [loadingTopics, setLoadingTopics] = useState(false);
   const [errorTopics, setErrorTopics] = useState(null);
 
+  
   useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        setLoadingTopics(true);
-        const data = await getPopularTopics();
-        setPopularTopics(data);
-      } catch (err) {
-        setErrorTopics(err.message);
-      } finally {
-        setLoadingTopics(false);
-      }
-    };
+  if (!isLoggedIn) return;
 
+  const fetchTopics = async () => {
+    try {
+      setLoadingTopics(true);
+
+      const data = await getPopularTopics();
+
+      setPopularTopics(data);
+    } catch (err) {
+      setErrorTopics(err.message);
+    } finally {
+      setLoadingTopics(false);
+    }
+  };
     fetchTopics();
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <div className="homepage">

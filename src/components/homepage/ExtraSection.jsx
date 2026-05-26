@@ -1,4 +1,4 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   faLaptop,
   faRocket,
@@ -14,11 +14,12 @@ const ExtraSection = ({
   loadingTopics,
   errorTopics
 }) => {
-//   const navigate = useNavigate();
 
-//   const handleTopicClick = (slug) => {
-//     navigate(`/explore/${slug}`);
-//   };
+  const navigate = useNavigate();
+
+  const handleTopicClick = (slug) => {
+    navigate(`/explore/${slug}`);
+  };
 
   if (loadingTopics) {
     return (
@@ -51,6 +52,12 @@ const ExtraSection = ({
                 tabIndex={0}
                 key={topic.id}
                 className="topic-card"
+                onClick={() => handleTopicClick(topic.slug)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleTopicClick(topic.slug);
+                  }
+                }}
                 >
                 <img
                   className="topic-image"

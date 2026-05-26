@@ -10,7 +10,7 @@ const HeroVideo = () => {
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
       >
         <source src={heroVideo} type="video/mp4" />
       </video>

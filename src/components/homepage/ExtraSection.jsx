@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import {
   faLaptop,
   faRocket,
@@ -14,11 +14,11 @@ const ExtraSection = ({
   loadingTopics,
   errorTopics
 }) => {
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
-  const handleTopicClick = (slug) => {
-    navigate(`/explore/${slug}`);
-  };
+//   const handleTopicClick = (slug) => {
+//     navigate(`/explore/${slug}`);
+//   };
 
   if (loadingTopics) {
     return (
@@ -40,20 +40,23 @@ const ExtraSection = ({
     <section className="extra-section">
 
       {isLoggedIn && (
-        <div className="extra-is-logged-in">
+        <div className="extra-logged-in">
 
           <h2 className="extra-title">Popular topics</h2>
 
           <div className="topics-grid">
             {popularTopics.map((topic) => (
               <article
+                role="link"
+                tabIndex={0}
                 key={topic.id}
                 className="topic-card"
-                onClick={() => handleTopicClick(topic.slug)}
-              >
+                    // onClick={() => handleTopicClick(topic.slug)}
+                >
                 <img
                   className="topic-image"
                   src="N/A"
+                  placeholder="https://via.placeholder.com/300x200?text=No+Image"
                   alt={topic.title}
                 />
                 <h3>{topic.title}</h3>
@@ -66,7 +69,7 @@ const ExtraSection = ({
       )}
 
       {!isLoggedIn && (
-        <div className="extra-is-guest">
+        <div className="extra-guest">
 
           <h2 className="extra-title">Why join us?</h2>
 

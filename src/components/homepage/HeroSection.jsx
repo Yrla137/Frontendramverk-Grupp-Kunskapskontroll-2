@@ -52,7 +52,7 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
         <div className="hero-member-content">
           <button
             className="browse-button"
-            onClick={() => navigate("/exploration")}
+            onClick={() => navigate("/explore")}
           >
             Browse our space
           </button>
@@ -62,7 +62,7 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
         <div className="hero-guest-content">
           <button
             className="join-button"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/profile/:id")}
           >
             Join us in outer space
           </button>

@@ -25,7 +25,7 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
         setSearchHistory(
           data.map((item) => ({
             id: item.id,
-            historyItem: item.search_term, // ✔ matches backend (SQLite column)
+            historyItem: item.search_term,
           }))
         );
       } catch (err) {
@@ -40,20 +40,35 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
 
   // SAVE NEW SEARCH
   const addSearchToHistory = async (userId, searchTerm) => {
-    try {
-      const saved = await saveSearchHistoryApi(userId, searchTerm);
+  try {
+    const normalized = searchTerm.trim().toLowerCase();
 
-      setSearchHistory((prev) => [
-        {
-          id: saved.id || crypto.randomUUID(),
-          historyItem: searchTerm,
-        },
-        ...prev,
-      ]);
-    } catch (err) {
-      console.error("Failed to save history:", err);
-    }
-  };
+    // CHECK DUPLICATE (case-insensitive)
+    const exists = searchHistory.some(
+      (item) =>
+        item.historyItem.toLowerCase() === normalized
+    );
+
+    if (exists) return;
+
+    // SAVE TO BACKEND
+    const saved = await saveSearchHistoryApi(userId, searchTerm);
+
+   // UPDATE LOCAL STATE (prepend, max 10 items)
+    setSearchHistory((prev) => {
+  const updated = [
+    {
+      id: saved?.id || crypto.randomUUID(),
+      historyItem: searchTerm,
+    },
+    ...prev,
+  ];
+  return updated.slice(0, 10);
+});
+  } catch (err) {
+    console.error("Failed to save history:", err);
+  }
+};
 
   // DELETE ONE
   const deleteSearchHistoryItem = async (id) => {

@@ -18,7 +18,7 @@ const SearchResults = ({
   if (isLoggedIn) {
     navigate(resultRoute);
   } else {
-    navigate("/login", {
+    navigate("/profile", {
       state: {
         message: "Please log in to view this content.",
         intendedRoute: resultRoute,

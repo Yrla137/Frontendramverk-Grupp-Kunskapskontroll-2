@@ -9,7 +9,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
   }
 });
 
-// Creats our 3NF tables
+// Creates our 3NF tables
 db.serialize(() => {
   // 1. Users
   db.run(`CREATE TABLE IF NOT EXISTS users (

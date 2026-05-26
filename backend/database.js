@@ -27,7 +27,7 @@ db.serialize(() => {
     nasa_ref TEXT
   )`);
 
-  // 3. User_Planet_Progress (Kopplingstabell)
+  // 3. User_Planet_Progress
   db.run(`CREATE TABLE IF NOT EXISTS user_planet_progress (
     user_id INTEGER,
     planet_id INTEGER,

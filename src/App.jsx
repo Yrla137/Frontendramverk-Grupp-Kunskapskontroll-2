@@ -1,6 +1,5 @@
 import styles from "./App.module.css";
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
 import useSearch from "./hooks/useSearch";
 import { PointsProvider } from "./context/PointsContext";
 import { ExplorationProvider } from "./context/ExplorationContext";
@@ -17,13 +16,13 @@ import NavBar from "./components/NavBar";
 import SearchBar from "./components/search/SearchBar";
 import SearchResults from "./components/search/SearchResults";
 
-const App = () => {
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-  // Auth state //
-  // Temporary local auth.
-  const [isLoggedIn] = useState(false);
-
-
+// Inner component to safely consume AuthContext
+const AppContent = () => {
+  const { isLoggedIn } = useAuth();
+  
   // Search system //
   const {
     searchTerm,
@@ -40,7 +39,6 @@ const App = () => {
     deleteAllSearchHistory
   } = useSearch();
 
-
   return (
     <PointsProvider>
       <div className={styles.appContainer}>
@@ -50,33 +48,21 @@ const App = () => {
         </header>
 
         <div className={styles.navbar}>
-          <NavBar
-            isLoggedIn={isLoggedIn}
-          />
+          <NavBar isLoggedIn={isLoggedIn} />
         </div>
 
         <div className={styles.searchbar}>
           <SearchBar
-            // Search state //
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
-
-            // Search functions //
             onSearch={onSearch}
-
-            // Auth state //
             isLoggedIn={isLoggedIn}
-
-            // Search loading & error state //
             loadingSearch={loadingSearch}
             errorSearch={errorSearch}
-
-            // Search history state & functions //
             searchHistory={searchHistory}
             fillSearchBarInput={fillSearchBarInput}
             deleteSearchHistoryItem={deleteSearchHistoryItem}
             deleteAllSearchHistory={deleteAllSearchHistory}
-            // Retry function for search history items //
             onRetry={onRetry}
           />
         </div>
@@ -92,16 +78,42 @@ const App = () => {
           />
         </div>
 
-
         <main className={styles.mainContent}>
           <ExplorationProvider>
             <Routes>
+              {/* Public Route */}
               <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
-              <Route path="/explore" element={<Exploration />} />
-              <Route path="/explore/leaderboard" element={<Leaderboard />} />
-              <Route path="/explore/:planetId" element={<PlanetDetail />} />
-              <Route path="/explore/:planetId/quiz" element={<Quiz />} />
-              <Route path="/quests" element={<DailyQuests isLoggedIn={isLoggedIn} />} />
+              
+              {/* Protected Exploration Routes */}
+              <Route path="/explore" element={
+                <ProtectedRoute>
+                  <Exploration />
+                </ProtectedRoute>
+              } />
+              <Route path="/explore/leaderboard" element={
+                <ProtectedRoute>
+                  <Leaderboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/explore/:planetId" element={
+                <ProtectedRoute>
+                  <PlanetDetail />
+                </ProtectedRoute>
+              } />
+              <Route path="/explore/:planetId/quiz" element={
+                <ProtectedRoute>
+                  <Quiz />
+                </ProtectedRoute>
+              } />
+              
+              {/* Protected Route for Quests */}
+              <Route path="/quests" element={
+                <ProtectedRoute>
+                  <DailyQuests isLoggedIn={isLoggedIn} />
+                </ProtectedRoute>
+              } />
+              
+              {/* Shows Login if not logged in */}
               <Route path="/profile" element={<Profile />} />
             </Routes>
           </ExplorationProvider>
@@ -110,6 +122,15 @@ const App = () => {
       </div>
     </PointsProvider>
   );
-}
+};
+
+// Main App wrapper
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+};
 
 export default App;

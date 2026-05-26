@@ -41,6 +41,42 @@
   transition: width 0.5s ease;
 }
 
+.searchForm {
+  margin-top: 1.5rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-void-black);
+  color: var(--text-starlight);
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.searchInput::placeholder {
+  color: var(--text-nebula-gray);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-cosmic-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-nebula-gray);
+  font-style: italic;
+  padding: 2rem 0;
+}
+
 .planetGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

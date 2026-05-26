@@ -13,7 +13,7 @@ import PlanetDetail from "./pages/exploration/PlanetDetail";
 import Quiz from "./pages/exploration/Quiz";
 import Leaderboard from "./pages/exploration/Leaderboard";
 
-import NavBar from "./components/homepage/NavBar";
+import NavBar from "./components/NavBar";
 import SearchBar from "./components/search/SearchBar";
 import SearchResults from "./components/search/SearchResults";
 

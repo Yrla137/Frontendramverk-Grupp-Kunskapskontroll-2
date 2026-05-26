@@ -61,7 +61,8 @@ db.serialize(() => {
   search_term TEXT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  FOREIGN KEY (user_id)
+  REFERENCES users(id)
 )`);
   
   console.log('✅ Tabeller skapade (eller fanns redan).');

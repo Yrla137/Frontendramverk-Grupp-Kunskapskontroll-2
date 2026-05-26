@@ -112,24 +112,34 @@ app.get('/api/search', (req, res) => {
   res.json(results);
 });
 
-// Get homepage popular topics - This is currently returning the first 3 planets from our mockdata, but can be expanded to use real popularity metrics and database queries.
+// Get homepage popular topics -
+// This is currently returning the first 3 planets from our mockdata, but can be expanded to use real popularity metrics and database queries.
 app.get('/api/popular-topics', (req, res) => {
   res.json(planets.slice(0, 3));
 });
 
+
 // SEARCH HISTORY ROUTES //
+
 // Get search history for a user
 app.get('/api/search-history/:userId', (req, res) => {
-  const { userId } = req.params;
+
+  const userId = req.params.userId;
 
   db.all(
-    `SELECT * FROM search_history
-     WHERE user_id = ?
-     ORDER BY created_at DESC`,
+    `
+    SELECT *
+    FROM search_history
+    WHERE user_id = ?
+    ORDER BY created_at DESC
+    `,
     [userId],
     (err, rows) => {
+
       if (err) {
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({
+          error: err.message
+        });
       }
 
       res.json(rows);
@@ -139,19 +149,32 @@ app.get('/api/search-history/:userId', (req, res) => {
 
 // Save a new search term to history
 app.post('/api/search-history', (req, res) => {
-  const { userId, searchTerm } = req.body;
+
+  const {
+    userId,
+    searchTerm
+  } = req.body;
 
   db.run(
-    `INSERT INTO search_history
-     (user_id, search_term)
-     VALUES (?, ?)`,
+    `
+    INSERT INTO search_history
+    (
+      user_id,
+      search_term
+    )
+    VALUES (?, ?)
+    `,
     [userId, searchTerm],
-    function (err) {
+
+    function(err) {
+
       if (err) {
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({
+          error: err.message
+        });
       }
 
-      res.status(201).json({
+      res.json({
         id: this.lastID
       });
     }
@@ -160,43 +183,56 @@ app.post('/api/search-history', (req, res) => {
 
 // Delete a specific search history item (based on item id)
 app.delete('/api/search-history/:id', (req, res) => {
-  const { id } = req.params;
 
   db.run(
-    `DELETE FROM search_history
-     WHERE id = ?`,
-    [id],
-    function (err) {
+    `
+    DELETE FROM search_history
+    WHERE id = ?
+    `,
+    [req.params.id],
+
+    function(err) {
+
       if (err) {
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({
+          error: err.message
+        });
       }
 
       res.json({
-        deleted: this.changes
+        success: true
       });
     }
   );
 });
 
 // Delete all search history for a user
-app.delete('/api/search-history/user/:userId', (req, res) => {
-  const { userId } = req.params;
+app.delete(
+  '/api/search-history/user/:userId',
+  (req, res) => {
 
-  db.run(
-    `DELETE FROM search_history
-     WHERE user_id = ?`,
-    [userId],
-    function (err) {
-      if (err) {
-        return res.status(500).json({ error: err.message });
+    db.run(
+      `
+      DELETE FROM search_history
+      WHERE user_id = ?
+      `,
+      [req.params.userId],
+
+      function(err) {
+
+        if (err) {
+          return res.status(500).json({
+            error: err.message
+          });
+        }
+
+        res.json({
+          success: true
+        });
       }
-
-      res.json({
-        deleted: this.changes
-      });
-    }
-  );
-});
+    );
+  }
+);
 
 // --- PROGRESS & GAMIFICATION ROUTES ---
 

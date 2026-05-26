@@ -1,49 +1,62 @@
 import { useState, useEffect } from "react";
 import {
   getData,
+  getSearchHistoryApi,
+  saveSearchHistoryApi,
   deleteSearchHistoryItemApi,
-  deleteAllSearchHistoryApi
-} from "../../backend/MOCKDATA(Julia)/api";
-// These API function names may need to be updated later depending on
-// how the final backend/API structure is organized by the group.
+  deleteAllSearchHistoryApi,
+} from "../api/index";
 
+import { useAuth } from "../context/AuthContext";
 
 const useSearch = () => {
 
-  // Search states //
+  // AUTH
+  const { currentUser, isLoggedIn } = useAuth();
+
+  // SEARCH STATES
   const [searchTerm, setSearchTerm] = useState("");
   const [submittedSearchTerm, setSubmittedSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
 
-  // Search history //
+  // SEARCH HISTORY
   const [searchHistory, setSearchHistory] = useState([]);
 
-  // Loading & error //
+  // LOADING / ERROR
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [errorSearch, setErrorSearch] = useState(null);
 
-  // Retry search //
-  const onRetry = () => {
-    onSearch(submittedSearchTerm);
-  };
+
+  // LOAD SEARCH HISTORY
+  useEffect(() => {
+    const loadHistory = async () => {
+      if (!isLoggedIn || !currentUser?.id) return;
+
+      try {
+        const data = await getSearchHistoryApi(currentUser.id);
+        setSearchHistory(
+          data.map((item) => ({
+            id: item.id,
+            historyItem: item.searchTerm,
+          }))
+        );
+      } catch (err) {
+        console.error("Failed to load history:", err);
+      }
+    };
+
+    loadHistory();
+  }, [isLoggedIn, currentUser]);
 
 
-  // Search function //
+  // SEARCH FUNCTION
   const onSearch = async (term) => {
-
     const cleanedTerm = term.trim();
 
-    if (!cleanedTerm) {
+    if (!cleanedTerm || cleanedTerm.length < 3) {
       setFilteredData([]);
       setHasSearched(false);
-      return;
-    }
-
-    if (cleanedTerm.length < 3) {
-      setFilteredData([]);
-      setHasSearched(false);
-      setErrorSearch(null);
       return;
     }
 
@@ -51,161 +64,95 @@ const useSearch = () => {
     setErrorSearch(null);
 
     try {
-
-      // Temporary API call.
-      // May later become something like:
-      // searchSpaceData(cleanedTerm)
-      // getSearchResults(cleanedTerm)
-      // api.search(cleanedTerm)
+      // SEARCH RESULTS
       const fetchSearchData = await getData(cleanedTerm);
-
-      // Assumes backend/API returns already filtered search results.
-      // If the final backend instead returns all data,
-      // filtering may need to happen here again.
       setFilteredData(fetchSearchData);
 
       setSubmittedSearchTerm(cleanedTerm);
-
       setHasSearched(true);
 
-      setSearchHistory((prevHistory) => {
-
-        const duplicateTerm = prevHistory.some(
-          (historyItem) =>
-            historyItem.historyItem.toLowerCase().trim() ===
-            cleanedTerm.toLowerCase().trim()
+      // SAVE SEARCH HISTORY
+      if (isLoggedIn && currentUser?.id) {
+        const saved = await saveSearchHistoryApi(
+          currentUser.id,
+          cleanedTerm
         );
 
-        if (duplicateTerm) {
-          return prevHistory;
-        }
-
-        return [
-          ...prevHistory,
+        // ADDS NEW SEARCH TO TOP OF HISTORY IN FRONTEND (OPTIMISTIC UPDATE)
+        setSearchHistory((prev) => [
           {
-            id: crypto.randomUUID(),
-            historyItem: cleanedTerm
-          }
-        ];
-      });
-
+            id: saved.id || crypto.randomUUID(),
+            historyItem: cleanedTerm,
+          },
+          ...prev,
+        ]);
+      }
     } catch (error) {
-
-      // Depending on backend structure,
-      // error handling may later use:
-      // error.response.data.message
-      // custom backend messages
-      // auth/token validation errors
       setErrorSearch(error.message);
-
     } finally {
-
       setLoadingSearch(false);
-
     }
   };
 
-
-  // Debounce search input //
+  // DEBOUNCE SEARCH
   useEffect(() => {
-
     const timeout = setTimeout(() => {
-      onSearch(searchTerm);
+      if (searchTerm) onSearch(searchTerm);
     }, 400);
 
     return () => clearTimeout(timeout);
-
   }, [searchTerm]);
-  // If the final backend becomes sensitive to many requests,
-  // debounce timing may need adjustment.
 
 
-
-  // Fill searchbar input from search history //
+  // FILL INPUT FROM HISTORY
   const fillSearchBarInput = (historyItem) => {
-
+    setSearchTerm(historyItem);
     onSearch(historyItem);
-
-    setSearchTerm("");
-
   };
 
 
-  // Delete a single search history item //
-  const deleteSearchHistoryItem = async (historyItem) => {
-
+  // DELETE SINGLE HISTORY ITEM (FIX: ID BASED, NOT TERM BASED)
+  const deleteSearchHistoryItem = async (id) => {
     try {
+      await deleteSearchHistoryItemApi(id);
 
-      // Temporary delete API function.
-      // Final backend may instead require:
-      // deleteSearchHistory(id)
-      // deleteHistoryItem(userId, itemId)
-      // api.history.delete(id)
-      await deleteSearchHistoryItemApi(historyItem);
-
-      setSearchHistory((prevHistory) =>
-        prevHistory.filter(
-          (item) => item.historyItem !== historyItem
-        )
+      setSearchHistory((prev) =>
+        prev.filter((item) => item.id !== id)
       );
-
     } catch (error) {
-
-      console.error(
-        "Error deleting search history item:",
-        error
-      );
-
+      console.error("Error deleting item:", error);
     }
   };
 
-
-  // Delete all search history items //
+  // DELETE ALL HISTORY FOR USER
   const deleteAllSearchHistory = async () => {
-
     try {
-
-      // Temporary delete-all API function.
-      // Final backend may later require user authentication,
-      // user id, token validation or a different endpoint.
-      await deleteAllSearchHistoryApi();
-
+      await deleteAllSearchHistoryApi(currentUser.id);
       setSearchHistory([]);
-
     } catch (error) {
-
-      console.error(
-        "Error deleting all search history:",
-        error
-      );
-
+      console.error("Error deleting all:", error);
     }
   };
 
 
+  // RETRY
+  const onRetry = () => {
+    onSearch(submittedSearchTerm);
+  };
 
-  // All states and functions to be used in the component //
   return {
-
-    // States //
     searchTerm,
     setSearchTerm,
-    submittedSearchTerm,
     filteredData,
     hasSearched,
     searchHistory,
-
-    // Loading & error //
     loadingSearch,
     errorSearch,
-
-    // Functions //
     onSearch,
     onRetry,
     fillSearchBarInput,
     deleteSearchHistoryItem,
-    deleteAllSearchHistory
-
+    deleteAllSearchHistory,
   };
 };
 

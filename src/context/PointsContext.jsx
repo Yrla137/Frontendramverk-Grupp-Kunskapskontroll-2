@@ -1,9 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const PointsContext = createContext();
 
 export const PointsProvider = ({ children }) => {
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState(() => {
+    const saved = localStorage.getItem("questPoints");
+    return saved ? Number(saved) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("questPoints", points);
+  }, [points]);
 
   const addPoints = (amount) => {
     setPoints((prev) => prev + amount);

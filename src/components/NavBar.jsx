@@ -33,7 +33,7 @@ const NavBar = () => {
           </NavLink>
         </li>
       </ul>
-
+{/* 
       <NavLink
         // to={
         // isLoggedIn && currentUser?.id
@@ -43,7 +43,7 @@ const NavBar = () => {
         // aria-label={isLoggedIn ? "Open profile" : "Go to login"}
       >
         <FontAwesomeIcon icon={faUser} />
-      </NavLink>
+      </NavLink> */}
     </nav>
   );
 };

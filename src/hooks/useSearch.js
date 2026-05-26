@@ -3,7 +3,7 @@ import {
   getData,
   deleteSearchHistoryItemApi,
   deleteAllSearchHistoryApi
-} from "../MOCKDATA(Julia)/api";
+} from "../../backend/MOCKDATA(Julia)/api";
 // These API function names may need to be updated later depending on
 // how the final backend/API structure is organized by the group.
 

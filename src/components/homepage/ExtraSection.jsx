@@ -40,38 +40,11 @@ const ExtraSection = ({
     <section className="extra-section">
 
       {isLoggedIn && (
-        <div className="extra-logged-in">
-
-          <h2 className="extra-title">Why join us?</h2>
-
-          <div className="features-grid">
-
-            <article className="feature-card">
-              <FontAwesomeIcon className="extra-icon laptop-icon" icon={faLaptop} />
-              <p>Access exclusive space content.</p>
-            </article>
-
-            <article className="feature-card">
-              <FontAwesomeIcon className="extra-icon rocket-icon" icon={faRocket} />
-              <p>Latest updates from NASA & ESA.</p>
-            </article>
-
-            <article className="feature-card">
-              <FontAwesomeIcon className="extra-icon astronaut-icon" icon={faUserAstronaut} />
-              <p>Be part of space exploration learning.</p>
-            </article>
-
-          </div>
-        </div>
-      )}
-
-      {!isLoggedIn && (
-        <div className="extra-guest">
+        <div className="extra-is-logged-in">
 
           <h2 className="extra-title">Popular topics</h2>
 
           <div className="topics-grid">
-
             {popularTopics.map((topic) => (
               <article
                 key={topic.id}
@@ -87,8 +60,35 @@ const ExtraSection = ({
                 <p>{topic.description}</p>
               </article>
             ))}
+          </div>
+
+        </div>
+      )}
+
+      {!isLoggedIn && (
+        <div className="extra-is-guest">
+
+          <h2 className="extra-title">Why join us?</h2>
+
+          <div className="features-grid">
+
+            <article className="feature-card">
+              <FontAwesomeIcon className="extra-icon laptop-icon" icon={faLaptop} />
+                <p>You get access to exclusive content and features for FREE to enhance your space exploration experience.</p>
+            </article>
+
+            <article className="feature-card">
+              <FontAwesomeIcon className="extra-icon rocket-icon" icon={faRocket} />
+              <p>You can read about the latest discoveries and updates directly from space agencies such as NASA and ESA.</p>
+            </article>
+
+            <article className="feature-card">
+              <FontAwesomeIcon className="extra-icon astronaut-icon" icon={faUserAstronaut} />
+              <p>You become part of a community that makes learning about the universe more fun, engaging, and inspiring for future space explorers.</p>
+            </article>
 
           </div>
+
         </div>
       )}
 

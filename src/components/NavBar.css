@@ -34,7 +34,7 @@
   color: var(--text-starlight);
 
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 500;
 
   transition:
@@ -106,7 +106,7 @@
 /* HOVER */
 
 .profile-link:hover {
-  transform: scale(1.18);
+  transform: scale(1.1);
 
   color: var(--success-stardust-gold);
 
@@ -114,4 +114,44 @@
     0 0 8px rgba(255, 215, 0, 0.8),
     0 0 16px rgba(229, 89, 52, 0.45),
     0 0 24px rgba(255, 215, 0, 0.25);
+}
+
+
+/* RESPONSIVE */
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .nav-list {
+    gap: 2.5rem;
+  }
+
+  .profile-link {
+    right: 1.5rem;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .main-nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-list {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .profile-link {
+    position: static;
+    margin-top: 0.5rem;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .nav-list {
+    gap: 1rem;
+    font-size: 0.95rem;
+  }
 }

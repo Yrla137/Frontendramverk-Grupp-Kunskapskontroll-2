@@ -63,11 +63,9 @@
   box-shadow:
     0 0 16px rgba(120, 80, 255, 0.18);
 
-  /* FIX: gör layout stabil */
   display: flex;
   flex-direction: column;
 
-  /* FIX: ger text inre utrymme så den inte sticker ut */
   padding: 1rem;
 }
 
@@ -84,20 +82,38 @@
 .topic-card p {
   color: rgba(248, 249, 250, 0.9);
 
-  /* FIX: stoppar overflow */
   margin: 0;
   overflow-wrap: break-word;
   word-break: break-word;
 }
 
 /* IMAGE */
-
 .topic-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
 
-  display: block; /* FIX: tar bort inline gap-buggar */
+  display: block;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.35),
+    0 3px 10px rgba(120, 80, 255, 0.15);
+
+  margin-bottom: 1.2rem;
+}
+
+.topic-card h3 {
+  margin: 0.8rem 0 0.5rem;
+  padding: 0 1rem;
+}
+
+.topic-card p {
+  margin: 0 0 1.2rem;
+  padding: 0 1rem;
+  line-height: 1.5;
+  color: rgba(248, 249, 250, 0.75);
 }
 
 /* ICONS */
@@ -142,4 +158,87 @@
 
 .feature-card p {
   color: rgba(248, 249, 250, 0.85);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1024px) {
+  .features-grid,
+  .topics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .extra-title {
+    font-size: 2.3rem;
+  }
+
+  .topic-image {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .extra-section {
+    padding: 7rem 1.5rem 4rem;
+  }
+
+  .features-grid,
+  .topics-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .extra-title {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .topic-card,
+  .feature-card {
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .topic-image {
+    height: 220px;
+  }
+
+  .extra-icon {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .extra-section {
+    padding: 6rem 1rem 3rem;
+  }
+
+  .extra-title {
+    font-size: 1.8rem;
+  }
+
+  .topic-card {
+    padding: 1rem;
+  }
+
+  .topic-image {
+    height: 180px;
+  }
+
+  .topic-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .topic-card p,
+  .feature-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .extra-icon {
+    font-size: 2.6rem;
+  }
 }

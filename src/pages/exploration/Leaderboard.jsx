@@ -1,15 +1,36 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import styles from "./Leaderboard.module.css";
 
-const mockLeaderboard = [
-  { rank: 1, username: "test", points: 2850, quizzesCompleted: 10 },
-  { rank: 2, username: "test2", points: 2340, quizzesCompleted: 8 },
-  { rank: 3, username: "test3", points: 1890, quizzesCompleted: 7 },
-  { rank: 4, username: "test4", points: 1250, quizzesCompleted: 4 },
-  { rank: 5, username: "test5", points: 980, quizzesCompleted: 3 },
-];
-
 const Leaderboard = () => {
+  const { currentUser } = useAuth();
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/users");
+        if (!response.ok) 
+          throw new Error("Failed to fetch leaderboard");
+
+        const users = await response.json();
+
+        const sorted = users.sort((a, b) => b.points - a.points).map((user, index) => ({ ...user, rank: index + 1 }));
+
+        setLeaderboard(sorted);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
   return (
     <div className={styles.leaderboardContainer}>
       <Link to="/explore" className={styles.backLink}>
@@ -17,30 +38,40 @@ const Leaderboard = () => {
       </Link>
 
       <h2>Leaderboard</h2>
-      <p>Top explorers ranked by quiz points.</p>
+      <p>Top explorers ranked by points.</p>
 
-      <section className="card">
-        <table className={styles.leaderboardTable}>
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Explorer</th>
-              <th>Points</th>
-              <th>Quizzes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockLeaderboard.map((entry) => (
-              <tr key={entry.rank}>
-                <td className={styles.rank}>{entry.rank}</td>
-                <td>{entry.username}</td>
-                <td className={styles.points}>{entry.points}</td>
-                <td>{entry.quizzesCompleted}</td>
+      {loading && <p>Loading leaderboard...</p>}
+      {error && <p className={styles.error}>Could not load leaderboard: {error}</p>}
+
+      {!loading && !error && (
+        <section className="card">
+          <table className={styles.leaderboardTable}>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Explorer</th>
+                <th>Points</th>
+                <th>Streak</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+            </thead>
+            <tbody>
+              {leaderboard.map((entry) => (
+                <tr
+                  key={entry.id}
+                  className={
+                    currentUser && currentUser.id === entry.id ? styles.currentUser : undefined
+                  }
+                >
+                  <td className={styles.rank}>{entry.rank}</td>
+                  <td>{entry.username}</td>
+                  <td className={styles.points}>{entry.points}</td>
+                  <td>{entry.streak_count}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
     </div>
   );
 };

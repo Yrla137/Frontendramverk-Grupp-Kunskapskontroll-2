@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import SearchHistory from "./SearchHistory";
 
+import "./Search.css";
+
 const SearchBar = ({
   searchTerm,
   setSearchTerm,
@@ -46,15 +48,19 @@ const SearchBar = ({
   return (
     <div>
 
-      <div className="searchbar-dropdown-container" ref={outsideClickRef}>
+      <div
+      className="searchbar-dropdown-container"
+      ref={outsideClickRef}>
 
         <form
+        className="searchbar-form"
         onSubmit={(e) =>{
         e.preventDefault();
         onSearch(searchTerm);
         setDropdownOpen(false);
         }}>
           <input
+          className="searchbar-input"
             ref={inputRef}
             type="text"
             value={searchTerm}
@@ -65,7 +71,7 @@ const SearchBar = ({
         </form>
 
         {isLoggedIn && dropdownOpen && (
-          <div>
+          <div className="searchbar-dropdown">
             <SearchHistory
             onRetry={onRetry}
             searchHistory={searchHistory}
@@ -76,6 +82,7 @@ const SearchBar = ({
             loadingHistory={loadingHistory}
             />
             <button
+            className="searchbar-dropdown-close-btn"
             type="button"
             onClick={() => setDropdownOpen(false)}>
               Close search history

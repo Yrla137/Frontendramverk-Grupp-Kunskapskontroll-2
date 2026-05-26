@@ -13,7 +13,7 @@ import PlanetDetail from "./pages/exploration/PlanetDetail";
 import Quiz from "./pages/exploration/Quiz";
 import Leaderboard from "./pages/exploration/Leaderboard";
 
-import NavBar from "./components/homepage/NavBar";
+import NavBar from "./components/NavBar";
 import SearchBar from "./components/search/SearchBar";
 import SearchResults from "./components/search/SearchResults";
 
@@ -45,7 +45,7 @@ const App = () => {
     <PointsProvider>
       <div className={styles.appContainer}>
 
-        <header className={styles.navbar}>
+        <header className={styles.header}>
           <h1>Space-Quiz</h1>
         </header>
 
@@ -102,7 +102,7 @@ const App = () => {
               <Route path="/explore/:planetId" element={<PlanetDetail />} />
               <Route path="/explore/:planetId/quiz" element={<Quiz />} />
               <Route path="/quests" element={<DailyQuests isLoggedIn={isLoggedIn} />} />
-              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </ExplorationProvider>
         </main>
@@ -113,37 +113,3 @@ const App = () => {
 }
 
 export default App;
-
-
-// import styles from './App.module.css';
-// import Profile from './pages/profile/Profile';
-
-
-// function App() {
-//   return (
-//     <div className={styles.appContainer}>
-      
-//       <header className={styles.navbar}>
-//         <h1>Space-Quiz</h1>
-//         {}
-//       </header>
-
-//       <main className={styles.mainContent}>
-        
-//         {/* React Router */}
-//         <div className="card">
-//         <Profile />
-//           <h2>Välkommen till rymden</h2>
-//           <p>Här kan du utforska NASA:s data och samla badges.</p>
-//         </div>
-//       </main>
-
-//       <footer className={styles.footer}>
-//         <p>Byggd med React och NASA API</p>
-//       </footer>
-
-//     </div>
-//   );
-// }
-
-// export default App;

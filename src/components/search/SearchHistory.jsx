@@ -25,14 +25,17 @@ if (errorHistory) {
 }
 
   return (
-    <div>
+    <div className="search-history-container">
       <h3>Search History</h3>
-      <ul>
+      <ul className="search-history-list">
         {searchHistory.map((item) => (
-          <li key={item.id}
+          <li
+          key={item.id}
+          className="search-history-item"
           onClick={() => fillSearchBarInput(item.historyItem)}>
           {item.historyItem}
           <button
+          className="search-history-delete-btn"
             type="button"
             onClick={(event) => {
               event.stopPropagation();
@@ -46,7 +49,8 @@ if (errorHistory) {
       </ul>
       {searchHistory.length > 0 && (
         <button
-        type="button"
+        className="search-history-delete-all-btn"
+          type="button"
           onClick={deleteAllSearchHistory}
         >
           Delete search history

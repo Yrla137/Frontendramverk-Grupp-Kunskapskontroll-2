@@ -1,0 +1,145 @@
+.extra-section {
+  width: 100%;
+  padding: 10rem 2rem 6rem;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 13, 23, 1),
+    var(--bg-void-black)
+  );
+
+  color: var(--text-starlight);
+}
+
+/* TITLES */
+
+.extra-title {
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: 600;
+
+  margin-bottom: 5rem;
+
+  text-shadow:
+    0 0 12px rgba(120, 80, 255, 0.35),
+    0 0 24px rgba(0, 210, 255, 0.2);
+}
+
+/* WRAPPERS */
+
+.extra-guest,
+.extra-logged-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* GRID */
+
+.features-grid,
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* TOPIC CARDS */
+
+.topic-card {
+  background: var(--surface-dark-matter);
+  border: var(--border-subtle);
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 0 16px rgba(120, 80, 255, 0.18);
+
+  /* FIX: gör layout stabil */
+  display: flex;
+  flex-direction: column;
+
+  /* FIX: ger text inre utrymme så den inte sticker ut */
+  padding: 1rem;
+}
+
+.topic-card:hover {
+  transform: translateY(-8px) scale(1.03);
+
+  box-shadow:
+    0 0 20px rgba(0, 210, 255, 0.5),
+    0 0 60px rgba(0, 210, 255, 0.2);
+}
+
+/* TEXT */
+.topic-card h3,
+.topic-card p {
+  color: rgba(248, 249, 250, 0.9);
+
+  /* FIX: stoppar overflow */
+  margin: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* IMAGE */
+
+.topic-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+
+  display: block; /* FIX: tar bort inline gap-buggar */
+}
+
+/* ICONS */
+
+.extra-icon {
+  font-size: 3.8rem;
+
+  transition: all 0.35s ease;
+  filter: brightness(1.05);
+}
+
+.feature-card:hover .extra-icon {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+/* COLORS */
+.laptop-icon {
+  color: var(--primary-cosmic-cyan);
+}
+
+.rocket-icon {
+  color: var(--secondary-mars-rust);
+}
+
+.astronaut-icon {
+  color: var(--success-stardust-gold);
+}
+
+/* FEATURE CARD */
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  padding: 2rem;
+  gap: 1.2rem;
+}
+
+.feature-card p {
+  color: rgba(248, 249, 250, 0.85);
+}

@@ -84,14 +84,15 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
   };
 
   // DELETE ALL
-  const deleteAllSearchHistory = async (userId) => {
-    try {
-      await deleteAllSearchHistoryApi(userId);
-      setSearchHistory([]);
-    } catch (err) {
-      console.error("Failed to delete all:", err);
-    }
-  };
+  const deleteAllSearchHistory = async () => {
+  try {
+    await deleteAllSearchHistoryApi(currentUser.id);
+
+    setSearchHistory([]);
+  } catch (err) {
+    console.error("Failed to delete all:", err);
+  }
+};
 
   // FILL INPUT
   const fillSearchBarInput = (term, setSearchTerm, onSearch) => {

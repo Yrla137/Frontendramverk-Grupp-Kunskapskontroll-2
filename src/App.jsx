@@ -2,6 +2,8 @@ import styles from "./App.module.css";
 import { Routes, Route, useLocation} from "react-router-dom";
 import { useEffect } from "react";
 
+import LoadingSpinner from "./components/LoadingSpinner";
+
 import { PointsProvider } from "./context/PointsContext";
 import { ExplorationProvider } from "./context/ExplorationContext";
 
@@ -47,6 +49,7 @@ const AppContent = () => {
     search.clearSearch();
   }, [location.pathname]);
 
+
   return (
     <PointsProvider>
       <div className={styles.appContainer}>
@@ -90,7 +93,7 @@ const AppContent = () => {
 
         <main className={styles.mainContent}>
           <ExplorationProvider>
-            <Routes>
+            <Routes key={location.pathname}>
 
               {/* Public Route */}
               <Route
@@ -149,6 +152,10 @@ const AppContent = () => {
               <Route path="/profile" element={<Profile />} />
 
             </Routes>
+
+          
+          
+
           </ExplorationProvider>
         </main>
 

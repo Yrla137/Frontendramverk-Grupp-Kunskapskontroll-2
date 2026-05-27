@@ -1,21 +1,51 @@
 import "./LoadingSpinner.css";
 
-const LoadingSpinner = ({ message = "Loading...", size = "full" }) => {
+const LoadingSpinner = ({
+  message = "Flying through space...",
+  size = "full",
+}) => {
+  const stars = Array.from({ length: 20 });
+
   return (
-    <div role="status"
-    aria-live="polite"
-    className={`solar-loader ${size}`}>
-      <div className="sun"></div>
-      <div className="orbit orbit1">
-        <div className="planet planet1"></div>
+    <div className={`loader-overlay ${size}`} role="status" aria-live="polite">
+
+      {/* BACKDROP BLUR */}
+      <div className="loader-blur" />
+
+      {/* SPACE SCENE */}
+      <div className="space-scene">
+
+        {/* SUN */}
+        <div className="sun" />
+
+        {/* PLANETS */}
+        <div className="orbit orbit-blue">
+          <div className="planet planet-blue" />
+        </div>
+
+        <div className="orbit orbit-orange">
+          <div className="planet planet-orange" />
+        </div>
+
+        <div className="orbit orbit-purple">
+          <div className="planet planet-purple" />
+        </div>
+
+        {/* STARS */}
+        <div className="stars">
+          {stars.map((_, i) => (
+            <span key={i} className="star" />
+          ))}
+        </div>
+
       </div>
-      <div className="orbit orbit2">
-        <div className="planet planet2"></div>
-      </div>
-      <p
-      aria-label={message}>
+
+      {/* TEXT */}
+      <p className="loading-text">
         {message}
+        <span className="dots">...</span>
       </p>
+
     </div>
   );
 };

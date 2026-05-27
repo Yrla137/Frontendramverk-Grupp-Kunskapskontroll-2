@@ -14,7 +14,9 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
       `We missed you ${currentUser?.username || "space explorer"}... Ready to continue?`,
       `Continue your journey through the cosmos.`,
       `The universe is waiting for you.`,
-      `Keep reaching for the stars ${currentUser?.username || "space explorer"}!`
+      `Keep reaching for the stars ${currentUser?.username || "space explorer"}!`,
+      `Ready for a quiz?`,
+      `Reach for the start ${currentUser?.username || "space explorer"} and climb the leaderboard!`
     ];
     return userText[Math.floor(Math.random() * userText.length)];
   };
@@ -22,10 +24,11 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
   const textLoggedOut = () => {
     const guestText = [
       `Welcome to our space exploration website!`,
-      `Join us and explore the cosmos.`,
+      `Join and explore the cosmos with us.`,
       `In space, no one can hear you scream...`,
       `Unlock the mysteries of the universe.`,
-      `Join us for free and explore space!`
+      `Join us for free and explore space!`,
+      `Do you like quests and quizzes?`
     ];
     return guestText[Math.floor(Math.random() * guestText.length)];
   };

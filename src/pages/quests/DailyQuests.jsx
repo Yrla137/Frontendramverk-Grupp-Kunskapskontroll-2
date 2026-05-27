@@ -4,31 +4,31 @@ import QuestList from "../../components/quests/QuestList";
 import QuestProgress from "../../components/quests/QuestProgress";
 import useNasaApod from "../../hooks/useNasaApod";
 import { usePoints } from "../../context/PointsContext";
+import { getDailyQuests } from "../../services/questData";
 
 const DailyQuests = ({ isLoggedIn }) => {
   const { apod, loading, error } = useNasaApod();
   const { points, addPoints, removePoints } = usePoints();
 
-  const [quests, setQuests] = useState([
-    { id: 1, title: "Check today's Astronomy Picture of the Day", points: 10, completed: false },
-    { id: 2, title: "Read about Mars", points: 10, completed: false },
-    { id: 3, title: "Learn about the International Space Station", points: 10, completed: false },
-    { id: 4, title: "Explore the surface of the Moon", points: 10, completed: false },
-    { id: 5, title: "Discover a new galaxy", points: 10, completed: false },
-  ]);
+  const [quests, setQuests] = useState(() => getDailyQuests());
 
   const handleComplete = (id) => {
-    setQuests(quests.map((quest) => {
-      if (quest.id === id) {
-        if (!quest.completed) {
-          addPoints(quest.points);
-        } else {
-          removePoints(quest.points);
+    setQuests((prev) => {
+      const updated = prev.map((quest) => {
+        if (quest.id === id) {
+          if (!quest.completed) {
+            addPoints(quest.points);
+          } else {
+            removePoints(quest.points);
+          }
+          return { ...quest, completed: !quest.completed };
         }
-        return { ...quest, completed: !quest.completed };
-      }
-      return quest;
-    }));
+        return quest;
+      });
+
+      localStorage.setItem("dailyQuests", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   if (!isLoggedIn) {

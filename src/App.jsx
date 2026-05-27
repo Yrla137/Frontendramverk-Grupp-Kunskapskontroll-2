@@ -1,5 +1,6 @@
 import styles from "./App.module.css";
 import { Routes, Route } from "react-router-dom";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { PointsProvider } from "./context/PointsContext";
 import { ExplorationProvider } from "./context/ExplorationContext";
@@ -149,10 +150,15 @@ const AppContent = () => {
 
 // Main App wrapper
 const App = () => {
+
+  const clientId = "1042864420511-suksp31nf4q5vn7feif2nm3fpu8venon.apps.googleusercontent.com"
+
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <GoogleOAuthProvider clientId={clientId}>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 };
 

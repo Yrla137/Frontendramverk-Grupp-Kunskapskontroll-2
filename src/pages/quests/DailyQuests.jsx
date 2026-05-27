@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import styles from "./DailyQuests.module.css";
 import QuestList from "../../components/quests/QuestList";
 import QuestProgress from "../../components/quests/QuestProgress";
@@ -9,6 +10,15 @@ const DailyQuests = ({ isLoggedIn }) => {
   const { apod, loading, error } = useNasaApod();
   const { quests, handleComplete } = useQuests();
   const { points } = usePoints();
+
+  // Auto-scroll to quest list when page loads
+  const questListRef = useRef(null);
+
+  useEffect(() => {
+    if (questListRef.current) {
+      questListRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   if (!isLoggedIn) {
     return (
@@ -26,7 +36,9 @@ const DailyQuests = ({ isLoggedIn }) => {
         <p>Total Points: {points}</p>
       </div>
       <QuestProgress quests={quests} />
-      <QuestList quests={quests} onComplete={handleComplete} />
+      <div ref={questListRef}>
+        <QuestList quests={quests} onComplete={handleComplete} />
+      </div>
 
       {loading && (
         <div className={styles.loadingContainer}>

@@ -1,35 +1,14 @@
-import { useState } from "react";
 import styles from "./DailyQuests.module.css";
 import QuestList from "../../components/quests/QuestList";
 import QuestProgress from "../../components/quests/QuestProgress";
 import useNasaApod from "../../hooks/useNasaApod";
+import useQuests from "../../hooks/useQuests";
 import { usePoints } from "../../context/PointsContext";
-import { getDailyQuests } from "../../services/questData";
 
 const DailyQuests = ({ isLoggedIn }) => {
   const { apod, loading, error } = useNasaApod();
-  const { points, addPoints, removePoints } = usePoints();
-
-  const [quests, setQuests] = useState(() => getDailyQuests());
-
-  const handleComplete = (id) => {
-    setQuests((prev) => {
-      const updated = prev.map((quest) => {
-        if (quest.id === id) {
-          if (!quest.completed) {
-            addPoints(quest.points);
-          } else {
-            removePoints(quest.points);
-          }
-          return { ...quest, completed: !quest.completed };
-        }
-        return quest;
-      });
-
-      localStorage.setItem("dailyQuests", JSON.stringify(updated));
-      return updated;
-    });
-  };
+  const { quests, handleComplete } = useQuests();
+  const { points } = usePoints();
 
   if (!isLoggedIn) {
     return (

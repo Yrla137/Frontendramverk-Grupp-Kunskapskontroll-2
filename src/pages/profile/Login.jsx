@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -10,10 +10,34 @@ const Login = () => {
   
   const { login } = useAuth(); 
 
+  const usernameRef = useRef(null);
+
+  useEffect(() => {
+    if (usernameRef.current) {
+      usernameRef.current.focus();
+    }
+  }, [isLoginMode]);
+
   // login / Register
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (username.trim().length < 3) {
+      setError('Username must be at least 3 characters long.');
+      return;
+    }
+    
+    if (username.includes(' ')) {
+      setError('Username cannot contain spaces.');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+    // --------------------------------
 
     const endpoint = isLoginMode ? '/api/login' : '/api/register';
     
@@ -79,6 +103,7 @@ const Login = () => {
           placeholder="Username" 
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          ref={usernameRef}
           style={styles.input}
           required
         />

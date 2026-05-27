@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 
 const ExplorationContext = createContext();
 
@@ -8,58 +8,82 @@ const loadFromStorage = () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) return JSON.parse(stored);
-  } catch {
-    
-  }
+  } catch { /* empty */ }
   return { visitedPlanets: [], quizScores: {} };
 };
 
 const TOTAL_PLANETS = 12;
 
-export const ExplorationProvider = ({ children }) => {
-  const [visitedPlanets, setVisitedPlanets] = useState(
-    () => loadFromStorage().visitedPlanets
-  );
-  const [quizScores, setQuizScores] = useState(
-    () => loadFromStorage().quizScores
-  );
+// Reducer
+const explorationReducer = (state, action) => {
+  switch (action.type) {
+    case "MARK_VISITED":
+      // do nothi8ng if planet is already explored
+      if (state.visitedPlanets.includes(action.payload)) return state;
+      // otherwise, add to list
+      return { 
+        ...state, 
+        visitedPlanets: [...state.visitedPlanets, action.payload] 
+      };
 
+    case "SAVE_QUIZ_SCORE": {
+      const { planetId, score, total } = action.payload;
+      const existing = state.quizScores[planetId];
+
+      // update if poinits are the same or better
+      if (existing && existing.score >= score) return state;
+      return { 
+        ...state, 
+        quizScores: { ...state.quizScores, [planetId]: { score, total } } 
+      };
+    }
+
+    case "RESET_PROGRESS":
+      return { visitedPlanets: [], quizScores: {} };
+
+    default:
+      return state;
+  }
+};
+
+export const ExplorationProvider = ({ children }) => {
+
+  const [state, dispatch] = useReducer(explorationReducer, loadFromStorage());
+
+  // still using localStorage
   useEffect(() => {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ visitedPlanets, quizScores })
+      JSON.stringify({ 
+        visitedPlanets: state.visitedPlanets, 
+        quizScores: state.quizScores 
+      })
     );
-  }, [visitedPlanets, quizScores]);
+  }, [state.visitedPlanets, state.quizScores]);
 
+  // dispatch instead of setState
   const markVisited = (planetId) => {
-    setVisitedPlanets((prev) =>
-      prev.includes(planetId) ? prev : [...prev, planetId]
-    );
+    dispatch({ type: "MARK_VISITED", payload: planetId });
   };
 
   const saveQuizScore = (planetId, score, total) => {
-    setQuizScores((prev) => {
-      const existing = prev[planetId];
-      if (existing && existing.score >= score) return prev;
-      return { ...prev, [planetId]: { score, total } };
-    });
+    dispatch({ type: "SAVE_QUIZ_SCORE", payload: { planetId, score, total } });
   };
 
   const resetProgress = () => {
-    setVisitedPlanets([]);
-    setQuizScores({});
+    dispatch({ type: "RESET_PROGRESS" });
   };
 
-  const exploredCount = visitedPlanets.length;
-  const quizzesCompleted = Object.keys(quizScores).length;
+  const exploredCount = state.visitedPlanets.length;
+  const quizzesCompleted = Object.keys(state.quizScores).length;
   const exploredPercentage = Math.round((exploredCount / TOTAL_PLANETS) * 100);
   const quizPercentage = Math.round((quizzesCompleted / TOTAL_PLANETS) * 100);
 
   return (
     <ExplorationContext.Provider
       value={{
-        visitedPlanets,
-        quizScores,
+        visitedPlanets: state.visitedPlanets,
+        quizScores: state.quizScores,
         markVisited,
         saveQuizScore,
         resetProgress,

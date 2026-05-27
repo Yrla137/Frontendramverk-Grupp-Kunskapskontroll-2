@@ -1,9 +1,9 @@
 import { createContext, useState, useContext } from 'react';
 
-// context
+// Create the context
 const AuthContext = createContext();
 
-// Tell Vite's Fast Refresh to ignore this export, as exporting a hook alongside a provider is standard React practice.
+// Tell Vite's Fast Refresh to ignore this export
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
 
@@ -33,12 +33,21 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('rymdToken');
   };
 
+  // --- CRUD: UPDATE LOCAL USER STATE ---
+  // Updates the global state without requiring the user to log out and back in
+  const updateUser = (updatedData) => {
+    const newUser = { ...currentUser, ...updatedData };
+    setCurrentUser(newUser);
+    localStorage.setItem('rymdUser', JSON.stringify(newUser));
+  };
+
   return (
     <AuthContext.Provider value={{ 
       currentUser, 
       isLoggedIn: !!currentUser, 
       login, 
-      logout 
+      logout,
+      updateUser
     }}>
       {children}
     </AuthContext.Provider>

@@ -1,21 +1,12 @@
 import { NavLink } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-
 import "./NavBar.css";
 
 const NavBar = () => {
-  // import props isLoggedIn and currentUser
-
-  // Auth/user state will likely later come from Context,
-  // global auth state or backend authentication instead of props.
-
-  // May be replaced by if (!currentUser) return; inside the function later on when we have real user data,
-  // but for now it serves the purpose of showing the profile icon for both logged in and logged out users, and navigating to either the profile page or login page when clicked.
-
+  // Highlights the active link in the navigation menu
   const getNavLinkClass = ({ isActive }) =>
-  isActive ? "nav-link active" : "nav-link";
+    isActive ? "nav-link active" : "nav-link";
 
   return (
     <nav className="main-nav">
@@ -36,6 +27,8 @@ const NavBar = () => {
           </NavLink>
         </li>
       </ul>
+      
+      {/* Profile/Login Navigation */}
       <NavLink
         to="/profile"
         className="profile-link"
@@ -48,10 +41,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-      // to={
-        // isLoggedIn && currentUser?.id
-        //   ? `/profile/${currentUser.id}`
-        //   : "/profile"
-        // }
-        // aria-label={isLoggedIn ? "Open profile" : "Go to login"}

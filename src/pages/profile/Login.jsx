@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const [isLoginMode, setIsLoginMode] = useState(true); 
@@ -9,6 +10,7 @@ const Login = () => {
   
   const { login } = useAuth(); 
 
+  // login / Register
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -29,11 +31,37 @@ const Login = () => {
       }
 
       if (isLoginMode) {
+        // If logging in, save user and token to ontext
         login(data.user, data.token);
       } else {
+        // If registering, switch to login mode so they can log in
         setIsLoginMode(true);
         alert('Account created successfully! You can now log in.');
       }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // Google Login Handler
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setError('');
+    try {
+      // send google to backend
+      const response = await fetch('http://localhost:5000/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: credentialResponse.credential })
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Google login failed on server');
+      }
+
+      // save user and token
+      login(data.user, data.token);
     } catch (err) {
       setError(err.message);
     }
@@ -70,7 +98,23 @@ const Login = () => {
         </button>
       </form>
 
-      <p style={{ marginTop: '1rem', color: 'var(--text-nebula-gray)' }}>
+      {/* Google section */}
+      <div style={styles.divider}>
+        <span style={styles.dividerLine}></span>
+        <span style={styles.dividerText}>OR</span>
+        <span style={styles.dividerLine}></span>
+      </div>
+
+      <div style={styles.googleContainer}>
+        <GoogleLogin 
+          onSuccess={handleGoogleSuccess}
+          onError={() => setError('Google Login Failed')}
+          theme="filled_black"
+          shape="pill"
+        />
+      </div>
+
+      <p style={{ marginTop: '1.5rem', color: 'var(--text-nebula-gray)' }}>
         {isLoginMode ? 'No Account? ' : 'Already have an account? '}
         <span 
           style={{ color: 'var(--success-stardust-gold)', cursor: 'pointer' }}
@@ -87,7 +131,11 @@ const styles = {
   container: { maxWidth: '400px', margin: '4rem auto', textAlign: 'center', padding: '2rem' },
   form: { display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' },
   input: { padding: '0.8rem', borderRadius: 'var(--border-radius-sm)', border: 'none', backgroundColor: 'var(--bg-void-black)', color: 'white' },
-  button: { padding: '0.8rem', backgroundColor: 'var(--primary-cosmic-cyan)', color: 'black', border: 'none', borderRadius: 'var(--border-radius-sm)', fontWeight: 'bold', cursor: 'pointer' }
+  button: { padding: '0.8rem', backgroundColor: 'var(--primary-cosmic-cyan)', color: 'black', border: 'none', borderRadius: 'var(--border-radius-sm)', fontWeight: 'bold', cursor: 'pointer' },
+  divider: { display: 'flex', alignItems: 'center', margin: '1.5rem 0' },
+  dividerLine: { flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.1)' },
+  dividerText: { margin: '0 1rem', color: 'var(--text-nebula-gray)', fontSize: '0.9rem' },
+  googleContainer: { display: 'flex', justifyContent: 'center' }
 };
 
 export default Login;

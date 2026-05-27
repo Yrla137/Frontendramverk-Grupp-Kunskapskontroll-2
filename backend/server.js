@@ -14,16 +14,19 @@ const jwt = require('jsonwebtoken');
 const planets = require('./data/planets.json');
 
 // secret key
-const JWT_SECRET = process.env.JWT_SECRET || 'super_hemlig_rymd_nyckel';
+const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_space_key';
+
+const { OAuth2Client } = require('google-auth-library');
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Middleware
 app.use(cors()); // let localhost find us
 app.use(express.json()); // give us the JSON data
 
 
-// --- ROUTES ---
+// ROUTES
 app.get('/api/status', (req, res) => {
-  res.json({ message: 'Rymd-servern är online! 🚀' });
+  res.json({ message: 'AstroWave Server is ONLINE! 🚀' });
 });
 
 app.get('/api/planets', async (req, res) => {
@@ -54,7 +57,63 @@ app.get('/api/users', (req, res) => {
   });
 });
 
-// SEARCH ROUTE - This is a simple example and can be expanded with more complex search logic and database queries.
+// Login with Google
+app.post('/api/auth/google', async (req, res) => {
+  const { credential } = req.body;
+
+  try {
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    
+    // use google-email as username
+    const email = payload.email; 
+    const googleName = payload.name;
+    console.log(`🚀 ${googleName} wants to join the community!`);
+
+    // 2. is user already stored in DB?
+    db.get('SELECT * FROM users WHERE username = ?', [email], (err, user) => {
+      if (err) return res.status(500).json({ error: 'Database error' });
+
+      if (user) {
+        // create normnal JWT iff users exist
+        const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '2h' });
+        res.json({ 
+          token, 
+          user: { id: user.id, username: user.username, points: user.points, streak_count: user.streak_count } 
+        });
+      } else {
+        // Save new google users to DB
+        // Generate a random dummy password
+        const dummyPassword = '[GOOGLE_ACCOUNT]'; 
+        
+        db.run(
+          'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+          [email, dummyPassword],
+          function(err) {
+            if (err) return res.status(500).json({ error: 'Could not create Google user' });
+            
+            const newUserId = this.lastID;
+            const token = jwt.sign({ id: newUserId, username: email }, JWT_SECRET, { expiresIn: '2h' });
+            
+            res.status(201).json({ 
+              token, 
+              user: { id: newUserId, username: email, points: 0, streak_count: 0 } 
+            });
+          }
+        );
+      }
+    });
+  } catch (error) {
+    console.error('Google Auth Error:', error);
+    res.status(401).json({ error: 'Invalid Google Token' });
+  }
+});
+
+// SEARCH ROUTE
 app.get('/api/search', (req, res) => {
   const query = req.query.query?.toLowerCase() || '';
 
@@ -70,7 +129,7 @@ app.get('/api/search', (req, res) => {
 });
 
 // Get homepage popular topics -
-// This is currently returning the first 3 planets from our mockdata, but can be expanded to use real popularity metrics and database queries.
+// This is currently returning the first 3 planets from our mockdata.
 app.get('/api/popular-topics', (req, res) => {
   res.json(planets.slice(0, 3));
 });
@@ -191,7 +250,7 @@ app.delete(
   }
 );
 
-// --- PROGRESS & GAMIFICATION ROUTES ---
+// PROGRESS & GAMIFICATION ROUTES
 
 app.post('/api/progress/quiz', (req, res) => {
   const { userId, planetId, pointsToAward } = req.body;

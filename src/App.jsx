@@ -33,10 +33,10 @@ const AppContent = () => {
 
   const [showLoader, setShowLoader] = useState(false);
 
-  // HISTORY (backend)
+  // SEARCH HISTORY (backend)
   const history = useSearchHistory(isLoggedIn, currentUser);
 
-  // Clear search on route change
+  // Get current location for route change detection
   const location = useLocation();
 
   // SEARCH (backend + history integration)
@@ -60,7 +60,7 @@ const AppContent = () => {
 
         hideTimer = setTimeout(() => {
           setShowLoader(false);
-        }, 1500);
+        }, 1800);
       }, 0);
 
       return () => {
@@ -68,6 +68,7 @@ const AppContent = () => {
         clearTimeout(hideTimer);
       };
     }, [location.pathname]);
+    
 
   return (
     <PointsProvider>

@@ -55,7 +55,7 @@
   pointer-events: none;
 }
 
-/* BOTTOM FADE (matchar ExtraSection exakt) */
+/* BOTTOM FADE */
 .hero-section::after {
   content: "";
   position: absolute;

@@ -38,7 +38,7 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
     loadHistory();
   }, [isLoggedIn, currentUser?.id]);
 
-  // ADD TO HISTORY
+  // ADD TO HISTORY LIST
   const addSearchToHistory = async (userId, searchTerm) => {
   try {
     const saved = await saveSearchHistoryApi(
@@ -70,7 +70,7 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
   }
 };
 
-  // DELETE ONE
+  // DELETE ONE ITEM FROM HISTORY LIST
   const deleteSearchHistoryItem = async (id) => {
     try {
       await deleteSearchHistoryItemApi(id);
@@ -83,7 +83,7 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
     }
   };
 
-  // DELETE ALL
+  // DELETE ALL ITEMS FROM HISTORY LIST
   const deleteAllSearchHistory = async () => {
   try {
     await deleteAllSearchHistoryApi(currentUser.id);

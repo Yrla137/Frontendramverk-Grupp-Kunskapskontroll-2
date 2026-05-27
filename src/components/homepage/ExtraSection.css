@@ -12,7 +12,6 @@
 }
 
 /* TITLES */
-
 .extra-title {
   text-align: center;
   font-size: 2.8rem;
@@ -26,7 +25,6 @@
 }
 
 /* WRAPPERS */
-
 .extra-guest,
 .extra-logged-in {
   display: flex;
@@ -35,7 +33,6 @@
 }
 
 /* GRID */
-
 .features-grid,
 .topics-grid {
   display: grid;
@@ -48,7 +45,6 @@
 }
 
 /* TOPIC CARDS */
-
 .topic-card {
   background: var(--surface-dark-matter);
   border: var(--border-subtle);
@@ -117,7 +113,6 @@
 }
 
 /* ICONS */
-
 .extra-icon {
   font-size: 3.8rem;
 
@@ -144,7 +139,6 @@
 }
 
 /* FEATURE CARD */
-
 .feature-card {
   display: flex;
   flex-direction: column;

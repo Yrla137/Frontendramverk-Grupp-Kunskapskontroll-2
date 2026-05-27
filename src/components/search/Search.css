@@ -1,5 +1,4 @@
 /* SEARCH BAR */
-
 .searchbar-dropdown-container {
   position: relative;
   width: 100%;
@@ -47,7 +46,6 @@
 
 
 /* DROPDOWN */
-
 .searchbar-dropdown {
   position: absolute;
 
@@ -72,7 +70,6 @@
 }
 
 /* CLOSE BUTTON (FOOTER) */
-
 .searchbar-dropdown-close-btn {
   width: 100%;
 
@@ -97,7 +94,6 @@
 
 
 /* SEARCH HISTORY */
-
 .search-history-container {
   padding: 1.5rem;
 
@@ -146,7 +142,6 @@
 
 
 /* DELETE BUTTONS */
-
 .search-history-delete-btn,
 .search-history-delete-all-btn {
   border: none;
@@ -178,7 +173,6 @@
 
 
 /* SEARCH RESULTS */
-
 .search-results-container {
   display: grid;
 

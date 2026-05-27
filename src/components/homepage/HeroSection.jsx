@@ -8,15 +8,20 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
   const [randomText, setRandomText] = useState("");
   const navigate = useNavigate();
 
+  const username =
+  currentUser?.username ||
+  currentUser?.user?.username ||
+  "space explorer";
+
   const textLoggedIn = () => {
     const userText = [
-      `Welcome back, ${currentUser?.username || "space explorer"}!`,
-      `We missed you ${currentUser?.username || "space explorer"}... Ready to continue?`,
+      `Welcome back, ${username}!`,
+      `We missed you ${username}... Ready to continue?`,
       `Continue your journey through the cosmos.`,
       `The universe is waiting for you.`,
-      `Keep reaching for the stars ${currentUser?.username || "space explorer"}!`,
+      `Keep reaching for the stars ${username}!`,
       `Ready for a quiz?`,
-      `Reach for the start ${currentUser?.username || "space explorer"} and climb the leaderboard!`
+      `Reach for the start ${username} and climb the leaderboard!`
     ];
     return userText[Math.floor(Math.random() * userText.length)];
   };
@@ -44,6 +49,10 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
 
     return () => clearInterval(id);
   }, [isLoggedIn, currentUser]);
+
+  useEffect(() => {
+  console.log("CURRENT USER:", currentUser);
+}, [currentUser]);
 
   return (
     <section className="hero-section">

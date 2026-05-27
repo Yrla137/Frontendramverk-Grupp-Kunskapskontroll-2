@@ -2,7 +2,6 @@ import ErrorMessage from "../ErrorMessage";
 import LoadingSpinner from "../LoadingSpinner";
 
 const SearchHistory = ({
-  onRetry,
   searchHistory,
   deleteSearchHistoryItem,
   deleteAllSearchHistory,
@@ -16,7 +15,7 @@ const SearchHistory = ({
   }
 
   if (errorSearch) {
-    return <ErrorMessage error={errorSearch} onRetry={onRetry} />;
+    return <ErrorMessage error={errorSearch}/>;
   }
 
   return (

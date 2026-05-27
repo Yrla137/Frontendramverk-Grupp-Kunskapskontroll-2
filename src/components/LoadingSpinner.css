@@ -134,8 +134,8 @@
 /* Orange */
 
 .planet-orange {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
 
   background:
     radial-gradient(circle at 30% 30%, #ffd3c5, var(--secondary-mars-rust) 55%, #8a2d15 100%);
@@ -149,8 +149,8 @@
 /* Purple */
 
 .planet-purple {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
 
   background:
     radial-gradient(circle at 30% 30%, #e3dcff, #7b61ff 55%, #3b228f 100%);
@@ -164,8 +164,8 @@
 /* Deep blue */
 
 .planet-deepblue {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
 
   background:
     radial-gradient(circle at 30% 30%, #c7d7ff, #2f6fff 55%, #17358f 100%);

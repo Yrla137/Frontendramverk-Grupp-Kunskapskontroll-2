@@ -44,7 +44,7 @@ export const useSearchResults = (addSearchToHistory, isLoggedIn, currentUser) =>
     }
   };
 
-  // debounce
+  // DEBOUNCE SEARCH TERM
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (searchTerm.trim()) onSearch(searchTerm);

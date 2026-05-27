@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Profile.module.css';
 import { useAuth } from '../../context/AuthContext';
 import Login from './Login'; 
@@ -6,7 +6,7 @@ import Login from './Login';
 const Profile = () => {
   const { currentUser, isLoggedIn, logout, updateUser } = useAuth(); 
 
-  // Edit State
+  // Ediit
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     username: '',
@@ -15,7 +15,25 @@ const Profile = () => {
   });
   const [error, setError] = useState('');
 
-  // Redirect to login form if user is not authenticated
+  // query DB on mount
+  useEffect(() => {
+    if (isLoggedIn && currentUser?.id) {
+      fetch(`http://localhost:5000/api/users/${currentUser.id}/profile`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Could not sync profile with database");
+          return res.json();
+        })
+        .then((freshData) => {
+
+          // Update our global AuthContext and localStorage with the fresh data records
+          updateUser(freshData);
+        })
+        .catch((err) => console.error("Profile sync error:", err));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty array ensures this triggers only once when the page opens
+
+  // Redirect to login if user is not authenticated
   if (!isLoggedIn) {
     return <Login />;
   }
@@ -45,7 +63,6 @@ const Profile = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
 
-      // Update global context with new data
       updateUser(editForm);
       setIsEditing(false); 
     } catch (err) {
@@ -64,8 +81,6 @@ const Profile = () => {
         });
 
         if (!response.ok) throw new Error('Failed to delete account.');
-        
-        // Log the user out completely after deleting
         logout();
       } catch (err) {
         alert(err.message);
@@ -79,16 +94,16 @@ const Profile = () => {
     title: "Space Explorer",
     points: currentUser.points || 0,
     streak: currentUser.streak_count || 0,
-    badges: [
+
+    // Read badges from backend if available, otherwise use fallback layout
+    badges: currentUser.badges || [
       { id: 1, name: "First Step", icon: "🚀", earned: true },
       { id: 2, name: "Mars Expert", icon: "🔴", earned: false },
-      { id: 3, name: "Black Hole", icon: "🌌", earned: false },
-      { id: 4, name: "Stargazer", icon: "✨", earned: false },
-      { id: 5, name: "APOD Collector", icon: "📸", earned: false }
+      { id: 3, name: "Point Hoarder", icon: "💎", earned: false },
+      { id: 4, name: "Streak Master", icon: "🔥", earned: false }
     ]
   };
 
-  // Use custom avatar if provided, otherwise fallback to generated robot
   const avatarUrl = currentUser.avatar_url || `https://api.dicebear.com/7.x/bottts/svg?seed=${userData.username}&backgroundColor=0B0D17`;
 
   return (
@@ -99,7 +114,8 @@ const Profile = () => {
         <img src={avatarUrl} alt="User Avatar" className={styles.avatar} />
         
         {!isEditing ? (
-          // READ MODE
+
+          // READ
           <div className={styles.userInfo}>
             <h2>{userData.username}</h2>
             <p className={styles.userTitle}>{userData.title}</p>
@@ -112,7 +128,7 @@ const Profile = () => {
           </div>
         ) : (
 
-          // update
+          // UPDATE
           <form onSubmit={handleSaveProfile} style={styles.editForm}>
             <input 
               type="text" 
@@ -189,7 +205,6 @@ const Profile = () => {
   );
 };
 
-// Inline styling for the form elements
 const editButtonStyle = { padding: '8px 16px', background: 'var(--primary-cosmic-cyan)', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' };
 const logoutButtonStyle = { padding: '8px 16px', background: 'transparent', color: 'var(--text-nebula-gray)', border: '1px solid var(--text-nebula-gray)', borderRadius: '5px', cursor: 'pointer' };
 const saveButtonStyle = { padding: '8px 16px', background: 'var(--success-stardust-gold)', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' };

@@ -5,7 +5,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
   if (err) {
     console.error('Kunde inte ansluta till databasen:', err.message);
   } else {
-    console.log('🌍 Ansluten till SQLite-databasen.');
+    console.log('🌍 Connected to SQLite database.');
   }
 });
 

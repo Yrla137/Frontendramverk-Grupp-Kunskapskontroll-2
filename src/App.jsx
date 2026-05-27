@@ -1,6 +1,6 @@
 import styles from "./App.module.css";
 import { Routes, Route, useLocation} from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import LoadingSpinner from "./components/LoadingSpinner";
 
@@ -31,6 +31,8 @@ import { useSearchHistory } from "./hooks/search/useSearchHistory";
 const AppContent = () => {
   const { isLoggedIn, currentUser } = useAuth();
 
+  const [showLoader, setShowLoader] = useState(false);
+
   // HISTORY (backend)
   const history = useSearchHistory(isLoggedIn, currentUser);
 
@@ -49,9 +51,32 @@ const AppContent = () => {
     search.clearSearch();
   }, [location.pathname]);
 
+  // Show loader on route change
+    useEffect(() => {
+      let hideTimer;
+
+      const showTimer = setTimeout(() => {
+        setShowLoader(true);
+
+        hideTimer = setTimeout(() => {
+          setShowLoader(false);
+        }, 1500);
+      }, 0);
+
+      return () => {
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+      };
+    }, [location.pathname]);
 
   return (
     <PointsProvider>
+      {showLoader && (
+        <div className={styles.routeLoader}>
+          <LoadingSpinner message="Traveling through space..." />
+        </div>
+      )}
+
       <div className={styles.appContainer}>
 
         <header className={styles.header}>

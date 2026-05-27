@@ -1,0 +1,319 @@
+/* OVERLAY */
+
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+/* BLUR BACKGROUND */
+
+.loader-blur {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(11, 13, 23, 0.45);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* SPACE SCENE */
+
+.space-scene {
+  position: relative;
+
+  width: 380px;
+  height: 380px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2;
+}
+
+/* SUN */
+
+.sun {
+  position: absolute;
+
+  width: 95px;
+  height: 95px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      #fff6b0,
+      #ffd54a 25%,
+      #ffb300 55%,
+      #ff7a00 100%
+    );
+
+  box-shadow:
+    0 0 25px rgba(255, 200, 0, 0.9),
+    0 0 60px rgba(255, 140, 0, 0.5),
+    0 0 120px rgba(255, 111, 0, 0.25);
+
+  animation: sunPulse 3s ease-in-out infinite;
+}
+
+/* ORBITS */
+
+.orbit {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Small cyan planet */
+.orbit-blue {
+  width: 180px;
+  height: 180px;
+  animation: spin 6s linear infinite;
+  transform: rotate(0deg);
+}
+
+/* Orange planet */
+.orbit-orange {
+  width: 280px;
+  height: 280px;
+  animation: spin 9s linear infinite reverse;
+  transform: rotate(90deg);
+}
+
+/* Purple planet */
+.orbit-purple {
+  width: 220px;
+  height: 220px;
+  animation: spin 13s linear infinite;
+  transform: rotate(180deg);
+}
+
+/* Deep blue planet */
+.orbit-deepblue {
+  width: 340px;
+  height: 340px;
+  animation: spin 16s linear infinite reverse;
+  transform: rotate(270deg);
+}
+
+/* PLANETS */
+
+.planet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+/* Cyan */
+
+.planet-blue {
+  width: 35px;
+  height: 35px;
+
+  background:
+    radial-gradient(circle at 30% 30%, #c8f8ff, var(--primary-cosmic-cyan) 55%, #0076a8 100%);
+
+  box-shadow:
+    inset -2px -2px 4px rgba(0,0,0,.25),
+    0 0 10px rgba(0,210,255,.8),
+    0 4px 8px rgba(0,0,0,.35);
+}
+
+/* Orange */
+
+.planet-orange {
+  width: 25px;
+  height: 25px;
+
+  background:
+    radial-gradient(circle at 30% 30%, #ffd3c5, var(--secondary-mars-rust) 55%, #8a2d15 100%);
+
+  box-shadow:
+    inset -3px -3px 6px rgba(0,0,0,.25),
+    0 0 10px rgba(229,89,52,.8),
+    0 5px 10px rgba(0,0,0,.35);
+}
+
+/* Purple */
+
+.planet-purple {
+  width: 40px;
+  height: 40px;
+
+  background:
+    radial-gradient(circle at 30% 30%, #e3dcff, #7b61ff 55%, #3b228f 100%);
+
+  box-shadow:
+    inset -4px -4px 8px rgba(0,0,0,.25),
+    0 0 12px rgba(123,97,255,.8),
+    0 6px 12px rgba(0,0,0,.4);
+}
+
+/* Deep blue */
+
+.planet-deepblue {
+  width: 30px;
+  height: 30px;
+
+  background:
+    radial-gradient(circle at 30% 30%, #c7d7ff, #2f6fff 55%, #17358f 100%);
+
+  box-shadow:
+    inset -2px -2px 5px rgba(0,0,0,.25),
+    0 0 10px rgba(47,111,255,.8),
+    0 4px 8px rgba(0,0,0,.35);
+}
+
+/* STARS */
+
+.stars {
+  position: absolute;
+  inset: 0;
+}
+
+/* ⭐ BASE STAR (MINDRE + MER SUBTIL) */
+
+.star {
+  position: absolute;
+
+  width: 1.5px;
+  height: 1.5px;
+
+  background: white;
+  border-radius: 50%;
+
+  opacity: 0.4;
+
+  box-shadow:
+    0 0 3px rgba(255,255,255,0.6),
+    0 0 6px rgba(255,255,255,0.4);
+
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+/* ✨ LITE VARIATION I STORLEK */
+
+.star:nth-child(3),
+.star:nth-child(8),
+.star:nth-child(14),
+.star:nth-child(19),
+.star:nth-child(24),
+.star:nth-child(29) {
+  width: 2.2px;
+  height: 2.2px;
+  opacity: 0.6;
+}
+
+/* STAR POSITIONS (BEHÅLLS SOM DU HADE) */
+
+.star:nth-child(1) { top: 5%; left: 15%; }
+.star:nth-child(2) { top: 10%; left: 70%; }
+.star:nth-child(3) { top: 20%; left: 90%; }
+.star:nth-child(4) { top: 28%; left: 8%; }
+.star:nth-child(5) { top: 40%; left: 80%; }
+.star:nth-child(6) { top: 55%; left: 10%; }
+.star:nth-child(7) { top: 68%; left: 90%; }
+.star:nth-child(8) { top: 85%; left: 25%; }
+.star:nth-child(9) { top: 90%; left: 65%; }
+.star:nth-child(10) { top: 75%; left: 50%; }
+
+.star:nth-child(11) { top: 15%; left: 35%; }
+.star:nth-child(12) { top: 22%; left: 60%; }
+.star:nth-child(13) { top: 35%; left: 45%; }
+.star:nth-child(14) { top: 50%; left: 25%; }
+.star:nth-child(15) { top: 65%; left: 75%; }
+.star:nth-child(16) { top: 78%; left: 40%; }
+.star:nth-child(17) { top: 8%; left: 50%; }
+.star:nth-child(18) { top: 92%; left: 15%; }
+.star:nth-child(19) { top: 48%; left: 95%; }
+.star:nth-child(20) { top: 60%; left: 55%; }
+
+.star:nth-child(21) { top: 12%; left: 82%; }
+.star:nth-child(22) { top: 24%; left: 22%; }
+.star:nth-child(23) { top: 34%; left: 72%; }
+.star:nth-child(24) { top: 44%; left: 15%; }
+.star:nth-child(25) { top: 58%; left: 88%; }
+.star:nth-child(26) { top: 70%; left: 30%; }
+.star:nth-child(27) { top: 82%; left: 78%; }
+.star:nth-child(28) { top: 30%; left: 50%; }
+.star:nth-child(29) { top: 50%; left: 50%; }
+.star:nth-child(30) { top: 95%; left: 50%; }
+
+/* TEXT */
+
+.loading-text {
+  margin-top: 2rem;
+
+  color: var(--text-starlight);
+
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  z-index: 2;
+}
+
+.dots::after {
+  content: "";
+  animation: dots 1.5s infinite;
+}
+
+/* ANIMATIONS */
+
+@keyframes spin {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
+}
+
+@keyframes sunPulse {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.08; }
+}
+
+/* TWINKLE */
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.25);
+  }
+}
+
+/* DOTS */
+
+@keyframes dots {
+  0% { content: ""; }
+  33% { content: "."; }
+  66% { content: ".."; }
+  100% { content: "..."; }
+}
+
+/* RESPONSIVE */
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .space-scene {
+    scale: 0.8;
+  }
+
+  .loading-text {
+    font-size: 1.2rem;
+  }
+}

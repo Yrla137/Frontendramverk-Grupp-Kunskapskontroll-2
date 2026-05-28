@@ -30,7 +30,7 @@ const NavBar = () => {
       
       {/* Profile/Login Navigation */}
       <NavLink
-        to={isLoggedIn ? "/profile" : "/login"}
+        to="/profile"
         className={`profile-link ${isLoggedIn ? "logged-in" : "logged-out"}`}
         aria-label="Go to profile or login"
       >

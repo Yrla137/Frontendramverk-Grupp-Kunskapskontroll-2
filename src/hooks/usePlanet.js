@@ -5,11 +5,15 @@ const usePlanet = (planetId) => {
   const [planet, setPlanet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [prevPlanetId, setPrevPlanetId] = useState(planetId);
 
-  useEffect(() => {
+  if (planetId !== prevPlanetId) {
+    setPrevPlanetId(planetId);
     setLoading(true);
     setError(null);
+  }
 
+  useEffect(() => {
     getPlanetById(planetId)
       .then((data) => {
         setPlanet(data);

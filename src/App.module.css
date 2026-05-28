@@ -42,7 +42,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .searchbar {
     padding: 0.75rem;
   }

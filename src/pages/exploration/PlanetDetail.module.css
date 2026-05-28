@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding: 0 3rem;
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -105,6 +106,28 @@
 
 .quizLink:hover {
   box-shadow: var(--glow-cyan);
+}
+
+@media (max-width: 500px) {
+  .detailContainer {
+    padding: 0 1rem;
+  }
+
+  .heroSection {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .heroOrb {
+    width: 100px;
+    height: 100px;
+  }
+
+  .heroInfo h1 {
+    font-size: 2rem;
+  }
 }
 
 @keyframes fadeIn {

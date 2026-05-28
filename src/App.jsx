@@ -3,6 +3,8 @@ import { Routes, Route, useLocation} from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import LoadingSpinner from "./components/LoadingSpinner";
+import { Routes, Route } from "react-router-dom";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { PointsProvider } from "./context/PointsContext";
 import { ExplorationProvider } from "./context/ExplorationContext";
@@ -40,6 +42,10 @@ const AppContent = () => {
   const location = useLocation();
 
   // SEARCH (backend + history integration)
+  // HISTORY
+  const history = useSearchHistory(isLoggedIn, currentUser);
+
+  // SEARCH - backend + history integration
   const search = useSearchResults(
     history.addSearchToHistory,
     isLoggedIn,
@@ -122,59 +128,16 @@ const AppContent = () => {
             <Routes key={location.pathname}>
 
               {/* Public Route */}
-              <Route
-                path="/"
-                element={<HomePage isLoggedIn={isLoggedIn} />}
-              />
+              <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
 
-              {/* Protected Exploration Routes */}
-              <Route
-                path="/explore"
-                element={
-                  <ProtectedRoute>
-                    <Exploration />
-                  </ProtectedRoute>
-                }
-              />
+              {/* Protected Routes */}
+              <Route path="/explore" element={<ProtectedRoute><Exploration /></ProtectedRoute>} />
+              <Route path="/explore/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+              <Route path="/explore/:planetId" element={<ProtectedRoute><PlanetDetail /></ProtectedRoute>} />
+              <Route path="/explore/:planetId/quiz" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
+              <Route path="/quests" element={<ProtectedRoute><DailyQuests isLoggedIn={isLoggedIn} /></ProtectedRoute>} />
 
-              <Route
-                path="/explore/leaderboard"
-                element={
-                  <ProtectedRoute>
-                    <Leaderboard />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/explore/:planetId"
-                element={
-                  <ProtectedRoute>
-                    <PlanetDetail />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/explore/:planetId/quiz"
-                element={
-                  <ProtectedRoute>
-                    <Quiz />
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* Protected Route for Quests */}
-              <Route
-                path="/quests"
-                element={
-                  <ProtectedRoute>
-                    <DailyQuests isLoggedIn={isLoggedIn} />
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* Profile */}
+              {/* Profile - Handles authentication state internally */}
               <Route path="/profile" element={<Profile />} />
 
             </Routes>
@@ -192,10 +155,14 @@ const AppContent = () => {
 
 // Main App wrapper
 const App = () => {
+  const clientId = "1042864420511-suksp31nf4q5vn7feif2nm3fpu8venon.apps.googleusercontent.com";
+
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <GoogleOAuthProvider clientId={clientId}>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 };
 

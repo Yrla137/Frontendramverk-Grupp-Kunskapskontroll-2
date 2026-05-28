@@ -50,3 +50,22 @@
 .undoButton {
   background-color: var(--secondary-mars-rust);
 }
+
+.questInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.questLink {
+  color: var(--primary-cosmic-cyan);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.questLink:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}

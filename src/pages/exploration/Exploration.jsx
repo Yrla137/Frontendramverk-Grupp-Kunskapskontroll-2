@@ -7,11 +7,24 @@ import styles from "./Exploration.module.css";
 
 const Exploration = () => {
   const [planets, setPlanets] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const { exploredPercentage, quizPercentage } = useExploration();
 
   useEffect(() => {
     getAllPlanets().then(setPlanets);
   }, []);
+
+  const filteredPlanets = planets.filter((planet) =>
+    planet.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className={styles.explorationContainer}>
@@ -30,12 +43,26 @@ const Exploration = () => {
             />
           </div>
         </div>
+
+        <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
+          <input
+            type="text"
+            placeholder="Filter planets"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className={styles.searchInput}
+          />
+        </form>
       </section>
 
       <section className={styles.planetGrid}>
-        {planets.map((planet) => (
-          <PlanetCard key={planet.id} planet={planet} />
-        ))}
+        {filteredPlanets.length > 0 ? (
+          filteredPlanets.map((planet) => (
+            <PlanetCard key={planet.id} planet={planet} />
+          ))
+        ) : (
+          <p className={styles.noResults}>No planets match "{searchTerm}"</p>
+        )}
       </section>
 
       <section className={styles.actions}>

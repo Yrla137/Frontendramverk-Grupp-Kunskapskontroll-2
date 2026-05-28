@@ -52,7 +52,7 @@ const AppContent = () => {
   // Clear search results when navigating to a new page
     useEffect(() => {
     search.clearSearch();
-  }, [location.pathname,search, search.clearSearch]); // added search and search.clearSearch to remove EsLint warning
+  }, [location.pathname]); // added search and search.clearSearch to remove EsLint warning
 
   // Show loader on route change
     useEffect(() => {

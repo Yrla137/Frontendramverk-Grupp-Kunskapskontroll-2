@@ -125,7 +125,7 @@ const AppContent = () => {
             <Routes key={location.pathname}>
 
               {/* Public Route */}
-              <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
+              <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} currentUser={currentUser} />} />
 
               {/* Protected Routes */}
               <Route path="/explore" element={<ProtectedRoute><Exploration /></ProtectedRoute>} />

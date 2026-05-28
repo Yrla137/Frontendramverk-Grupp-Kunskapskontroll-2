@@ -4,24 +4,24 @@ import { useNavigate } from "react-router-dom";
 import HeroVideo from "./HeroVideo";
 import "./HeroSection.css";
 
-const HeroSection = ({ isLoggedIn }) => {
+const HeroSection = ({ isLoggedIn, currentUser }) => {
   const [randomText, setRandomText] = useState("");
   const navigate = useNavigate();
 
-  // const username =
-  // currentUser?.username ||
-  // currentUser?.user?.username ||
-  // "space explorer";
+  const username =
+  currentUser?.username ||
+  currentUser?.user?.username ||
+  "space explorer";
 
   const textLoggedIn = () => {
     const userText = [
-      `Welcome back, space explorer!`,
-      `We missed you... Ready to continue?`,
+      `Welcome back, ${username}!`,
+      `We missed you, ${username}! Ready to continue?`,
       `Continue your journey through the cosmos.`,
       `The universe is waiting for you.`,
       `Keep reaching for the stars!`,
       `Ready for a quiz?`,
-      `Reach for the stars and climb the leaderboard!`
+      `Reach for the stars ${username} and climb the leaderboard!`
     ];
     return userText[Math.floor(Math.random() * userText.length)];
   };
@@ -48,7 +48,7 @@ const HeroSection = ({ isLoggedIn }) => {
     const id = setInterval(updateText, 8000);
 
     return () => clearInterval(id);
-  }, [isLoggedIn]);
+  }, [isLoggedIn, username]);
 
   return (
     <section className="hero-section">

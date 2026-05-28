@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding: 0 3rem;
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -151,6 +152,12 @@
 
 .resultsBackLink:hover {
   box-shadow: var(--glow-cyan);
+}
+
+@media (max-width: 500px) {
+  .quizContainer {
+    padding: 0 1rem;
+  }
 }
 
 @keyframes fadeIn {

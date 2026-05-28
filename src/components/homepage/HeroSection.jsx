@@ -21,7 +21,7 @@ const HeroSection = ({ isLoggedIn }) => {
       `The universe is waiting for you.`,
       `Keep reaching for the stars!`,
       `Ready for a quiz?`,
-      `Reach for the start and climb the leaderboard!`
+      `Reach for the stars and climb the leaderboard!`
     ];
     return userText[Math.floor(Math.random() * userText.length)];
   };

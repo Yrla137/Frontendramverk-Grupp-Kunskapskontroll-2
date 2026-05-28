@@ -3,6 +3,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
+  margin-bottom: 0.75rem;
   border-radius: var(--border-radius-sm);
   background-color: var(--surface-dark-matter);
   border: var(--border-subtle);
@@ -68,4 +69,19 @@
 .questLink:hover {
   opacity: 0.8;
   text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+  .questItem {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .questInfo {
+    flex: 1 1 70%;
+  }
+
+  .questPoints, .completeButton {
+    margin-left: 0;
+  }
 }

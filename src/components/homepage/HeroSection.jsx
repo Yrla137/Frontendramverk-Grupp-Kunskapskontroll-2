@@ -4,24 +4,24 @@ import { useNavigate } from "react-router-dom";
 import HeroVideo from "./HeroVideo";
 import "./HeroSection.css";
 
-const HeroSection = ({ isLoggedIn }) => {
+const HeroSection = ({ isLoggedIn, currentUser }) => {
   const [randomText, setRandomText] = useState("");
   const navigate = useNavigate();
 
-  // const username =
-  // currentUser?.username ||
-  // currentUser?.user?.username ||
-  // "space explorer";
+  const username =
+  currentUser?.username ||
+  currentUser?.user?.username ||
+  "space explorer";
 
   const textLoggedIn = () => {
     const userText = [
-      `Welcome back, space explorer!`,
-      `We missed you... Ready to continue?`,
+      `Welcome back ${username}!`,
+      `We missed you ${username}! Ready to continue?`,
       `Continue your journey through the cosmos.`,
-      `The universe is waiting for you.`,
-      `Keep reaching for the stars!`,
-      `Ready for a quiz?`,
-      `Reach for the stars and climb the leaderboard!`
+      `The universe is waiting for you...`,
+      `Come on ${username}, one more quest awaits!`,
+      `Ready for a quiz ${username}?`,
+      `Reach for the stars ${username} and climb the leaderboard!`
     ];
     return userText[Math.floor(Math.random() * userText.length)];
   };
@@ -29,10 +29,10 @@ const HeroSection = ({ isLoggedIn }) => {
   const textLoggedOut = () => {
     const guestText = [
       `Welcome to our space exploration website!`,
-      `Join and explore the cosmos with us.`,
+      `Join our community for free and explore the cosmos with us.`,
       `In space, no one can hear you scream...`,
       `Unlock the mysteries of the universe.`,
-      `Join us for free and explore space!`,
+      `Do you know the temperature of the Sun? Or how many moons Jupiter has?`,
       `Do you like quests and quizzes?`
     ];
     return guestText[Math.floor(Math.random() * guestText.length)];
@@ -45,10 +45,10 @@ const HeroSection = ({ isLoggedIn }) => {
     };
 
     updateText();
-    const id = setInterval(updateText, 8000);
+    const id = setInterval(updateText, 6000);
 
     return () => clearInterval(id);
-  }, [isLoggedIn]);
+  }, [isLoggedIn, username]);
 
   return (
     <section className="hero-section">

@@ -18,7 +18,7 @@ const SearchHistory = ({
   }
 
   if (errorSearch) {
-    return <ErrorMessage error={errorSearch}/>;
+  return <ErrorMessage error={errorSearch} />;
   }
 
   return (

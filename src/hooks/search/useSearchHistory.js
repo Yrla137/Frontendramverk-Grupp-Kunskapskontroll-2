@@ -16,9 +16,10 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
     const loadHistory = async () => {
       if (!isLoggedIn || !currentUser?.id) {
         setSearchHistory([]);
+        setErrorHistory(null);
+        setLoadingHistory(false);
         return;
       }
-
       setLoadingHistory(true);
       setErrorHistory(null);
 
@@ -97,12 +98,6 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
       console.error("Failed to delete all:", err);
     }
   };
-
-  // FILL INPUT
-  const fillSearchBarInput = (term, setSearchTerm, onSearch) => {
-    setSearchTerm(term);
-    onSearch(term);
-  };
   
   return {
     searchHistory,
@@ -111,6 +106,5 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
     addSearchToHistory,
     deleteSearchHistoryItem,
     deleteAllSearchHistory,
-    fillSearchBarInput,
   };
 };

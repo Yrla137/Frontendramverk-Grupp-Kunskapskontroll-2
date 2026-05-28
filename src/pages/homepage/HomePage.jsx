@@ -4,7 +4,7 @@ import ExtraSection from "../../components/homepage/ExtraSection";
 import { useEffect, useState } from "react";
 import { getPopularTopics } from "../../api/index.js";
 
-const HomePage = ({ isLoggedIn }) => {
+const HomePage = ({ isLoggedIn, currentUser }) => {
 
   const [popularTopics, setPopularTopics] = useState([]);
   const [loadingTopics, setLoadingTopics] = useState(false);
@@ -31,7 +31,7 @@ const HomePage = ({ isLoggedIn }) => {
   return (
     <div className="homepage">
 
-      <HeroSection isLoggedIn={isLoggedIn} />
+      <HeroSection isLoggedIn={isLoggedIn} currentUser={currentUser} />
 
       <ExtraSection
         isLoggedIn={isLoggedIn}

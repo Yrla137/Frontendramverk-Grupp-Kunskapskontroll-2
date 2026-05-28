@@ -63,7 +63,7 @@ const AppContent = () => {
 
         hideTimer = setTimeout(() => {
           setShowLoader(false);
-        }, 1800);
+        }, 1600);
       }, 0);
 
       return () => {
@@ -97,13 +97,16 @@ const AppContent = () => {
             searchTerm={search.searchTerm}
             setSearchTerm={search.setSearchTerm}
             isLoggedIn={isLoggedIn}
-            onRetry={search.onRetry}
             searchHistory={history.searchHistory}
             deleteSearchHistoryItem={history.deleteSearchHistoryItem}
             deleteAllSearchHistory={history.deleteAllSearchHistory}
-            fillSearchBarInput={history.fillSearchBarInput}
-            errorSearch={search.errorSearch || history.errorHistory}
-            loadingSearch={search.loadingSearch || history.loadingHistory}
+            // FILL INPUT
+            fillSearchBarInput={(term) => {
+              search.setSearchTerm(term);
+              search.onSearch(term);
+            }}
+            errorSearch={search.errorSearch}
+            loadingSearch={search.loadingSearch}
           />
         </div>
 
@@ -125,7 +128,7 @@ const AppContent = () => {
             <Routes key={location.pathname}>
 
               {/* Public Route */}
-              <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
+              <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} currentUser={currentUser} />} />
 
               {/* Protected Routes */}
               <Route path="/explore" element={<ProtectedRoute><Exploration /></ProtectedRoute>} />

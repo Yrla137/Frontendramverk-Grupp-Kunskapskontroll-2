@@ -21,8 +21,8 @@
 
   background: rgba(11, 13, 23, 0.45);
 
-  backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 /* SPACE SCENE */

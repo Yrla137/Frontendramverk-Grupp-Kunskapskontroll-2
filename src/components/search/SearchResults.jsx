@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
-import LoadingSpinner from "../LoadingSpinner";
 
 const SearchResults = ({
   filteredData,
@@ -9,6 +8,7 @@ const SearchResults = ({
   loadingSearch,
   onRetry,
   isLoggedIn,
+  clearSearch
 }) => {
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ const SearchResults = ({
 
   if (isLoggedIn) {
     navigate(resultRoute);
+    clearSearch?.(); // Clears search results when navigating to a result
   } else {
     navigate("/profile", {
       state: {
@@ -29,9 +30,13 @@ const SearchResults = ({
 
   const getSafeValue = (value) => value ?? "N/A";
 
-  if (loadingSearch) {
-    return <LoadingSpinner message="Searching through space..." />;
-  }
+  if (loadingSearch && filteredData.length === 0) {
+  return (
+    <div className="search-results-loading-text">
+      Searching through space...
+    </div>
+  );
+}
 
   if (errorSearch) {
     return <ErrorMessage error={errorSearch} onRetry={onRetry} />;

@@ -44,17 +44,25 @@ export const useSearchResults = (addSearchToHistory, isLoggedIn, currentUser) =>
     }
   };
 
-  // debounce
+  // DEBOUNCE SEARCH TERM
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (searchTerm.trim()) onSearch(searchTerm);
-    }, 400);
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, [searchTerm]);
 
   const onRetry = () => {
     if (submittedSearchTerm) onSearch(submittedSearchTerm);
+  };
+
+  const clearSearch = () => {
+  setSearchTerm("");
+  setSubmittedSearchTerm("");
+  setFilteredData([]);
+  setHasSearched(false);
+  setErrorSearch(null);
   };
 
   return {
@@ -66,5 +74,6 @@ export const useSearchResults = (addSearchToHistory, isLoggedIn, currentUser) =>
     errorSearch,
     onSearch,
     onRetry,
+    clearSearch
   };
 };

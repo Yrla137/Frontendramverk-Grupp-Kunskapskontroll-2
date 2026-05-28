@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "./NavBar.css";
 
-const NavBar = () => {
+const NavBar = ({ isLoggedIn }) => {
   // Highlights the active link in the navigation menu
   const getNavLinkClass = ({ isActive }) =>
     isActive ? "nav-link active" : "nav-link";
@@ -31,7 +31,7 @@ const NavBar = () => {
       {/* Profile/Login Navigation */}
       <NavLink
         to="/profile"
-        className="profile-link"
+        className={`profile-link ${isLoggedIn ? "logged-in" : "logged-out"}`}
         aria-label="Go to profile or login"
       >
         <FontAwesomeIcon icon={faUser} />

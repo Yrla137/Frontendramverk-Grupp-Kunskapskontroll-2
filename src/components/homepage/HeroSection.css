@@ -55,7 +55,7 @@
   pointer-events: none;
 }
 
-/* BOTTOM FADE (matchar ExtraSection exakt) */
+/* BOTTOM FADE */
 .hero-section::after {
   content: "";
   position: absolute;
@@ -133,3 +133,68 @@
     0 0 6px rgba(120, 80, 255, 0.25),
     0 0 16px rgba(120, 80, 255, 0.18);
 }
+
+
+/* RESPONSIVE */
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .hero-section {
+    height: 90vh;
+  }
+
+  .browse-button,
+  .join-button {
+    font-size: 1.2rem;
+    padding: 1rem 2.5rem;
+  }
+
+  .hero-member-content p,
+  .hero-guest-content p {
+    font-size: 1.05rem;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 80vh;
+  }
+
+  .hero-member-content,
+  .hero-guest-content {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .browse-button,
+  .join-button {
+    font-size: 1rem;
+    padding: 0.9rem 2rem;
+  }
+
+  .hero-member-content p,
+  .hero-guest-content p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .hero-section {
+    height: 75vh;
+  }
+
+  .browse-button,
+  .join-button {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .hero-member-content p,
+  .hero-guest-content p {
+    font-size: 0.9rem;
+  }
+}
+

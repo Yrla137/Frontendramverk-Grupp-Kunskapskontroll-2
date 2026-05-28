@@ -6,6 +6,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import sunImg from "../../assets/homepage/sun.jpg";
+import mercuryImg from "../../assets/homepage/mercury.jpg";
+import venusImg from "../../assets/homepage/venus.jpg";
+
 import "./ExtraSection.css";
 
 const ExtraSection = ({
@@ -15,6 +19,12 @@ const ExtraSection = ({
   errorTopics,
 }) => {
   const navigate = useNavigate();
+
+  const topicImages = {
+    Sun: sunImg,
+    Mercury: mercuryImg,
+    Venus: venusImg,
+  };
 
   // SAFE NAVIGATION (backend-independent)
   const handleTopicClick = (topic) => {
@@ -73,7 +83,7 @@ const ExtraSection = ({
                   <img
                     className="topic-image"
                     src={
-                      topic.image ||
+                      topicImages[topic.name] ||
                       "https://via.placeholder.com/300x200?text=No+Image"
                     }
                     alt={topic.name || topic.title || "Space topic"}

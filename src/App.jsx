@@ -1,5 +1,8 @@
 import styles from "./App.module.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation} from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import LoadingSpinner from "./components/LoadingSpinner";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { PointsProvider } from "./context/PointsContext";
@@ -20,6 +23,7 @@ import SearchResults from "./components/search/SearchResults";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+
 // SEARCH HOOKS
 import { useSearchResults } from "./hooks/search/useSearchResults";
 import { useSearchHistory } from "./hooks/search/useSearchHistory";
@@ -28,8 +32,13 @@ import { useSearchHistory } from "./hooks/search/useSearchHistory";
 const AppContent = () => {
   const { isLoggedIn, currentUser } = useAuth();
 
-  // HISTORY
+  const [showLoader, setShowLoader] = useState(false);
+
+  // SEARCH HISTORY (backend)
   const history = useSearchHistory(isLoggedIn, currentUser);
+
+  // Get current location for route change detection
+  const location = useLocation();
 
   // SEARCH - backend + history integration
   const search = useSearchResults(
@@ -38,8 +47,38 @@ const AppContent = () => {
     currentUser
   );
 
+  // Clear search results when navigating to a new page
+    useEffect(() => {
+    search.clearSearch();
+  }, [location.pathname]);
+
+  // Show loader on route change
+    useEffect(() => {
+      let hideTimer;
+
+      const showTimer = setTimeout(() => {
+        setShowLoader(true);
+
+        hideTimer = setTimeout(() => {
+          setShowLoader(false);
+        }, 1800);
+      }, 0);
+
+      return () => {
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+      };
+    }, [location.pathname]);
+    
+
   return (
     <PointsProvider>
+      {showLoader && (
+        <div className={styles.routeLoader}>
+          <LoadingSpinner message="Traveling through space..." />
+        </div>
+      )}
+
       <div className={styles.appContainer}>
 
         <header className={styles.header}>
@@ -56,7 +95,6 @@ const AppContent = () => {
             searchTerm={search.searchTerm}
             setSearchTerm={search.setSearchTerm}
             isLoggedIn={isLoggedIn}
-            onSearch={search.onSearch}
             onRetry={search.onRetry}
             searchHistory={history.searchHistory}
             deleteSearchHistoryItem={history.deleteSearchHistoryItem}
@@ -70,18 +108,19 @@ const AppContent = () => {
         {/* SEARCH RESULTS (GLOBAL) */}
         <div className={styles.searchResultsContainer}>
           <SearchResults
-            filteredData={search.filteredData}
-            hasSearched={search.hasSearched}
-            loadingSearch={search.loadingSearch}
-            errorSearch={search.errorSearch}
-            onRetry={search.onRetry}
-            isLoggedIn={isLoggedIn}
-          />
+          filteredData={search.filteredData}
+          hasSearched={search.hasSearched}
+          loadingSearch={search.loadingSearch}
+          errorSearch={search.errorSearch}
+          onRetry={search.onRetry}
+          isLoggedIn={isLoggedIn}
+          clearSearch={search.clearSearch}
+        />
         </div>
 
         <main className={styles.mainContent}>
           <ExplorationProvider>
-            <Routes>
+            <Routes key={location.pathname}>
 
               {/* Public Route */}
               <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} />} />
@@ -97,6 +136,10 @@ const AppContent = () => {
               <Route path="/profile" element={<Profile />} />
 
             </Routes>
+
+          
+          
+
           </ExplorationProvider>
         </main>
 

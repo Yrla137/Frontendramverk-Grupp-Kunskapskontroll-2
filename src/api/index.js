@@ -29,7 +29,7 @@ export const getPopularTopics = async () => {
 
 // SEARCH HISTORY (USER BASED)
 
-// GET history for user
+// GET search history for user
 export const getSearchHistoryApi = async (userId) => {
   const res = await fetch(`${BASE_URL}/search-history/${userId}`);
 
@@ -42,7 +42,7 @@ export const getSearchHistoryApi = async (userId) => {
 };
 
 
-// SAVE search term
+// SAVE search term in user history
 export const saveSearchHistoryApi = async (userId, searchTerm) => {
   const res = await fetch(`${BASE_URL}/search-history`, {
     method: "POST",
@@ -59,7 +59,7 @@ export const saveSearchHistoryApi = async (userId, searchTerm) => {
 };
 
 
-// DELETE ONE ITEM (ID BASED)
+// DELETE one item in search history (ID BASED)
 export const deleteSearchHistoryItemApi = async (id) => {
   const res = await fetch(`${BASE_URL}/search-history/${id}`, {
     method: "DELETE",
@@ -74,7 +74,7 @@ export const deleteSearchHistoryItemApi = async (id) => {
 };
 
 
-// DELETE ALL USER HISTORY
+// DELETE ALL items in search history for user (USER ID BASED)
 export const deleteAllSearchHistoryApi = async (userId) => {
   const res = await fetch(
     `${BASE_URL}/search-history/user/${userId}`,

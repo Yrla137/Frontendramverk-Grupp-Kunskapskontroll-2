@@ -18,7 +18,7 @@ const DailyQuests = ({ isLoggedIn }) => {
     if (questListRef.current) {
       questListRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, []);
+  }, [questListRef]);
 
   if (!isLoggedIn) {
     return (

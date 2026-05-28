@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./QuestItem.module.css";
 
-const QuestItem = ({ quest, onComplete }) => {
+const QuestItem = ({ quest, onComplete, onDelete }) => {
   return (
     <li className={`${styles.questItem} ${quest.completed ? styles.questItemCompleted : ""}`}>
       <span>{quest.completed ? "✅" : "⬜"}</span>
@@ -21,6 +21,12 @@ const QuestItem = ({ quest, onComplete }) => {
         onClick={() => onComplete(quest.id)}
       >
         {quest.completed ? "Undo" : "Complete"}
+      </button>
+      <button
+        className={styles.deleteButton}
+        onClick={() => onDelete(quest.id)}
+      >
+        ✕
       </button>
     </li>
   );

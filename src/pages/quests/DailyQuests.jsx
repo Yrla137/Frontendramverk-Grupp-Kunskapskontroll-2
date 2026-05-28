@@ -2,13 +2,14 @@ import { useRef, useEffect } from "react";
 import styles from "./DailyQuests.module.css";
 import QuestList from "../../components/quests/QuestList";
 import QuestProgress from "../../components/quests/QuestProgress";
+import AddQuest from "../../components/quests/AddQuest";
 import useNasaApod from "../../hooks/useNasaApod";
 import useQuests from "../../hooks/useQuests";
 import { usePoints } from "../../context/PointsContext";
 
 const DailyQuests = ({ isLoggedIn }) => {
   const { apod, loading, error } = useNasaApod();
-  const { quests, handleComplete } = useQuests();
+  const { quests, handleComplete, addQuest, deleteQuest } = useQuests();
   const { points } = usePoints();
 
   // Auto-scroll to quest list when page loads
@@ -37,8 +38,9 @@ const DailyQuests = ({ isLoggedIn }) => {
       </div>
       <QuestProgress quests={quests} />
       <div ref={questListRef}>
-        <QuestList quests={quests} onComplete={handleComplete} />
+        <QuestList quests={quests} onComplete={handleComplete} onDelete={deleteQuest} />
       </div>
+      <AddQuest onAdd={addQuest} />
 
       {loading && (
         <div className={styles.loadingContainer}>

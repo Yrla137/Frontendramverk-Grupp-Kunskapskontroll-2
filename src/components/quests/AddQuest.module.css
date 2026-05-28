@@ -1,0 +1,59 @@
+.addQuestContainer {
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--surface-dark-matter);
+  border: var(--border-subtle);
+}
+
+.addQuestContainer h3 {
+  color: var(--primary-cosmic-cyan);
+  margin-bottom: 1rem;
+}
+
+.addQuestForm {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.addQuestInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-void-black);
+  color: var(--text-starlight);
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.addQuestInput:focus {
+  outline: none;
+  border-color: var(--primary-cosmic-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.inputError {
+  border-color: var(--secondary-mars-rust);
+  box-shadow: 0 0 8px rgba(229, 89, 52, 0.3);
+}
+
+.addQuestButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--primary-cosmic-cyan);
+  color: var(--bg-void-black);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.addQuestButton:hover {
+  box-shadow: var(--glow-cyan);
+}
+
+.errorMessage {
+  color: var(--secondary-mars-rust);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}

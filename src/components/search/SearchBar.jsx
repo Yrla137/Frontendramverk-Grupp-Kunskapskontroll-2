@@ -6,7 +6,6 @@ const SearchBar = ({
   searchTerm,
   setSearchTerm,
   isLoggedIn,
-  onRetry,
   searchHistory,
   deleteSearchHistoryItem,
   deleteAllSearchHistory,
@@ -69,7 +68,6 @@ const SearchBar = ({
         <div className="searchbar-dropdown">
 
           <SearchHistory
-            onRetry={onRetry}
             searchHistory={searchHistory}
             deleteSearchHistoryItem={deleteSearchHistoryItem}
             deleteAllSearchHistory={deleteAllSearchHistory}

@@ -15,12 +15,12 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
 
   const textLoggedIn = () => {
     const userText = [
-      `Welcome back, ${username}!`,
-      `We missed you, ${username}! Ready to continue?`,
+      `Welcome back ${username}!`,
+      `We missed you ${username}! Ready to continue?`,
       `Continue your journey through the cosmos.`,
-      `The universe is waiting for you.`,
-      `Keep reaching for the stars!`,
-      `Ready for a quiz?`,
+      `The universe is waiting for you...`,
+      `Come on ${username}, one more quest awaits!`,
+      `Ready for a quiz ${username}?`,
       `Reach for the stars ${username} and climb the leaderboard!`
     ];
     return userText[Math.floor(Math.random() * userText.length)];
@@ -29,10 +29,10 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
   const textLoggedOut = () => {
     const guestText = [
       `Welcome to our space exploration website!`,
-      `Join and explore the cosmos with us.`,
+      `Join our community for free and explore the cosmos with us.`,
       `In space, no one can hear you scream...`,
       `Unlock the mysteries of the universe.`,
-      `Join us for free and explore space!`,
+      `Do you know the temperature of the Sun? Or how many moons Jupiter has?`,
       `Do you like quests and quizzes?`
     ];
     return guestText[Math.floor(Math.random() * guestText.length)];
@@ -45,7 +45,7 @@ const HeroSection = ({ isLoggedIn, currentUser }) => {
     };
 
     updateText();
-    const id = setInterval(updateText, 8000);
+    const id = setInterval(updateText, 6000);
 
     return () => clearInterval(id);
   }, [isLoggedIn, username]);

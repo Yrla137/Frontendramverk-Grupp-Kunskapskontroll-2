@@ -1,35 +1,24 @@
-import { useState } from "react";
+import { useRef, useEffect } from "react";
 import styles from "./DailyQuests.module.css";
 import QuestList from "../../components/quests/QuestList";
 import QuestProgress from "../../components/quests/QuestProgress";
 import useNasaApod from "../../hooks/useNasaApod";
+import useQuests from "../../hooks/useQuests";
 import { usePoints } from "../../context/PointsContext";
-import { getDailyQuests } from "../../services/questData";
 
 const DailyQuests = ({ isLoggedIn }) => {
   const { apod, loading, error } = useNasaApod();
-  const { points, addPoints, removePoints } = usePoints();
+  const { quests, handleComplete } = useQuests();
+  const { points } = usePoints();
 
-  const [quests, setQuests] = useState(() => getDailyQuests());
+  // Auto-scroll to quest list when page loads
+  const questListRef = useRef(null);
 
-  const handleComplete = (id) => {
-    setQuests((prev) => {
-      const updated = prev.map((quest) => {
-        if (quest.id === id) {
-          if (!quest.completed) {
-            addPoints(quest.points);
-          } else {
-            removePoints(quest.points);
-          }
-          return { ...quest, completed: !quest.completed };
-        }
-        return quest;
-      });
-
-      localStorage.setItem("dailyQuests", JSON.stringify(updated));
-      return updated;
-    });
-  };
+  useEffect(() => {
+    if (questListRef.current) {
+      questListRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [questListRef]);
 
   if (!isLoggedIn) {
     return (
@@ -47,7 +36,9 @@ const DailyQuests = ({ isLoggedIn }) => {
         <p>Total Points: {points}</p>
       </div>
       <QuestProgress quests={quests} />
-      <QuestList quests={quests} onComplete={handleComplete} />
+      <div ref={questListRef}>
+        <QuestList quests={quests} onComplete={handleComplete} />
+      </div>
 
       {loading && (
         <div className={styles.loadingContainer}>

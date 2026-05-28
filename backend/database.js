@@ -5,7 +5,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
   if (err) {
     console.error('Kunde inte ansluta till databasen:', err.message);
   } else {
-    console.log('🌍 Ansluten till SQLite-databasen.');
+    console.log('🌍 Connected to SQLite database.');
   }
 });
 
@@ -17,7 +17,9 @@ db.serialize(() => {
     username TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     points INTEGER DEFAULT 0,
-    streak_count INTEGER DEFAULT 0
+    streak_count INTEGER DEFAULT 0,
+    bio TEXT,
+    avatar_url TEXT
   )`);
 
   // 2. Planets

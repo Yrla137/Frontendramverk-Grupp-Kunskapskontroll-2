@@ -5,7 +5,7 @@
     animation: fadeIn 0.5s ease-in-out;
   }
   
-  /* Header med Avatar och Namn */
+  /* Header with avatar and name */
   .headerCard {
     display: flex;
     align-items: center;

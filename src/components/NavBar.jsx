@@ -1,14 +1,12 @@
 import { NavLink } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-
 import "./NavBar.css";
 
-const NavBar = ({ isLoggedIn }) => {
-
+const NavBar = () => {
+  // Highlights the active link in the navigation menu
   const getNavLinkClass = ({ isActive }) =>
-  isActive ? "nav-link active" : "nav-link";
+    isActive ? "nav-link active" : "nav-link";
 
   return (
     <nav className="main-nav">
@@ -29,6 +27,8 @@ const NavBar = ({ isLoggedIn }) => {
           </NavLink>
         </li>
       </ul>
+      
+      {/* Profile/Login Navigation */}
       <NavLink
         to={isLoggedIn ? "/profile" : "/login"}
         className={`profile-link ${isLoggedIn ? "logged-in" : "logged-out"}`}

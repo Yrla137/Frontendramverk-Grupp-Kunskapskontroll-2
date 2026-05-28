@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthContext';
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useAuth();
 
-  // if not logged in - back to homepage
+  // if not logged in - prompt to creacte account/login
   if (!isLoggedIn) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/Profile" replace />;
   }
 
   // if logged in - welcome!

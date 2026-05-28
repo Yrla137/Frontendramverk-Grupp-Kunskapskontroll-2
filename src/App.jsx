@@ -3,7 +3,6 @@ import { Routes, Route, useLocation} from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import LoadingSpinner from "./components/LoadingSpinner";
-import { Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { PointsProvider } from "./context/PointsContext";
@@ -40,10 +39,6 @@ const AppContent = () => {
 
   // Get current location for route change detection
   const location = useLocation();
-
-  // SEARCH (backend + history integration)
-  // HISTORY
-  const history = useSearchHistory(isLoggedIn, currentUser);
 
   // SEARCH - backend + history integration
   const search = useSearchResults(

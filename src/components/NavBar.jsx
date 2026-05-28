@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "./NavBar.css";
 
-const NavBar = () => {
+const NavBar = ({ isLoggedIn }) => {
   // Highlights the active link in the navigation menu
   const getNavLinkClass = ({ isActive }) =>
     isActive ? "nav-link active" : "nav-link";

@@ -69,6 +69,22 @@
   box-shadow: var(--glow-cyan);
 }
 
+.searchInputError {
+  border-color: var(--secondary-mars-rust);
+  box-shadow: 0 0 8px rgba(229, 89, 52, 0.3);
+}
+
+.searchInputError:focus {
+  border-color: var(--secondary-mars-rust);
+  box-shadow: 0 0 8px rgba(229, 89, 52, 0.3);
+}
+
+.validationError {
+  color: var(--secondary-mars-rust);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
 .noResults {
   grid-column: 1 / -1;
   text-align: center;

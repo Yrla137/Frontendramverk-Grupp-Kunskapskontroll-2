@@ -52,11 +52,15 @@ const useQuiz = (planetId) => {
   const [questions, setQuestions] = useState(null);
   const [quizLoading, setQuizLoading] = useState(true);
   const [quizError, setQuizError] = useState(null);
+  const [prevPlanetId, setPrevPlanetId] = useState(planetId);
 
-  useEffect(() => {
+  if (planetId !== prevPlanetId) {
+    setPrevPlanetId(planetId);
     setQuizLoading(true);
     setQuizError(null);
+  }
 
+  useEffect(() => {
     getQuizQuestions(planetId)
       .then((data) => {
         setQuestions(data);

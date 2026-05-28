@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { getAllPlanets } from "../../services/planetData";
 import { useExploration } from "../../context/ExplorationContext";
@@ -8,10 +8,13 @@ import styles from "./Exploration.module.css";
 const Exploration = () => {
   const [planets, setPlanets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [validationError, setValidationError] = useState("");
   const { exploredPercentage, quizPercentage } = useExploration();
+  const searchRef = useRef(null);
 
   useEffect(() => {
     getAllPlanets().then(setPlanets);
+    searchRef.current.focus();
   }, []);
 
   const filteredPlanets = planets.filter((planet) =>
@@ -19,11 +22,21 @@ const Exploration = () => {
   );
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    const value = e.target.value;
+
+    if (value && !/^[a-zA-Z\s]*$/.test(value)) {
+      setValidationError("Planet names only contain letters");
+    } else {
+      setValidationError("");
+    }
+
+    setSearchTerm(value);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    if (validationError) 
+      return;
   };
 
   return (
@@ -46,12 +59,16 @@ const Exploration = () => {
 
         <form onSubmit={handleSearchSubmit} className={styles.searchForm}>
           <input
+            ref={searchRef}
             type="text"
             placeholder="Filter planets"
             value={searchTerm}
             onChange={handleSearchChange}
-            className={styles.searchInput}
+            className={`${styles.searchInput} ${validationError ? styles.searchInputError : ""}`}
           />
+          {validationError && (
+            <p className={styles.validationError}>{validationError}</p>
+          )}
         </form>
       </section>
 

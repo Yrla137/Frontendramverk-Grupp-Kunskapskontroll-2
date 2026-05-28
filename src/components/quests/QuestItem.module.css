@@ -85,3 +85,18 @@
     margin-left: 0;
   }
 }
+
+.deleteButton {
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background-color: transparent;
+  color: var(--secondary-mars-rust);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: rgba(229, 89, 52, 0.15);
+}

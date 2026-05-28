@@ -14,7 +14,10 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
   // LOAD HISTORY
   useEffect(() => {
     const loadHistory = async () => {
-      if (!isLoggedIn || !currentUser?.id) return;
+      if (!isLoggedIn || !currentUser?.id) {
+        setSearchHistory([]);
+        return;
+      }
 
       setLoadingHistory(true);
       setErrorHistory(null);
@@ -85,21 +88,22 @@ export const useSearchHistory = (isLoggedIn, currentUser) => {
 
   // DELETE ALL ITEMS FROM HISTORY LIST
   const deleteAllSearchHistory = async () => {
-  try {
-    await deleteAllSearchHistoryApi(currentUser.id);
+  if (!currentUser?.id) return;
 
-    setSearchHistory([]);
-  } catch (err) {
-    console.error("Failed to delete all:", err);
-  }
-};
+    try {
+      await deleteAllSearchHistoryApi(currentUser.id);
+      setSearchHistory([]);
+    } catch (err) {
+      console.error("Failed to delete all:", err);
+    }
+  };
 
   // FILL INPUT
   const fillSearchBarInput = (term, setSearchTerm, onSearch) => {
     setSearchTerm(term);
     onSearch(term);
   };
-
+  
   return {
     searchHistory,
     loadingHistory,

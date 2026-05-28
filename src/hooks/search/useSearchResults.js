@@ -48,7 +48,7 @@ export const useSearchResults = (addSearchToHistory, isLoggedIn, currentUser) =>
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (searchTerm.trim()) onSearch(searchTerm);
-    }, 400);
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, [searchTerm]);

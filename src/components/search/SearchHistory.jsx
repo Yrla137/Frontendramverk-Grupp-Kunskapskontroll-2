@@ -1,5 +1,4 @@
 import ErrorMessage from "../ErrorMessage";
-import LoadingSpinner from "../LoadingSpinner";
 
 const SearchHistory = ({
   searchHistory,
@@ -11,7 +10,11 @@ const SearchHistory = ({
 }) => {
 
   if (loadingSearch) {
-    return <LoadingSpinner message="Loading search history..." />;
+    return (
+    <div className="search-history-loading-text">
+      Searching through your space history...
+    </div>
+  );
   }
 
   if (errorSearch) {

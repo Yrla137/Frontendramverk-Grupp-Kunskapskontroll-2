@@ -107,14 +107,14 @@ const AppContent = () => {
         {/* SEARCH RESULTS (GLOBAL) */}
         <div className={styles.searchResultsContainer}>
           <SearchResults
-            filteredData={search.filteredData}
-            hasSearched={search.hasSearched}
-            loadingSearch={search.loadingSearch}
-            errorSearch={search.errorSearch}
-            onRetry={search.onRetry}
-            isLoggedIn={isLoggedIn}
-            clearSearch={search.clearSearch}
-          />
+          filteredData={search.filteredData}
+          hasSearched={search.hasSearched}
+          loadingSearch={search.loadingSearch}
+          errorSearch={search.errorSearch}
+          onRetry={search.onRetry}
+          isLoggedIn={isLoggedIn}
+          clearSearch={search.clearSearch}
+        />
         </div>
 
         <main className={styles.mainContent}>

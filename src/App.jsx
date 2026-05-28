@@ -28,6 +28,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useSearchResults } from "./hooks/search/useSearchResults";
 import { useSearchHistory } from "./hooks/search/useSearchHistory";
 
+
+
 // Inner component to safely consume AuthContext
 const AppContent = () => {
   const { isLoggedIn, currentUser } = useAuth();
@@ -50,7 +52,7 @@ const AppContent = () => {
   // Clear search results when navigating to a new page
     useEffect(() => {
     search.clearSearch();
-  }, [location.pathname]);
+  }, [location.pathname,search, search.clearSearch]); // added search and search.clearSearch to remove EsLint warning
 
   // Show loader on route change
     useEffect(() => {

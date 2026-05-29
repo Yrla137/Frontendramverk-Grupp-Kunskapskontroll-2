@@ -1,3 +1,50 @@
+# Astro Wave
+
+En rymdtematisk webbapplikation där användare kan utforska planeter, göra quiz, samla poäng och tävla mot varandra på en leaderboard.
+
+## Installation
+
+1. Klona repot:
+   ```bash
+   git clone https://github.com/Yrla137/Frontendramverk-Grupp-Kunskapskontroll-2.git
+   cd Frontendramverk-Grupp-Kunskapskontroll-2
+   ```
+
+2. Installera dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Starta backend-servern:
+   ```bash
+   node backend/server.js
+   ```
+
+4. Starta frontend (i en separat terminal):
+   ```bash
+   npm run dev
+   ```
+
+## Tech Stack
+
+| Kategori | Teknologier |
+|----------|-------------|
+| **Frontend** | React, React Router DOM, Styled Components, React Hook Form, Zod |
+| **Backend** | Express, SQLite, JWT, bcrypt |
+| **Auth** | Google OAuth + användarnamn/lösenord |
+| **Verktyg** | Vite, ESLint, Prettier |
+
+## Gruppmedlemmar
+
+| Medlem | Bidrag |
+|--------|--------|
+| **Joel** | Exploration (planetvisning, filtrering, quiz, poängsystem, leaderboard), ExplorationContext med useReducer, routing, responsiv design, formulärvalidering med React Hook Form + Zod, diagram |
+| **Daniel** | Profilsida med full CRUD, inloggning (Google OAuth + lösenord), skyddade routes, poängsynkning till profil, useRef/validering, ESLint/Prettier, projektstruktur |
+| **Shakur** | Daily Quests (CRUD, useQuests hook, auto scroll, formulärvalidering), PointsContext, NASA APOD integration, quest poängsystem |
+| **Julia** | Söksystem (custom hook, debounce, sökhistorik, backend koppling), NavBar, HeroSection, ExtraSection, laddningsindikator, CSS/styling |
+
+---
+
 GRUPP 6
 
 Joel
@@ -57,3 +104,4 @@ Till exempel: "ska vi bara köra med dubbelcitat" (`"`) så kan vi sätta såna 
   "printWidth": 100,
   "bracketSpacing": true
 }
+```
